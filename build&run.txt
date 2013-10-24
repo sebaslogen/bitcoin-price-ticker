@@ -1,0 +1,6 @@
+cmd
+cd C:\Users\neoranga\firefox-addon-sdk-1.14
+activate
+cd PROJECT
+cfx run
+cfx xpi

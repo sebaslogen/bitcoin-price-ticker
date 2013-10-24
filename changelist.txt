@@ -1,0 +1,7 @@
+1.0.3
+- Color picker for each ticker in preferences
+- Improved default colors for readibility on both dark and light firefox borders
+- Changed cursor to show the default mouse instead of text selection
+
+1.0.2
+- First approved for beta release
