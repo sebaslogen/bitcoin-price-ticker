@@ -150,5 +150,59 @@
     "description": "Indicate the amount of seconds to wait between each refresh",
     "type": "integer",
     "value": 60
+  },
+  {
+    "name": "pMtGoxJPY",
+    "title": "MtGox JPY (¥)",
+    "description": "Show MtGox JPY ticker?",
+    "type": "bool",
+    "value": true
+  },{
+    "name": "pMtGoxJPYColor",
+    "title": "MtGox JPY Ticker color",
+    "type": "color",
+    "value": "#04B4AE"
+  },{
+    "name": "pMtGoxJPYTimer",
+    "title": "MtGox JPY Refresh rate",
+    "description": "Indicate the amount of seconds to wait between each refresh",
+    "type": "integer",
+    "value": 60
+  },
+  {
+    "name": "pMtGoxCNY",
+    "title": "MtGox CNY (元)",
+    "description": "Show MtGox CNY ticker?",
+    "type": "bool",
+    "value": true
+  },{
+    "name": "pMtGoxCNYColor",
+    "title": "MtGox CNY Ticker color",
+    "type": "color",
+    "value": "#A901DB"
+  },{
+    "name": "pMtGoxCNYTimer",
+    "title": "MtGox CNY Refresh rate",
+    "description": "Indicate the amount of seconds to wait between each refresh",
+    "type": "integer",
+    "value": 60
+  },
+  {
+    "name": "pBTCChinaCNY",
+    "title": "BTCChina CNY (元)",
+    "description": "Show BTCChina CNY ticker?",
+    "type": "bool",
+    "value": true
+  },{
+    "name": "pBTCChinaCNYColor",
+    "title": "BTCChina CNY Ticker color",
+    "type": "color",
+    "value": "#DF01D7"
+  },{
+    "name": "pBTCChinaCNYTimer",
+    "title": "BTCChina CNY Refresh rate",
+    "description": "Indicate the amount of seconds to wait between each refresh",
+    "type": "integer",
+    "value": 60
   }]
 }
