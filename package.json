@@ -5,7 +5,7 @@
   "description": "Bitcoin Price Ticker with multiple sources and configurable",
   "author": "neoranga (neoranga55 AT yahoo DOT es)",
   "license": "MPL 2.0",
-  "version": "1.0.4",
+  "version": "1.0.4.1",
   "icon": "icons/icon.png",
   "preferences": [{
     "name": "pMtGoxUSD",
@@ -57,6 +57,24 @@
   },{
     "name": "pBTCeUSDTimer",
     "title": "BTCe USD Refresh rate",
+    "description": "Indicate the amount of seconds to wait between each refresh",
+    "type": "integer",
+    "value": 60
+  },
+  {
+    "name": "pKrakenUSD",
+    "title": "Kraken USD ($)",
+    "description": "Show Kraken USD ticker?",
+    "type": "bool",
+    "value": true
+  },{
+    "name": "pKrakenUSDColor",
+    "title": "Kraken USD Ticker color",
+    "type": "color",
+    "value": "#FF9966"
+  },{
+    "name": "pKrakenUSDTimer",
+    "title": "Kraken USD Refresh rate",
     "description": "Indicate the amount of seconds to wait between each refresh",
     "type": "integer",
     "value": 60
@@ -116,6 +134,24 @@
     "value": 60
   },
   {
+    "name": "pKrakenEUR",
+    "title": "Kraken EUR (€)",
+    "description": "Show Kraken EUR ticker?",
+    "type": "bool",
+    "value": true
+  },{
+    "name": "pKrakenEURColor",
+    "title": "Kraken EUR Ticker color",
+    "type": "color",
+    "value": "#3366FF"
+  },{
+    "name": "pKrakenEURTimer",
+    "title": "Kraken EUR Refresh rate",
+    "description": "Indicate the amount of seconds to wait between each refresh",
+    "type": "integer",
+    "value": 60
+  },
+  {
     "name": "pCoinDeskEUR",
     "title": "CoinDesk EUR (€)",
     "description": "Show CoinDesk EUR ticker?",
@@ -125,7 +161,7 @@
     "name": "pCoinDeskEURColor",
     "title": "CoinDesk EUR Ticker color",
     "type": "color",
-    "value": "#2E2EFE"
+    "value": "#000066"
   },{
     "name": "pCoinDeskEURTimer",
     "title": "CoinDesk EUR Refresh rate",
