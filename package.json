@@ -5,9 +5,23 @@
   "description": "Bitcoin Price Ticker with multiple sources and configurable",
   "author": "neoranga (neoranga55 AT yahoo DOT es)",
   "license": "MPL 2.0",
-  "version": "1.0.4.1",
+  "version": "1.0.5",
   "icon": "icons/icon.png",
+  "permissions": {"private-browsing": true},
   "preferences": [{
+    "name": "defaultFontSize",
+    "title": "Font size",
+    "type": "integer",
+    "value": 14
+  },
+  {
+    "name": "defaultTickerSpacing",
+    "title": "Space between tickers",
+    "description": "Increase the space between prices if they overlap",
+    "type": "integer",
+    "value": 12
+  },
+  {
     "name": "pMtGoxUSD",
     "title": "MtGox USD ($)",
     "description": "Show MtGox USD ticker?",
