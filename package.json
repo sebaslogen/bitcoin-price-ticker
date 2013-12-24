@@ -1,0 +1,258 @@
+{
+  "name": "bitcoin-price-ticker",
+  "fullName": "Bitcoin Price Ticker",
+  "id": "jid0-ziK34XHkBWB9ezxd4l9Q1yC7RP0",
+  "description": "Bitcoin Price Ticker with multiple sources and configurable",
+  "author": "neoranga (neoranga55 AT yahoo DOT es)",
+  "license": "MPL 2.0",
+  "version": "1.0.5.1",
+  "icon": "icons/icon.png",
+  "permissions": {"private-browsing": true},
+  "preferences": [{
+    "name": "defaultFontSize",
+    "title": "Font size",
+    "type": "integer",
+    "value": 14
+  },
+  {
+    "name": "defaultTickerSpacing",
+    "title": "Space between tickers",
+    "description": "Increase the space between prices if they overlap",
+    "type": "integer",
+    "value": 12
+  },
+  {
+    "name": "pMtGoxUSD",
+    "title": "MtGox USD ($)",
+    "description": "Show MtGox USD ticker?",
+    "type": "bool",
+    "value": true
+  },{
+    "name": "pMtGoxUSDColor",
+    "title": "MtGox USD Ticker color",
+    "type": "color",
+    "value": "#B43104"
+  },{
+    "name": "pMtGoxUSDTimer",
+    "title": "MtGox USD Refresh rate",
+    "description": "Indicate the amount of seconds to wait between each refresh",
+    "type": "integer",
+    "value": 60
+  },
+  {
+    "name": "pBitStampUSD",
+    "title": "BitStamp USD ($)",
+    "description": "Show BitStamp USD ticker?",
+    "type": "bool",
+    "value": true
+  },{
+    "name": "pBitStampUSDColor",
+    "title": "MtGox USD Ticker color",
+    "type": "color",
+    "value": "#B43104"
+  },{
+    "name": "pBitStampUSDTimer",
+    "title": "BitStamp USD Refresh rate",
+    "description": "Indicate the amount of seconds to wait between each refresh (Warning: Short refresh intervals can cause BitStamp to ban your computer's IP)",
+    "type": "integer",
+    "value": 120
+  },
+  {
+    "name": "pBTCeUSD",
+    "title": "BTCe USD ($)",
+    "description": "Show BTCe USD ticker?",
+    "type": "bool",
+    "value": true
+  },{
+    "name": "pBTCeUSDColor",
+    "title": "BTCe USD Ticker color",
+    "type": "color",
+    "value": "#FE642E"
+  },{
+    "name": "pBTCeUSDTimer",
+    "title": "BTCe USD Refresh rate",
+    "description": "Indicate the amount of seconds to wait between each refresh",
+    "type": "integer",
+    "value": 60
+  },
+  {
+    "name": "pKrakenUSD",
+    "title": "Kraken USD ($)",
+    "description": "Show Kraken USD ticker?",
+    "type": "bool",
+    "value": true
+  },{
+    "name": "pKrakenUSDColor",
+    "title": "Kraken USD Ticker color",
+    "type": "color",
+    "value": "#FF9966"
+  },{
+    "name": "pKrakenUSDTimer",
+    "title": "Kraken USD Refresh rate",
+    "description": "Indicate the amount of seconds to wait between each refresh",
+    "type": "integer",
+    "value": 60
+  },
+  {
+    "name": "pCoinDeskUSD",
+    "title": "CoinDesk USD ($)",
+    "description": "Show CoinDesk USD ticker?",
+    "type": "bool",
+    "value": true
+  },{
+    "name": "pCoinDeskUSDColor",
+    "title": "CoinDesk USD Ticker color",
+    "type": "color",
+    "value": "#DBA901"
+  },{
+    "name": "pCoinDeskUSDTimer",
+    "title": "CoinDesk USD Refresh rate",
+    "description": "Indicate the amount of seconds to wait between each refresh",
+    "type": "integer",
+    "value": 60
+  },
+  {
+    "name": "pMtGoxEUR",
+    "title": "MtGox EUR (€)",
+    "description": "Show MtGox EUR ticker?",
+    "type": "bool",
+    "value": true
+  },{
+    "name": "pMtGoxEURColor",
+    "title": "MtGox EUR Ticker color",
+    "type": "color",
+    "value": "#807AE2"
+  },{
+    "name": "pMtGoxEURTimer",
+    "title": "MtGox EUR Refresh rate",
+    "description": "Indicate the amount of seconds to wait between each refresh",
+    "type": "integer",
+    "value": 60
+  },
+  {
+    "name": "pBTCeEUR",
+    "title": "BTCe EUR (€)",
+    "description": "Show BTCe EUR ticker?",
+    "type": "bool",
+    "value": true
+  },{
+    "name": "pBTCeEURColor",
+    "title": "BTCe EUR Ticker color",
+    "type": "color",
+    "value": "#013ADF"
+  },{
+    "name": "pBTCeEURTimer",
+    "title": "BTCe EUR Refresh rate",
+    "description": "Indicate the amount of seconds to wait between each refresh",
+    "type": "integer",
+    "value": 60
+  },
+  {
+    "name": "pKrakenEUR",
+    "title": "Kraken EUR (€)",
+    "description": "Show Kraken EUR ticker?",
+    "type": "bool",
+    "value": true
+  },{
+    "name": "pKrakenEURColor",
+    "title": "Kraken EUR Ticker color",
+    "type": "color",
+    "value": "#3366FF"
+  },{
+    "name": "pKrakenEURTimer",
+    "title": "Kraken EUR Refresh rate",
+    "description": "Indicate the amount of seconds to wait between each refresh",
+    "type": "integer",
+    "value": 60
+  },
+  {
+    "name": "pCoinDeskEUR",
+    "title": "CoinDesk EUR (€)",
+    "description": "Show CoinDesk EUR ticker?",
+    "type": "bool",
+    "value": true
+  },{
+    "name": "pCoinDeskEURColor",
+    "title": "CoinDesk EUR Ticker color",
+    "type": "color",
+    "value": "#000066"
+  },{
+    "name": "pCoinDeskEURTimer",
+    "title": "CoinDesk EUR Refresh rate",
+    "description": "Indicate the amount of seconds to wait between each refresh",
+    "type": "integer",
+    "value": 60
+  },
+  {
+    "name": "pCoinDeskGBP",
+    "title": "CoinDesk GBP (£)",
+    "description": "Show CoinDesk GBP ticker?",
+    "type": "bool",
+    "value": true
+  },{
+    "name": "pCoinDeskGBPColor",
+    "title": "CoinDesk GBP Ticker color",
+    "type": "color",
+    "value": "#088A08"
+  },{
+    "name": "pCoinDeskGBPTimer",
+    "title": "CoinDesk GBP Refresh rate",
+    "description": "Indicate the amount of seconds to wait between each refresh",
+    "type": "integer",
+    "value": 60
+  },
+  {
+    "name": "pMtGoxJPY",
+    "title": "MtGox JPY (¥)",
+    "description": "Show MtGox JPY ticker?",
+    "type": "bool",
+    "value": true
+  },{
+    "name": "pMtGoxJPYColor",
+    "title": "MtGox JPY Ticker color",
+    "type": "color",
+    "value": "#04B4AE"
+  },{
+    "name": "pMtGoxJPYTimer",
+    "title": "MtGox JPY Refresh rate",
+    "description": "Indicate the amount of seconds to wait between each refresh",
+    "type": "integer",
+    "value": 60
+  },
+  {
+    "name": "pMtGoxCNY",
+    "title": "MtGox CNY (元)",
+    "description": "Show MtGox CNY ticker?",
+    "type": "bool",
+    "value": true
+  },{
+    "name": "pMtGoxCNYColor",
+    "title": "MtGox CNY Ticker color",
+    "type": "color",
+    "value": "#A901DB"
+  },{
+    "name": "pMtGoxCNYTimer",
+    "title": "MtGox CNY Refresh rate",
+    "description": "Indicate the amount of seconds to wait between each refresh",
+    "type": "integer",
+    "value": 60
+  },
+  {
+    "name": "pBTCChinaCNY",
+    "title": "BTCChina CNY (元)",
+    "description": "Show BTCChina CNY ticker?",
+    "type": "bool",
+    "value": true
+  },{
+    "name": "pBTCChinaCNYColor",
+    "title": "BTCChina CNY Ticker color",
+    "type": "color",
+    "value": "#DF01D7"
+  },{
+    "name": "pBTCChinaCNYTimer",
+    "title": "BTCChina CNY Refresh rate",
+    "description": "Indicate the amount of seconds to wait between each refresh",
+    "type": "integer",
+    "value": 60
+  }]
+}
