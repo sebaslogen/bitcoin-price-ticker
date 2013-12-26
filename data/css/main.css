@@ -2,5 +2,5 @@
 div {
   display: inline;
   cursor: default;
-  vertical-align: middle;
+  line-height: 2px;  
 }
