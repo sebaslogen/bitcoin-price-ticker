@@ -9,17 +9,23 @@
   "icon": "icons/icon.png",
   "permissions": {"private-browsing": true},
   "preferences": [{
-    "name": "defaultFontSize",
-    "title": "Font size",
-    "type": "integer",
-    "value": 14
+    "name": "infoButton",
+    "title": "List of changes and information of the Add-on",
+    "label": "Show news and information",
+    "type": "control"
   },
   {
     "name": "defaultTickerSpacing",
     "title": "Space between tickers",
     "description": "Increase the space between prices if they overlap",
     "type": "integer",
-    "value": 12
+    "value": 2
+  },
+  {
+    "name": "defaultFontSize",
+    "title": "Font size",
+    "type": "integer",
+    "value": 14
   },
   {
     "name": "pMtGoxUSD",

@@ -1,3 +1,22 @@
+1.0.5.5
+- Big code refactor to use Firefox content standards
+- Improved number of requests to exchanges
+- Changelist displayed after new Addon updates
+
+1.0.5.1
+- Refactor of code and registration of settings events
+- Reuse of ticker update function
+- Avoid updating disabled tickers
+
+1.0.5
+- Customize spacing between tickers
+- Customize tickers font size
+- Enable addon when using private browsing and "never remember history" Firefox options.
+
+1.0.4.1
+- Fixed bug with data parsing from Coindesk
+- Added Kraken.com as a data source
+
 1.0.4
 - Added Yen and Yuan currencies
 - Added BTCChina as data source for Yuan
