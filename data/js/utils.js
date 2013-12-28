@@ -3,8 +3,6 @@
 self.port.on("updateContent", function(new_content) {
   if (new_content != null) {
     $('#ticker-data').text(new_content);
-    /*console.log("content: " + new_content + "-width:" + $('#ticker-data').width());
-    self.port.emit("updateTickerWidth", $('#ticker-data').width());*/
   }
 });
 
