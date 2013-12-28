@@ -1,4 +1,9 @@
-1.0.5.5
+1.1
+- Introduced Litecoin as currency
+- Ticker backgrounds to differentiate between virtual currencies
+- Simplification of options (single refresh setting)
+
+1.0.5.7
 - Big code refactor to use Firefox content standards
 - Improved number of requests to exchanges
 - Changelist displayed after new Addon updates
