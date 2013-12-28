@@ -191,7 +191,7 @@
   },
   {
     "name": "pBTCeLitecoin",
-    "title": "Show BTCe Bitcoin/Litecoin ticker?",
+    "title": "Show BTCe Bitcoin/Litecoin (Ł) ticker?",
     "type": "bool",
     "value": true
   },{
@@ -202,7 +202,7 @@
   },
   {
     "name": "pVircurexLitecoin",
-    "title": "Show Vircurex Bitcoin/Litecoin ticker?",
+    "title": "Show Vircurex Bitcoin/Litecoin (Ł) ticker?",
     "type": "bool",
     "value": true
   },{
@@ -213,7 +213,7 @@
   },
   {
     "name": "pKrakenLitecoin",
-    "title": "Show Kraken Litecoin/Bitcoin ticker? (inverted price)",
+    "title": "Show Kraken Litecoin/Bitcoin (Ł) ticker? (inverted price)",
     "type": "bool",
     "value": true
   },{
