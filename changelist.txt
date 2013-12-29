@@ -1,3 +1,5 @@
+- Added Litecoin symbol
+
 1.1
 - Introduced Litecoin as currency
 - Ticker backgrounds to differentiate between virtual currencies
