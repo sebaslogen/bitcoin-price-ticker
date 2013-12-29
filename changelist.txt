@@ -1,4 +1,7 @@
+1.2
 - Added Litecoin symbol
+- Fix for chinese Yuan character problem
+- Added Litecoin to USD price (thanks to Titousensei)
 
 1.1
 - Introduced Litecoin as currency

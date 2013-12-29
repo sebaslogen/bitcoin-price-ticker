@@ -5,7 +5,7 @@
   "description": "Bitcoin Price Ticker with multiple sources and configurable",
   "author": "neoranga (neoranga55 AT yahoo DOT es)",
   "license": "MPL 2.0",
-  "version": "1.1",
+  "version": "1.2",
   "icon": "icons/icon.png",
   "permissions": {"private-browsing": true},
   "preferences": [{
@@ -218,7 +218,7 @@
     "value": true
   },{
     "name": "pVircurexLitecoinColor",
-    "title": "Vircurex Litecoin Ticker color",
+    "title": "Vircurex Bitcoin/Litecoin Ticker color",
     "type": "color",
     "value": "#0B0B3B"
   },
@@ -229,7 +229,7 @@
     "value": true
   },{
     "name": "pKrakenLitecoinColor",
-    "title": "Kraken Litecoin Ticker color",
+    "title": "Kraken Litecoin/Bitcoin Ticker color",
     "type": "color",
     "value": "#000066"
   }]
