@@ -196,9 +196,20 @@
     "value": true
   },{
     "name": "pBTCeLitecoinColor",
-    "title": "BTCe Litecoin Ticker color",
+    "title": "BTCe Bitcoin/Litecoin Ticker color",
     "type": "color",
     "value": "#013ADF"
+  },
+  {
+    "name": "pBTCeLitecoinUSD",
+    "title": "Show BTCe USD/Litecoin (Ł) ticker?",
+    "type": "bool",
+    "value": true
+  },{
+    "name": "pBTCeLitecoinUSDColor",
+    "title": "BTCe USD/Litecoin Ticker color",
+    "type": "color",
+    "value": "#413ADF"
   },
   {
     "name": "pVircurexLitecoin",
