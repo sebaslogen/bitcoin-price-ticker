@@ -1,7 +1,11 @@
 1.2
 - Added Litecoin symbol
 - Fix for chinese Yuan character problem
-- Added Litecoin to USD price (thanks to Titousensei)
+Contributions thanks to Titousensei:
+- Added Litecoin to USD price
+- Added trends indicators 
+- Added preference for displaying currency character
+- Label takes in account the font size
 
 1.1
 - Introduced Litecoin as currency
