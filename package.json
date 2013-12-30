@@ -47,6 +47,18 @@
     "value": true
   },
   {
+    "name": "show-long-trend",
+    "title": "Show long-time trend",
+    "type": "bool",
+    "value": true
+  },
+  {
+    "name": "show-short-trend",
+    "title": "Show short-time trend (since last update)",
+    "type": "bool",
+    "value": true
+  },
+  {
     "name": "pMtGoxUSD",
     "title": "Show MtGox USD ($) ticker?",
     "type": "bool",
