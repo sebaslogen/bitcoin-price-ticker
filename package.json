@@ -42,7 +42,7 @@
   },
   {
     "name": "silver-background",
-    "title": "Golden background on Litecoin prices",
+    "title": "Silver background on Litecoin prices",
     "type": "bool",
     "value": true
   },
@@ -213,17 +213,6 @@
     "value": "#013ADF"
   },
   {
-    "name": "pBTCeLitecoinUSD",
-    "title": "Show BTCe USD/Litecoin (Ł) ticker?",
-    "type": "bool",
-    "value": true
-  },{
-    "name": "pBTCeLitecoinUSDColor",
-    "title": "BTCe USD/Litecoin Ticker color",
-    "type": "color",
-    "value": "#413ADF"
-  },
-  {
     "name": "pVircurexLitecoin",
     "title": "Show Vircurex Bitcoin/Litecoin (Ł) ticker?",
     "type": "bool",
@@ -244,5 +233,16 @@
     "title": "Kraken Litecoin/Bitcoin Ticker color",
     "type": "color",
     "value": "#000066"
+  },
+  {
+    "name": "pBTCeLitecoinUSD",
+    "title": "Show BTCe USD/Litecoin (Ł) ticker?",
+    "type": "bool",
+    "value": true
+  },{
+    "name": "pBTCeLitecoinUSDColor",
+    "title": "BTCe USD/Litecoin Ticker color",
+    "type": "color",
+    "value": "#413ADF"
   }]
 }
