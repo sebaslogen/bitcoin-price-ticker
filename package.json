@@ -47,6 +47,34 @@
     "value": true
   },
   {
+    "name": "show-long-trend",
+    "title": "Show long-time trend",
+    "type": "bool",
+    "value": true
+  },
+  {
+    "name": "show-short-trend",
+    "title": "Show short-time trend (since last update)",
+    "type": "bool",
+    "value": true
+  },
+  {
+    "name": "show-currency-label",
+    "title": "Where to display the currency character?",
+    "type": "radio",
+    "value": "A",
+    "options": [{
+        "value": "B",
+        "label": "Before value ($20)"
+      },{
+        "value": "A",
+        "label": "After value (20$)"
+      },{
+        "value": "N",
+        "label": "No currency character (20)"
+      }]
+  },
+  {
     "name": "pMtGoxUSD",
     "title": "Show MtGox USD ($) ticker?",
     "type": "bool",
