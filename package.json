@@ -65,10 +65,10 @@
     "value": "A",
     "options": [{
         "value": "B",
-        "label": "Before value (\u002420)"
+        "label": "Before value ($20)"
       },{
         "value": "A",
-        "label": "After value (20\u0024)"
+        "label": "After value (20$)"
       },{
         "value": "N",
         "label": "No currency character (20)"
@@ -76,7 +76,7 @@
   },
   {
     "name": "pMtGoxUSD",
-    "title": "Show MtGox USD (\u0024/\u0243) ticker?",
+    "title": "Show MtGox USD ($/\u0243) ticker?",
     "type": "bool",
     "value": true
   },{
@@ -87,7 +87,7 @@
   },
   {
     "name": "pBitStampUSD",
-    "title": "Show BitStamp USD (\u0024/\u0243) ticker?",
+    "title": "Show BitStamp USD ($/\u0243) ticker?",
     "type": "bool",
     "value": true
   },{
@@ -98,7 +98,7 @@
   },
   {
     "name": "pBTCeUSD",
-    "title": "Show BTCe USD (\u0024/\u0243) ticker?",
+    "title": "Show BTCe USD ($/\u0243) ticker?",
     "type": "bool",
     "value": true
   },{
@@ -109,7 +109,7 @@
   },
   {
     "name": "pKrakenUSD",
-    "title": "Show Kraken USD (\u0024/\u0243) ticker?",
+    "title": "Show Kraken USD ($/\u0243) ticker?",
     "type": "bool",
     "value": true
   },{
@@ -120,7 +120,7 @@
   },
   {
     "name": "pCoinDeskUSD",
-    "title": "Show CoinDesk USD (\u0024/\u0243) ticker?",
+    "title": "Show CoinDesk USD ($/\u0243) ticker?",
     "type": "bool",
     "value": true
   },{
@@ -218,6 +218,17 @@
     "value": "#DF01D7"
   },
   {
+    "name": "pMercadoBitcoinBRL",
+    "title": "Show MercadoBitcoin BRL (R$/\u0243) ticker?",
+    "type": "bool",
+    "value": true
+  },{
+    "name": "pMercadoBitcoinBRLColor",
+    "title": "MercadoBitcoin BRL Ticker color",
+    "type": "color",
+    "value": "#2F4F15"
+  },
+  {
     "name": "pBTCeLitecoin",
     "title": "Show BTCe Bitcoin/Litecoin (\u0243/\u0141) ticker?",
     "type": "bool",
@@ -252,7 +263,7 @@
   },
   {
     "name": "pBTCeLitecoinUSD",
-    "title": "Show BTCe USD/Litecoin (\u0024/\u0141) ticker?",
+    "title": "Show BTCe USD/Litecoin ($/\u0141) ticker?",
     "type": "bool",
     "value": true
   },{

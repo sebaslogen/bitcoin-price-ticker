@@ -1,6 +1,7 @@
 1.2
 - Added Litecoin symbol
 - Fix for chinese Yuan character problem
+- Added Brazilian Real BRL currency and exchange
 Contributions thanks to Titousensei:
 - Added Litecoin to USD price
 - Added trends indicators 
