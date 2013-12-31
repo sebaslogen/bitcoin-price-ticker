@@ -1,3 +1,7 @@
+1.3
+- Added Turkish Lira
+- Bug fix
+
 1.2
 - Added Litecoin symbol
 - Fix for chinese Yuan character problem

@@ -5,7 +5,7 @@
   "description": "Bitcoin Price Ticker with multiple sources and configurable",
   "author": "neoranga (neoranga55 AT yahoo DOT es)",
   "license": "MPL 2.0",
-  "version": "1.2.1",
+  "version": "1.3",
   "icon": "icons/icon.png",
   "permissions": {"private-browsing": true},
   "preferences": [{
@@ -227,6 +227,17 @@
     "title": "MercadoBitcoin BRL Ticker color",
     "type": "color",
     "value": "#2F4F15"
+  },
+  {
+    "name": "pBTCTurkTRY",
+    "title": "Show BTCTurk TRY (\u20ba/\u0243) ticker?",
+    "type": "bool",
+    "value": true
+  },{
+    "name": "pBTCTurkTRYColor",
+    "title": "BTCTurk TRY Ticker color",
+    "type": "color",
+    "value": "#5B5B2F"
   },
   {
     "name": "pBTCeLitecoin",
