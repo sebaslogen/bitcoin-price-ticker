@@ -5,7 +5,7 @@
   "description": "Bitcoin Price Ticker with multiple sources and configurable",
   "author": "neoranga (neoranga55 AT yahoo DOT es)",
   "license": "MPL 2.0",
-  "version": "1.5",
+  "version": "1.5.1",
   "icon": "icons/icon.png",
   "permissions": {"private-browsing": true},
   "preferences": [{
@@ -229,6 +229,17 @@
     "value": "#DF01D7"
   },
   {
+    "name": "pBTCeRUR",
+    "title": "Show BTCe RUR (RUR/\u0243) ticker?",
+    "type": "bool",
+    "value": true
+  },{
+    "name": "pBTCeRURColor",
+    "title": "BTCe RUR Ticker color",
+    "type": "color",
+    "value": "#4F3107"
+  },
+  {
     "name": "pMercadoBitcoinBRL",
     "title": "Show MercadoBitcoin BRL (R$/\u0243) ticker?",
     "type": "bool",
@@ -249,6 +260,50 @@
     "title": "BTCTurk TRY Ticker color",
     "type": "color",
     "value": "#5B5B2F"
+  },
+  {
+    "name": "pBitcoinVenezuelaVEF",
+    "title": "Show BitcoinVenezuela VEF (Bs/\u0243) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pBitcoinVenezuelaVEFColor",
+    "title": "BitcoinVenezuela VEF Ticker color",
+    "type": "color",
+    "value": "#672F7F"
+  },
+  {
+    "name": "pCoinbaseVEF",
+    "title": "Show Coinbase VEF (Bs/\u0243) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pCoinbaseVEFColor",
+    "title": "Coinbase VEF Ticker color",
+    "type": "color",
+    "value": "#4C285B"
+  },
+  {
+    "name": "pBitcoinVenezuelaARS",
+    "title": "Show BitcoinVenezuela ARS ($/\u0243) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pBitcoinVenezuelaARSColor",
+    "title": "BitcoinVenezuela ARS Ticker color",
+    "type": "color",
+    "value": "#6E307C"
+  },
+  {
+    "name": "pCoinbaseARS",
+    "title": "Show Coinbase ARS ($/\u0243) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pCoinbaseARSColor",
+    "title": "Coinbase ARS Ticker color",
+    "type": "color",
+    "value": "#4A1F54"
   },
   {
     "name": "pBTCeLitecoin",

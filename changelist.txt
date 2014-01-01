@@ -1,3 +1,8 @@
+1.5.1
+- Added Venezuelan Bolivar
+- Added Argentinian Peso
+- Added Russian Rubel 
+
 1.5
 - Added Coinbase exchange price
 
