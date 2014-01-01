@@ -1,3 +1,6 @@
+1.5
+- Added Coinbase exchange price
+
 1.4
 - Added Litecoin to Euro (requested)
 - Bug fix (incorrect color name for Bitstamp)
