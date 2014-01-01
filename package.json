@@ -5,7 +5,7 @@
   "description": "Bitcoin Price Ticker with multiple sources and configurable",
   "author": "neoranga (neoranga55 AT yahoo DOT es)",
   "license": "MPL 2.0",
-  "version": "1.3",
+  "version": "1.4",
   "icon": "icons/icon.png",
   "permissions": {"private-browsing": true},
   "preferences": [{
@@ -92,7 +92,7 @@
     "value": true
   },{
     "name": "pBitStampUSDColor",
-    "title": "MtGox USD Ticker color",
+    "title": "BitStamp USD Ticker color",
     "type": "color",
     "value": "#B43104"
   },
@@ -100,7 +100,7 @@
     "name": "pBTCeUSD",
     "title": "Show BTCe USD ($/\u0243) ticker?",
     "type": "bool",
-    "value": true
+    "value": false
   },{
     "name": "pBTCeUSDColor",
     "title": "BTCe USD Ticker color",
@@ -111,7 +111,7 @@
     "name": "pKrakenUSD",
     "title": "Show Kraken USD ($/\u0243) ticker?",
     "type": "bool",
-    "value": true
+    "value": false
   },{
     "name": "pKrakenUSDColor",
     "title": "Kraken USD Ticker color",
@@ -122,7 +122,7 @@
     "name": "pCoinDeskUSD",
     "title": "Show CoinDesk USD ($/\u0243) ticker?",
     "type": "bool",
-    "value": true
+    "value": false
   },{
     "name": "pCoinDeskUSDColor",
     "title": "CoinDesk USD Ticker color",
@@ -155,7 +155,7 @@
     "name": "pKrakenEUR",
     "title": "Show Kraken EUR (\u20ac/\u0243) ticker?",
     "type": "bool",
-    "value": true
+    "value": false
   },{
     "name": "pKrakenEURColor",
     "title": "Kraken EUR Ticker color",
@@ -166,7 +166,7 @@
     "name": "pCoinDeskEUR",
     "title": "Show CoinDesk EUR (\u20ac/\u0243) ticker?",
     "type": "bool",
-    "value": true
+    "value": false
   },{
     "name": "pCoinDeskEURColor",
     "title": "CoinDesk EUR Ticker color",
@@ -199,7 +199,7 @@
     "name": "pMtGoxCNY",
     "title": "Show MtGox CNY (\u5143/\u0243) ticker?",
     "type": "bool",
-    "value": true
+    "value": false
   },{
     "name": "pMtGoxCNYColor",
     "title": "MtGox CNY Ticker color",
@@ -232,7 +232,7 @@
     "name": "pBTCTurkTRY",
     "title": "Show BTCTurk TRY (\u20ba/\u0243) ticker?",
     "type": "bool",
-    "value": true
+    "value": false
   },{
     "name": "pBTCTurkTRYColor",
     "title": "BTCTurk TRY Ticker color",
@@ -243,7 +243,7 @@
     "name": "pBTCeLitecoin",
     "title": "Show BTCe Bitcoin/Litecoin (\u0243/\u0141) ticker?",
     "type": "bool",
-    "value": true
+    "value": false
   },{
     "name": "pBTCeLitecoinColor",
     "title": "BTCe Bitcoin/Litecoin Ticker color",
@@ -265,7 +265,7 @@
     "name": "pKrakenLitecoin",
     "title": "Show Kraken Litecoin/Bitcoin (\u0141/\u0243) ticker? (inverted price)",
     "type": "bool",
-    "value": true
+    "value": false
   },{
     "name": "pKrakenLitecoinColor",
     "title": "Kraken Litecoin/Bitcoin Ticker color",
@@ -280,6 +280,17 @@
   },{
     "name": "pBTCeLitecoinUSDColor",
     "title": "BTCe USD/Litecoin Ticker color",
+    "type": "color",
+    "value": "#413ADF"
+  },
+  {
+    "name": "pBTCeLitecoinEUR",
+    "title": "Show BTCe EUR/Litecoin (\u20ac/\u0141) ticker?",
+    "type": "bool",
+    "value": true
+  },{
+    "name": "pBTCeLitecoinEURColor",
+    "title": "BTCe EUR/Litecoin Ticker color",
     "type": "color",
     "value": "#413ADF"
   }]

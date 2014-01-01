@@ -1,3 +1,8 @@
+1.4
+- Added Litecoin to Euro (requested)
+- Bug fix (incorrect color name for Bitstamp)
+- Reduced number of tickers enabled by default
+
 1.3
 - Added Turkish Lira
 - Bug fix
