@@ -1,7 +1,9 @@
 1.5.1
-- Added Venezuelan Bolivar
+- Added Russian Rubel
+- Added Venezuelan Bolivar (bitcoinvenezuela.com)
 - Added Argentinian Peso
-- Added Russian Rubel 
+Contributions thanks to Titousensei:
+- Better trend following with "double exponent smoothing" algorithm
 
 1.5
 - Added Coinbase exchange price

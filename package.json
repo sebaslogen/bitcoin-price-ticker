@@ -50,7 +50,7 @@
     "name": "show-long-trend",
     "title": "Show long-time trend",
     "type": "bool",
-    "value": true
+    "value": false
   },
   {
     "name": "show-short-trend",
