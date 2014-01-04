@@ -5,7 +5,7 @@
   "description": "Bitcoin Price Ticker with multiple sources and configurable",
   "author": "neoranga (neoranga55 AT yahoo DOT es)",
   "license": "MPL 2.0",
-  "version": "1.5.1",
+  "version": "1.6",
   "icon": "icons/icon.png",
   "permissions": {"private-browsing": true},
   "preferences": [{
@@ -50,7 +50,7 @@
     "name": "show-long-trend",
     "title": "Show long-time trend",
     "type": "bool",
-    "value": false
+    "value": true
   },
   {
     "name": "show-short-trend",
@@ -94,7 +94,7 @@
     "name": "pBitStampUSDColor",
     "title": "BitStamp USD Ticker color",
     "type": "color",
-    "value": "#B43104"
+    "value": "#FF0000"
   },
   {
     "name": "pBTCeUSD",

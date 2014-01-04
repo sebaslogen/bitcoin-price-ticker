@@ -1,7 +1,9 @@
-1.5.1
+1.6
+- Re-order tickers based on activation and keep order after Firefox restarts
 - Added Russian Rubel
 - Added Venezuelan Bolivar (bitcoinvenezuela.com)
 - Added Argentinian Peso
+- Bug fix: icon missing
 Contributions thanks to Titousensei:
 - Better trend following with "double exponent smoothing" algorithm
 
