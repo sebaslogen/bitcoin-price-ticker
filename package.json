@@ -141,6 +141,17 @@
     "value": "#000066"
   },
   {
+    "name": "pCampBXUSD",
+    "title": "Show CampBX USD ($/\u0243) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pCampBXUSDColor",
+    "title": "CampBX USD Ticker color",
+    "type": "color",
+    "value": "#702C2C"
+  },
+  {
     "name": "pMtGoxEUR",
     "title": "Show MtGox EUR (\u20ac/\u0243) ticker?",
     "type": "bool",

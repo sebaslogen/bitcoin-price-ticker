@@ -1,3 +1,8 @@
+1.7
+- Added CampBX exchange
+- Added South African Rand (ZAR) and exchange BitX.co.za
+- Bug fixes with currency labels
+
 1.6
 - Re-order tickers based on activation and keep order after Firefox restarts
 - Added Russian Ruble
