@@ -306,6 +306,28 @@
     "value": "#4A1F54"
   },
   {
+    "name": "pBitXZAR",
+    "title": "Show BitX ZAR (R/\u0243) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pBitXZARColor",
+    "title": "BitX ZAR Ticker color",
+    "type": "color",
+    "value": "#783489"
+  },
+  {
+    "name": "pCoinbaseZAR",
+    "title": "Show Coinbase ZAR (R/\u0243) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pCoinbaseZARColor",
+    "title": "Coinbase ZAR Ticker color",
+    "type": "color",
+    "value": "#582266"
+  },
+  {
     "name": "pBTCeLitecoin",
     "title": "Show BTCe Bitcoin/Litecoin (\u0243/\u0141) ticker?",
     "type": "bool",
