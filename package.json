@@ -207,6 +207,39 @@
     "value": "#088A08"
   },
   {
+    "name": "pLocalbitcoinsGBP",
+    "title": "Show Localbitcoins GBP (\u00a3/\u0243) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pLocalbitcoinsGBPColor",
+    "title": "Localbitcoins GBP Ticker color",
+    "type": "color",
+    "value": "#2F4F15"
+  },
+  {
+    "name": "pMtGoxPLN",
+    "title": "Show MtGox PLN (z\u0141/\u0243) ticker?",
+    "type": "bool",
+    "value": true
+  },{
+    "name": "pMtGoxPLNColor",
+    "title": "MtGox PLN Ticker color",
+    "type": "color",
+    "value": "#545322"
+  },
+  {
+    "name": "pMtGoxCAD",
+    "title": "Show MtGox CAD (C$/\u0243) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pMtGoxCADColor",
+    "title": "MtGox CAD Ticker color",
+    "type": "color",
+    "value": "#B43104"
+  },
+  {
     "name": "pMtGoxJPY",
     "title": "Show MtGox JPY (\u00a5/\u0243) ticker?",
     "type": "bool",

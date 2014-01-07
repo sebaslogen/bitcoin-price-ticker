@@ -1,4 +1,6 @@
 1.7
+- Added Polish zloty (PLN)
+- Added Canadian dollar (C$)
 - Added CampBX exchange
 - Added South African Rand (ZAR) and exchange BitX.co.za
 - Bug fixes with currency labels
