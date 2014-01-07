@@ -218,6 +218,17 @@
     "value": "#2F4F15"
   },
   {
+    "name": "pBittyliciousGBP",
+    "title": "Show Bittylicious GBP (\u00a3/\u0243) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pBittyliciousGBPColor",
+    "title": "Bittylicious GBP Ticker color",
+    "type": "color",
+    "value": "#0B0B3B"
+  },
+  {
     "name": "pMtGoxPLN",
     "title": "Show MtGox PLN (z\u0141/\u0243) ticker?",
     "type": "bool",
@@ -425,5 +436,16 @@
     "title": "BTCe EUR/Litecoin Ticker color",
     "type": "color",
     "value": "#413ADF"
+  },
+  {
+    "name": "pBittyliciousLitecoinGBP",
+    "title": "Show Bittylicious Litecoin/GBP (\u00a3/\u0141) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pBittyliciousLitecoinGBPColor",
+    "title": "Bittylicious Litecoin/GBP Ticker color",
+    "type": "color",
+    "value": "#0B0B3B"
   }]
 }
