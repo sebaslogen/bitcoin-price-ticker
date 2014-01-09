@@ -152,6 +152,17 @@
     "value": "#702C2C"
   },
   {
+    "name": "pBitPayUSD",
+    "title": "Show BitPay USD ($/\u0243) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pBitPayUSDColor",
+    "title": "BitPay USD Ticker color",
+    "type": "color",
+    "value": "#FF9966"
+  },
+  {
     "name": "pMtGoxEUR",
     "title": "Show MtGox EUR (\u20ac/\u0243) ticker?",
     "type": "bool",
@@ -194,6 +205,17 @@
     "title": "CoinDesk EUR Ticker color",
     "type": "color",
     "value": "#000066"
+  },
+  {
+    "name": "pBitPayEUR",
+    "title": "Show BitPay EUR (\u20ac/\u0243) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pBitPayEURColor",
+    "title": "BitPay EUR Ticker color",
+    "type": "color",
+    "value": "#3366FF"
   },
   {
     "name": "pCoinDeskGBP",
@@ -317,6 +339,17 @@
     "value": "#5B5B2F"
   },
   {
+    "name": "pLocalbitcoinsTRY",
+    "title": "Show Localbitcoins TRY (\u20ba/\u0243) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pLocalbitcoinsTRYColor",
+    "title": "Localbitcoins TRY Ticker color",
+    "type": "color",
+    "value": "#2F4F15"
+  },
+  {
     "name": "pBitcoinVenezuelaVEF",
     "title": "Show BitcoinVenezuela VEF (Bs/\u0243) ticker?",
     "type": "bool",
@@ -350,6 +383,17 @@
     "value": "#6E307C"
   },
   {
+    "name": "pLocalbitcoinsARS",
+    "title": "Show Localbitcoins ARS ($/\u0243) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pLocalbitcoinsARSColor",
+    "title": "Localbitcoins ARS Ticker color",
+    "type": "color",
+    "value": "#2F4F15"
+  },
+  {
     "name": "pCoinbaseARS",
     "title": "Show Coinbase ARS ($/\u0243) ticker?",
     "type": "bool",
@@ -359,6 +403,17 @@
     "title": "Coinbase ARS Ticker color",
     "type": "color",
     "value": "#4A1F54"
+  },
+  {
+    "name": "pLocalbitcoinsCLP",
+    "title": "Show Localbitcoins CLP ($/\u0243) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pLocalbitcoinsCLPColor",
+    "title": "Localbitcoins CLP Ticker color",
+    "type": "color",
+    "value": "#2F4F15"
   },
   {
     "name": "pBitXZAR",
