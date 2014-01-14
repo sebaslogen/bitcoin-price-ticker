@@ -160,7 +160,7 @@
     "name": "pBitPayUSDColor",
     "title": "BitPay USD Ticker color",
     "type": "color",
-    "value": "#FF9966"
+    "value": "#FF0000"
   },
   {
     "name": "pMtGoxEUR",
@@ -249,6 +249,17 @@
     "title": "Bittylicious GBP Ticker color",
     "type": "color",
     "value": "#0B0B3B"
+  },
+  {
+    "name": "pBitPayGBP",
+    "title": "Show BitPay GBP (\u00a3/\u0243) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pBitPayGBPColor",
+    "title": "BitPay GBP Ticker color",
+    "type": "color",
+    "value": "#FF0000"
   },
   {
     "name": "pMtGoxPLN",

@@ -1,6 +1,6 @@
 1.8
 - Added Chilean Peso (CLP)
-- Added BitPay exchange rates for USD and EUR
+- Added BitPay exchange rates for USD, EUR and GBP
 - Added Localbitoins for ARS and TRY
 
 1.7
