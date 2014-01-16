@@ -218,6 +218,17 @@
     "value": "#3366FF"
   },
   {
+    "name": "pBitonicEUR",
+    "title": "Show Bitonic EUR (\u20ac/\u0243) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pBitonicEURColor",
+    "title": "Bitonic EUR Ticker color",
+    "type": "color",
+    "value": "#6E307C"
+  },
+  {
     "name": "pCoinDeskGBP",
     "title": "Show CoinDesk GBP (\u00a3/\u0243) ticker?",
     "type": "bool",
