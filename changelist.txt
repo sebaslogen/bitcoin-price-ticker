@@ -1,4 +1,5 @@
 1.9
+- Added Canadian exchange CaVirTex
 - Added Bitconic.nl exchange prices
 
 1.8
