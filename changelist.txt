@@ -1,3 +1,6 @@
+2.0
+- Added Polish exchange Bitcurex
+
 1.9
 - Added Canadian exchange CaVirTex
 - Added Bitconic.nl exchange prices

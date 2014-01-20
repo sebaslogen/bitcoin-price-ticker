@@ -284,6 +284,17 @@
     "value": "#545322"
   },
   {
+    "name": "pBitcurexPLN",
+    "title": "Show Bitcurex PLN (z\u0141/\u0243) ticker?",
+    "type": "bool",
+    "value": true
+  },{
+    "name": "pBitcurexPLNColor",
+    "title": "Bitcurex PLN Ticker color",
+    "type": "color",
+    "value": "#545322"
+  },
+  {
     "name": "pMtGoxCAD",
     "title": "Show MtGox CAD (C$/\u0243) ticker?",
     "type": "bool",
