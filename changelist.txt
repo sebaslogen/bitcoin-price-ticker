@@ -1,5 +1,8 @@
-2.0
+1.9.1
 - Added Polish exchange Bitcurex
+- Added Worldcoin (request)
+- Fixed BTChina exchange (new API)
+- Fixed Vircurex exchange (new API)
 
 1.9
 - Added Canadian exchange CaVirTex

@@ -5,7 +5,7 @@
   "description": "Bitcoin Price Ticker with multiple sources and configurable",
   "author": "neoranga (neoranga55 AT yahoo DOT es)",
   "license": "MPL 2.0",
-  "version": "1.9",
+  "version": "1.9.1",
   "icon": "icons/icon.png",
   "permissions": {"private-browsing": true},
   "preferences": [{
@@ -544,6 +544,17 @@
   },{
     "name": "pBittyliciousLitecoinGBPColor",
     "title": "Bittylicious Litecoin/GBP Ticker color",
+    "type": "color",
+    "value": "#0B0B3B"
+  },
+  {
+    "name": "pVircurexWorldcoin",
+    "title": "Show Vircurex Bitcoin/Worldcoin (\u0243/WDC) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pVircurexWorldcoinColor",
+    "title": "Vircurex Bitcoin/Worldcoin Ticker color",
     "type": "color",
     "value": "#0B0B3B"
   }]
