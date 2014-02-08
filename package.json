@@ -383,17 +383,6 @@
     "value": "#5B5B2F"
   },
   {
-    "name": "pLocalbitcoinsTRY",
-    "title": "Show Localbitcoins TRY (\u20ba/\u0243) ticker?",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pLocalbitcoinsTRYColor",
-    "title": "Localbitcoins TRY Ticker color",
-    "type": "color",
-    "value": "#2F4F15"
-  },
-  {
     "name": "pBitcoinVenezuelaVEF",
     "title": "Show BitcoinVenezuela VEF (Bs/\u0243) ticker?",
     "type": "bool",

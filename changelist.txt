@@ -3,6 +3,7 @@
 - Added Worldcoin (request)
 - Fixed BTChina exchange (new API)
 - Fixed Vircurex exchange (new API)
+- Removed Turkish Lira from licalbitcoins (not available in site)
 
 1.9
 - Added Canadian exchange CaVirTex
