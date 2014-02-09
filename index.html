@@ -169,8 +169,8 @@ If you have any problem or suggestion <a href="https://addons.mozilla.org/en-US/
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
       
 
-  <script src="http://coinwidget.com/widget/coin.js"></script>
-  <link id="COINWIDGETCOM_STYLESHEET" rel="stylesheet" type="text/css" href="http://coinwidget.com/widget/coin.css">
+  <script src="javascripts/coin.js"></script>
+  <link id="COINWIDGETCOM_STYLESHEET" rel="stylesheet" type="text/css" href="stylesheets/coin.css">
   <script>
     CoinWidgetCom.go({
           wallet_address: "1CbabUav4DXBghjR8T67CwJYut7CUyt5jG"
@@ -183,6 +183,8 @@ If you have any problem or suggestion <a href="https://addons.mozilla.org/en-US/
           , lbl_address: "Tip Bitcoin Address:"
           , lbl_count: "donations"
           , lbl_amount: "coins"
+          , amount: "hide"
+          , milli: true
         });
     $(document).ready(function() {
       $('span.COINWIDGETCOM_CONTAINER').appendTo('.tips-jar');
