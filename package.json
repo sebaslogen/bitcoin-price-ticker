@@ -394,6 +394,17 @@
     "value": "#672F7F"
   },
   {
+    "name": "pLocalbitcoinsVEF",
+    "title": "Show Localbitcoins VEF (Bs/\u0243) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pLocalbitcoinsVEFColor",
+    "title": "Localbitcoins VEF Ticker color",
+    "type": "color",
+    "value": "#2F4F15"
+  },
+  {
     "name": "pCoinbaseVEF",
     "title": "Show Coinbase VEF (Bs/\u0243) ticker?",
     "type": "bool",
@@ -546,5 +557,16 @@
     "title": "Vircurex Bitcoin/Worldcoin Ticker color",
     "type": "color",
     "value": "#0B0B3B"
+  },
+  {
+    "name": "pCryptsyDogecoin",
+    "title": "Show Cryptsy Bitcoin/Dogecoin (\u0243/DOGE) ticker?",
+    "type": "bool",
+    "value": true
+  },{
+    "name": "pCryptsyDogecoinColor",
+    "title": "Cryptsy Bitcoin/Dogecoin Ticker color",
+    "type": "color",
+    "value": "#413ADF"
   }]
 }

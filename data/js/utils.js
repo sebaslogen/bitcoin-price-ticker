@@ -11,13 +11,13 @@ self.port.on("updateStyle", function(color, font_size, gold_background, silver_b
   $('#ticker-data').css('font-size', font_size);
   $('#ticker-data').css('color', color);
   if (gold_background) {
-    $('#ticker-data').removeClass('silver-background');
-    $('#ticker-data').addClass('golden-background');
+    $('#ticker-data').removeClass('silver_background');
+    $('#ticker-data').addClass('gold_background');
   } else if (silver_background) {
-    $('#ticker-data').removeClass('golden-background');
-    $('#ticker-data').addClass('silver-background');
+    $('#ticker-data').removeClass('gold_background');
+    $('#ticker-data').addClass('silver_background');
   } else {
-    $('#ticker-data').removeClass('golden-background');
-    $('#ticker-data').removeClass('silver-background');
+    $('#ticker-data').removeClass('gold_background');
+    $('#ticker-data').removeClass('silver_background');
   }
 });

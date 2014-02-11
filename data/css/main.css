@@ -8,7 +8,7 @@ div {
   border-radius: 8px 8px 0px 8px;
 }
 
-.golden-background {
+.gold_background {
   background: #FDEAAB; /* Old browsers */
   background: -moz-linear-gradient(top, #FDEAAB 0%, #CFA347 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FDEAAB), color-stop(100%,#CFA347)); /* Chrome,Safari4+ */
@@ -19,7 +19,7 @@ div {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FDEAAB', endColorstr='#CFA347',GradientType=0 ); /* IE6-9 */
 }
 
-.silver-background {
+.silver_background {
   background: #DDDDDD; /* Old browsers */
   background: -moz-linear-gradient(top, #DDDDDD 0%, #888888 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#DDDDDD), color-stop(100%,#888888)); /* Chrome,Safari4+ */

@@ -1,3 +1,8 @@
+2.0
+- Added Dogecoin and Cryptsy exchange
+- Fixed name pairs of currencies
+- Fixed Localbitcoin for Venezuelan Bolivar
+
 1.9.1
 - Added Polish exchange Bitcurex
 - Added Worldcoin (request)
