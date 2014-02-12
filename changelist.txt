@@ -1,7 +1,8 @@
-2.0
+1.9.2
 - Added Dogecoin and Cryptsy exchange
 - Fixed name pairs of currencies
 - Fixed Localbitcoin for Venezuelan Bolivar
+- Added background color to all cryptocurrencies
 
 1.9.1
 - Added Polish exchange Bitcurex

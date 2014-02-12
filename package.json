@@ -5,7 +5,7 @@
   "description": "Bitcoin Price Ticker with multiple sources and configurable",
   "author": "neoranga (neoranga55 AT yahoo DOT es)",
   "license": "MPL 2.0",
-  "version": "1.9.1",
+  "version": "1.9.2",
   "icon": "icons/icon.png",
   "permissions": {"private-browsing": true},
   "preferences": [{
@@ -43,6 +43,12 @@
   {
     "name": "silver-background",
     "title": "Silver background on Litecoin prices",
+    "type": "bool",
+    "value": true
+  },
+  {
+    "name": "other-background",
+    "title": "Activate a background color on each other cryptocurrency",
     "type": "bool",
     "value": true
   },
