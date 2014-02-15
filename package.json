@@ -5,7 +5,7 @@
   "description": "Bitcoin Price Ticker with multiple sources and configurable",
   "author": "neoranga (neoranga55 AT yahoo DOT es)",
   "license": "MPL 2.0",
-  "version": "1.9.3",
+  "version": "1.9.4",
   "icon": "icons/icon.png",
   "permissions": {"private-browsing": true},
   "preferences": [{
@@ -574,5 +574,16 @@
     "title": "Cryptsy Bitcoin/Dogecoin Ticker color",
     "type": "color",
     "value": "#413ADF"
+  },
+  {
+    "name": "pBTCeNamecoinUSD",
+    "title": "Show BTCe USD/Namecoin ($/NMC) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pBTCeNamecoinUSDColor",
+    "title": "BTCe USD/Namecoin Ticker color",
+    "type": "color",
+    "value": "#1E2654"
   }]
 }

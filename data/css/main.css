@@ -51,3 +51,14 @@ div {
   background: linear-gradient(to bottom, #0391E1 0%,#F8F3E4 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0391E1', endColorstr='#F8F3E4',GradientType=0 ); /* IE6-9 */
 }
+
+.name_background {
+  background: #BA8D88; /* Old browsers */
+  background: -moz-linear-gradient(top, #BA8D88 0%, #BA9F33 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#BA8D88), color-stop(100%,#BA9F33)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #BA8D88 0%,#BA9F33 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #BA8D88 0%,#BA9F33 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #BA8D88 0%,#BA9F33 100%); /* IE10+ */
+  background: linear-gradient(to bottom, #BA8D88 0%,#BA9F33 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#BA8D88', endColorstr='#BA9F33',GradientType=0 ); /* IE6-9 */
+}

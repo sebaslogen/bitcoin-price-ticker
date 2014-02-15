@@ -1,4 +1,7 @@
-1.9.2
+1.9.4
+- Added Namecoin currency
+
+1.9.3
 - Added Dogecoin and Cryptsy exchange
 - Fixed name pairs of currencies
 - Fixed Localbitcoin for Venezuelan Bolivar
