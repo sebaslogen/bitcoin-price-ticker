@@ -1,3 +1,6 @@
+1.9.5
+- Added Bitcoin-central exchange
+
 1.9.4
 - Added Namecoin currency
 
