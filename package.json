@@ -541,5 +541,16 @@
     "title": "BTCe USD/Namecoin Ticker color",
     "type": "color",
     "value": "#1E2654"
+  },
+  {
+    "name": "pCryptsyAuroracoin",
+    "title": "Show Cryptsy Bitcoin/Auroracoin (\u0243/AUR) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pCryptsyAuroracoinColor",
+    "title": "Cryptsy Bitcoin/Auroracoin Ticker color",
+    "type": "color",
+    "value": "#413ADF"
   }]
 }

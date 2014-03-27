@@ -62,3 +62,14 @@ div {
   background: linear-gradient(to bottom, #BA8D88 0%,#BA9F33 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#BA8D88', endColorstr='#BA9F33',GradientType=0 ); /* IE6-9 */
 }
+
+.aurora_background {
+  background: #00B05F; /* Old browsers */
+  background: -moz-linear-gradient(top, #00B05F 0%, #9FF2A8 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#00B05F), color-stop(100%,#9FF2A8)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #00B05F 0%,#9FF2A8 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #00B05F 0%,#9FF2A8 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #00B05F 0%,#9FF2A8 100%); /* IE10+ */
+  background: linear-gradient(to bottom, #00B05F 0%,#9FF2A8 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00B05F', endColorstr='#9FF2A8',GradientType=0 ); /* IE6-9 */
+}
