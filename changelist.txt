@@ -1,3 +1,8 @@
+1.9.6
+- Added Kraken Dogecoin
+- Removed MtGox
+- Added AuroraCoin
+
 1.9.5
 - Added Bitcoin-central exchange
 

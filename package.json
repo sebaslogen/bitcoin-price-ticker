@@ -81,17 +81,6 @@
       }]
   },
   {
-    "name": "pMtGoxUSD",
-    "title": "Show MtGox USD ($/\u0243) ticker?",
-    "type": "bool",
-    "value": true
-  },{
-    "name": "pMtGoxUSDColor",
-    "title": "MtGox USD Ticker color",
-    "type": "color",
-    "value": "#B43104"
-  },
-  {
     "name": "pBitStampUSD",
     "title": "Show BitStamp USD ($/\u0243) ticker?",
     "type": "bool",
@@ -167,17 +156,6 @@
     "title": "BitPay USD Ticker color",
     "type": "color",
     "value": "#FF0000"
-  },
-  {
-    "name": "pMtGoxEUR",
-    "title": "Show MtGox EUR (\u20ac/\u0243) ticker?",
-    "type": "bool",
-    "value": true
-  },{
-    "name": "pMtGoxEURColor",
-    "title": "MtGox EUR Ticker color",
-    "type": "color",
-    "value": "#807AE2"
   },
   {
     "name": "pBTCeEUR",
@@ -290,17 +268,6 @@
     "value": "#FF0000"
   },
   {
-    "name": "pMtGoxPLN",
-    "title": "Show MtGox PLN (z\u0141/\u0243) ticker?",
-    "type": "bool",
-    "value": true
-  },{
-    "name": "pMtGoxPLNColor",
-    "title": "MtGox PLN Ticker color",
-    "type": "color",
-    "value": "#545322"
-  },
-  {
     "name": "pBitcurexPLN",
     "title": "Show Bitcurex PLN (z\u0141/\u0243) ticker?",
     "type": "bool",
@@ -312,17 +279,6 @@
     "value": "#545322"
   },
   {
-    "name": "pMtGoxCAD",
-    "title": "Show MtGox CAD (C$/\u0243) ticker?",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pMtGoxCADColor",
-    "title": "MtGox CAD Ticker color",
-    "type": "color",
-    "value": "#B43104"
-  },
-  {
     "name": "pCaVirTexCAD",
     "title": "Show CaVirTex CAD (C$/\u0243) ticker?",
     "type": "bool",
@@ -332,28 +288,6 @@
     "title": "CaVirTex CAD Ticker color",
     "type": "color",
     "value": "#B43104"
-  },
-  {
-    "name": "pMtGoxJPY",
-    "title": "Show MtGox JPY (\u00a5/\u0243) ticker?",
-    "type": "bool",
-    "value": true
-  },{
-    "name": "pMtGoxJPYColor",
-    "title": "MtGox JPY Ticker color",
-    "type": "color",
-    "value": "#04B4AE"
-  },
-  {
-    "name": "pMtGoxCNY",
-    "title": "Show MtGox CNY (\u5143/\u0243) ticker?",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pMtGoxCNYColor",
-    "title": "MtGox CNY Ticker color",
-    "type": "color",
-    "value": "#A901DB"
   },
   {
     "name": "pBTCChinaCNY",
