@@ -1,6 +1,6 @@
 1.9.7
 - Added Prelude.io exchange with BTC, DOGE and Auroracoin
-- Added Dogecoin prices in USD
+- Added Dogecoin prices in USD and EUR
 
 1.9.6
 - Added Kraken Dogecoin

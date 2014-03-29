@@ -544,12 +544,34 @@
   },
   {
     "name": "pKrakenDogecoin",
-    "title": "Show Kraken Dogecoin/Bitcoin (DOGE/\u0141) ticker? (inverted price)",
+    "title": "Show Kraken Dogecoin/Bitcoin (DOGE/\u0243) ticker? (inverted price)",
     "type": "bool",
     "value": false
   },{
     "name": "pKrakenDogecoinColor",
     "title": "Kraken Dogecoin/Bitcoin Ticker color",
+    "type": "color",
+    "value": "#000066"
+  },
+  {
+    "name": "pPreludeDogecoinUSD",
+    "title": "Show Prelude USD/Dogecoin ($/DOGE) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pPreludeDogecoinUSDColor",
+    "title": "Prelude USD/Dogecoin Ticker color",
+    "type": "color",
+    "value": "#413ADF"
+  },
+  {
+    "name": "pKrakenDogecoinEUR",
+    "title": "Show Kraken Dogecoin/Euro (DOGE/\u20ac) ticker? (inverted price)",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pKrakenDogecoinEURColor",
+    "title": "Kraken Dogecoin/Euro Ticker color",
     "type": "color",
     "value": "#000066"
   },
