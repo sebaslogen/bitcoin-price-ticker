@@ -532,6 +532,17 @@
     "value": "#413ADF"
   },
   {
+    "name": "pPreludeDogecoin",
+    "title": "Show Prelude Bitcoin/Dogecoin (\u0243/DOGE) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pPreludeDogecoinColor",
+    "title": "Prelude Bitcoin/Dogecoin Ticker color",
+    "type": "color",
+    "value": "#413ADF"
+  },
+  {
     "name": "pKrakenDogecoin",
     "title": "Show Kraken Dogecoin/Bitcoin (DOGE/\u0141) ticker? (inverted price)",
     "type": "bool",
@@ -573,6 +584,6 @@
     "name": "pPreludeAuroracoinColor",
     "title": "Prelude Bitcoin/Auroracoin Ticker color",
     "type": "color",
-    "value": "#5B5B2F"
+    "value": "#1E2654"
   }]
 }
