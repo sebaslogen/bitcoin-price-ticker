@@ -596,16 +596,5 @@
     "title": "Prelude Bitcoin/Auroracoin Ticker color",
     "type": "color",
     "value": "#1E2654"
-  },
-  {
-    "name": "pPreludeAuroracoinUSD",
-    "title": "Show Prelude USD/Auroracoin ($/AUR) ticker?",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pPreludeAuroracoinUSDColor",
-    "title": "Prelude USD/Auroracoin Ticker color",
-    "type": "color",
-    "value": "#6E307C"
   }]
 }
