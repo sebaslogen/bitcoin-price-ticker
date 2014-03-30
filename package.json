@@ -158,17 +158,6 @@
     "value": "#FF0000"
   },
   {
-    "name": "pPreludeUSD",
-    "title": "Show Prelude USD ($/\u0243) ticker?",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pPreludeUSDColor",
-    "title": "Prelude USD Ticker color",
-    "type": "color",
-    "value": "#6E307C"
-  },
-  {
     "name": "pBTCeEUR",
     "title": "Show BTCe EUR (\u20ac/\u0243) ticker?",
     "type": "bool",
@@ -607,5 +596,16 @@
     "title": "Prelude Bitcoin/Auroracoin Ticker color",
     "type": "color",
     "value": "#1E2654"
+  },
+  {
+    "name": "pPreludeAuroracoinUSD",
+    "title": "Show Prelude USD/Auroracoin ($/AUR) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pPreludeAuroracoinUSDColor",
+    "title": "Prelude USD/Auroracoin Ticker color",
+    "type": "color",
+    "value": "#6E307C"
   }]
 }
