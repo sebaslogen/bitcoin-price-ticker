@@ -1,5 +1,5 @@
 1.9.8
-- Added Bit2C Israel exchange with BTC/NIS(ILS)
+- Added Bit2C Israel exchange with BTC/ILS (NIS shekel)
 - Added BTC/USD for Prelude.io
 
 1.9.7

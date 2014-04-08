@@ -444,6 +444,17 @@
     "value": "#582266"
   },
   {
+    "name": "pBit2CILS",
+    "title": "Show Bit2C ILS (\u20AA/\u0243) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pBit2CILSColor",
+    "title": "Bit2C ILS Ticker color",
+    "type": "color",
+    "value": "#783489"
+  },
+  {
     "name": "pBTCeLitecoin",
     "title": "Show BTCe Bitcoin/Litecoin (\u0243/\u0141) ticker?",
     "type": "bool",
