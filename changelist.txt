@@ -1,6 +1,7 @@
 1.9.8
 - Added Bit2C Israel exchange with BTC/ILS (NIS shekel)
 - Added BTC/USD for Prelude.io
+- Fixed scientific notation when rounding on very low doge values
 
 1.9.7
 - Added Prelude.io exchange with BTC, DOGE and Auroracoin
