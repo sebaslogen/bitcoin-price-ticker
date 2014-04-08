@@ -422,6 +422,17 @@
     "value": "#2F4F15"
   },
   {
+    "name": "pBitsoMXN",
+    "title": "Show Bitso MXN ($/\u0243) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pBitsoMXNColor",
+    "title": "Bitso MXN Ticker color",
+    "type": "color",
+    "value": "#2F4F15"
+  },
+  {
     "name": "pBitXZAR",
     "title": "Show BitX ZAR (R/\u0243) ticker?",
     "type": "bool",
