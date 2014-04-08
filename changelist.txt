@@ -1,3 +1,7 @@
+1.9.8
+- Added Bit2C Israel exchange with BTC/NIS(ILS)
+- Added BTC/USD for Prelude.io
+
 1.9.7
 - Added Prelude.io exchange with BTC, DOGE and Auroracoin
 - Added Dogecoin prices in USD and EUR
