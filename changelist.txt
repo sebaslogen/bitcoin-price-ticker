@@ -1,3 +1,6 @@
+1.9.9
+- Added TheRockTrading exchange with BTC/USD-EUR-LTC
+
 1.9.8
 - Added Bit2C Israel exchange with BTC/ILS (NIS shekel)
 - Added Bitso Mexican exchange with BTC/MXN (mexican peso)

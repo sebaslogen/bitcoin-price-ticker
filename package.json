@@ -5,7 +5,7 @@
   "description": "Bitcoin Price Ticker with multiple sources and configurable",
   "author": "neoranga (neoranga55 AT yahoo DOT es)",
   "license": "MPL 2.0",
-  "version": "1.9.8",
+  "version": "1.9.9",
   "icon": "icons/icon.png",
   "permissions": {"private-browsing": true},
   "preferences": [{
@@ -165,6 +165,17 @@
   },{
     "name": "pPreludeUSDColor",
     "title": "Prelude USD Ticker color",
+    "type": "color",
+    "value": "#6E307C"
+  },
+  {
+    "name": "pTheRockTradingUSD",
+    "title": "Show TheRockTrading USD ($/\u0243) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pTheRockTradingUSDColor",
+    "title": "TheRockTrading USD Ticker color",
     "type": "color",
     "value": "#6E307C"
   },
