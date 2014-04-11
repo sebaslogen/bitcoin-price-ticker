@@ -246,6 +246,17 @@
     "value": "#6E307C"
   },
   {
+    "name": "pTheRockTradingEUR",
+    "title": "Show TheRockTrading EUR (\u20ac/\u0243) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pTheRockTradingEURColor",
+    "title": "TheRockTrading EUR Ticker color",
+    "type": "color",
+    "value": "#3366FF"
+  },
+  {
     "name": "pCoinDeskGBP",
     "title": "Show CoinDesk GBP (\u00a3/\u0243) ticker?",
     "type": "bool",
