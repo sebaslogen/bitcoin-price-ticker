@@ -1,5 +1,5 @@
 1.9.9
-- Added TheRockTrading exchange with BTC/USD-EUR-LTC
+- Added TheRockTrading exchange with BTC/USD & BTC/EUR
 
 1.9.8
 - Added Bit2C Israel exchange with BTC/ILS (NIS shekel)
