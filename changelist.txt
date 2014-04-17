@@ -1,3 +1,6 @@
+1.9.9.1
+- Several bug fixes
+
 1.9.9
 - Added TheRockTrading exchange with BTC/USD & BTC/EUR
 
@@ -33,7 +36,7 @@
 - Added Worldcoin (request)
 - Fixed BTChina exchange (new API)
 - Fixed Vircurex exchange (new API)
-- Removed Turkish Lira from licalbitcoins (not available in site)
+- Removed Turkish Lira from localbitcoins (not available in site)
 
 1.9
 - Added Canadian exchange CaVirTex
