@@ -1,1 +1,1 @@
-start cmd.exe /k C:\Users\neoranga\firefox-addon-sdk-1.15\bin\activate.bat
+start cmd.exe /k C:\Users\neoranga\firefox-addon-sdk-1.16\bin\activate.bat
