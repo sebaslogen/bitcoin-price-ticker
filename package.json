@@ -5,7 +5,7 @@
   "description": "Bitcoin Price Ticker with multiple sources and configurable",
   "author": "neoranga (neoranga55 AT yahoo DOT es)",
   "license": "MPL 2.0",
-  "version": "1.9.9.2",
+  "version": "2.0",
   "icon": "icons/icon.png",
   "permissions": {"private-browsing": true},
   "preferences": [{
@@ -651,5 +651,27 @@
     "title": "Prelude Bitcoin/Auroracoin Ticker color",
     "type": "color",
     "value": "#1E2654"
+  },
+  {
+    "name": "pCryptsyBlackcoin",
+    "title": "Show Cryptsy Bitcoin/Blackcoin (\u0243/BC) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pCryptsyBlackcoinColor",
+    "title": "Cryptsy Bitcoin/Blackcoin Ticker color",
+    "type": "color",
+    "value": "#FFD76E"
+  },
+  {
+    "name": "pMintPalBlackcoin",
+    "title": "Show MintPal Bitcoin/Blackcoin (\u0243/BC) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pMintPalBlackcoinColor",
+    "title": "MintPal Bitcoin/Blackcoin Ticker color",
+    "type": "color",
+    "value": "#FFD76E"
   }]
 }
