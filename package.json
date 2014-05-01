@@ -5,7 +5,7 @@
   "description": "Bitcoin Price Ticker with multiple sources and configurable",
   "author": "neoranga (neoranga55 AT yahoo DOT es)",
   "license": "MPL 2.0",
-  "version": "2.0",
+  "version": "2.1",
   "icon": "icons/icon.png",
   "permissions": {"private-browsing": true},
   "preferences": [{
@@ -79,6 +79,12 @@
         "value": "N",
         "label": "No currency character (20)"
       }]
+  },
+  {
+    "name": "show-updates",
+    "title": "Show new features page when there is an update",
+    "type": "bool",
+    "value": true
   },
   {
     "name": "pBitStampUSD",

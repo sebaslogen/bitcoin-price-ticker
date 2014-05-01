@@ -1,3 +1,6 @@
+2.1
+- Added option to disable new features update information
+
 2.0
 - Added BlackCoin with BTC prices in two exchanges
 - Added MintPal exchange
