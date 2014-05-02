@@ -5,7 +5,7 @@
   "description": "Bitcoin Price Ticker with multiple sources and configurable",
   "author": "neoranga (neoranga55 AT yahoo DOT es)",
   "license": "MPL 2.0",
-  "version": "2.1",
+  "version": "2.1.1",
   "icon": "icons/icon.png",
   "permissions": {"private-browsing": true},
   "preferences": [{
@@ -310,7 +310,7 @@
     "name": "pBitcurexPLN",
     "title": "Show Bitcurex PLN (z\u0141/\u0243) ticker?",
     "type": "bool",
-    "value": true
+    "value": false
   },{
     "name": "pBitcurexPLNColor",
     "title": "Bitcurex PLN Ticker color",
@@ -354,7 +354,7 @@
     "name": "pMercadoBitcoinBRL",
     "title": "Show MercadoBitcoin BRL (R$/\u0243) ticker?",
     "type": "bool",
-    "value": true
+    "value": false
   },{
     "name": "pMercadoBitcoinBRLColor",
     "title": "MercadoBitcoin BRL Ticker color",
