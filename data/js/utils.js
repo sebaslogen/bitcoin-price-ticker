@@ -16,4 +16,10 @@ self.port.on("updateStyle", function(color, font_size, background_color) {
   } else {
     $('#ticker-data').removeClass();
   }
+  var body_el = document.getElementById('ticker-body');
+  var client_width = body_el.clientWidth;
+  var scroll_width = body_el.scrollWidth;
+  if (($('#ticker-data').width() > 0) && (client_width != scroll_width)) {
+    self.port.emit('increaseWidth', 1);
+  }
 });
