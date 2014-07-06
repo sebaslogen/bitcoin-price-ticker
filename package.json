@@ -5,7 +5,7 @@
   "description": "Bitcoin Price Ticker with multiple sources and configurable",
   "author": "neoranga (neoranga55 AT yahoo DOT es)",
   "license": "MPL 2.0",
-  "version": "2.1.2",
+  "version": "2.2",
   "icon": "icons/icon.png",
   "permissions": {"private-browsing": true},
   "preferences": [{
@@ -437,6 +437,17 @@
     "title": "Coinbase ARS Ticker color",
     "type": "color",
     "value": "#4A1F54"
+  },
+  {
+    "name": "pBitexARS",
+    "title": "Show Bitex ARS ($/\u0243) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pBitexARSColor",
+    "title": "Bitex ARS Ticker color",
+    "type": "color",
+    "value": "#6E307C"
   },
   {
     "name": "pLocalbitcoinsCLP",
