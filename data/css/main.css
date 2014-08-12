@@ -84,3 +84,14 @@ div {
   background: linear-gradient(to bottom, #555555 0%,#000 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#555555', endColorstr='#000',GradientType=0 ); /* IE6-9 */
 }
+
+.nxt_background {
+  background: #BA9F33; /* Old browsers */
+  background: -moz-linear-gradient(top, #BA9F33 0%, #F8F3E4 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#BA9F33), color-stop(100%,#F8F3E4)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #BA9F33 0%,#F8F3E4 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #BA9F33 0%,#F8F3E4 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #BA9F33 0%,#F8F3E4 100%); /* IE10+ */
+  background: linear-gradient(to bottom, #BA9F33 0%,#F8F3E4 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#BA9F33', endColorstr='#F8F3E4',GradientType=0 ); /* IE6-9 */
+}

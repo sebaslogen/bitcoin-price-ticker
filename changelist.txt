@@ -1,3 +1,7 @@
+2.3
+- Added NXT cryptocurrency for BTC and USD
+- Added Bter exchange with NXT
+
 2.2
 - Added Bitex.la with BTC prices for Argentinian peso (ARS)
 
