@@ -5,7 +5,7 @@
   "description": "Bitcoin Price Ticker with multiple sources and configurable",
   "author": "neoranga (neoranga55 AT yahoo DOT es)",
   "license": "MPL 2.0",
-  "version": "2.3",
+  "version": "2.4",
   "icon": "icons/icon.png",
   "permissions": {"private-browsing": true},
   "preferences": [{
@@ -723,5 +723,16 @@
     "title": "Bter USD/NxtUSD Ticker color",
     "type": "color",
     "value": "#1E2654"
+  },
+  {
+    "name": "pMintPalCloakcoin",
+    "title": "Show MintPal Bitcoin/Cloakcoin (\u0243/CLOAK) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pMintPalCloakcoinColor",
+    "title": "MintPal Bitcoin/Cloakcoin Ticker color",
+    "type": "color",
+    "value": "#FFFFFF"
   }]
 }
