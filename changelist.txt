@@ -1,5 +1,6 @@
 2.4
 - Added CloakCoin from MintPal
+- Added BitSharesX from Bter
 
 2.3
 - Added NXT cryptocurrency for BTC and USD

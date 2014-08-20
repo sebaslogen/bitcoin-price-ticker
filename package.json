@@ -734,5 +734,16 @@
     "title": "MintPal Bitcoin/Cloakcoin Ticker color",
     "type": "color",
     "value": "#FFFFFF"
+  },
+  {
+    "name": "pBterBitsharesX",
+    "title": "Show Bter Bitcoin/BitsharesX (\u0243/BTSX) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pBterBitsharesXColor",
+    "title": "Bter Bitcoin/BitsharesX Ticker color",
+    "type": "color",
+    "value": "#131F37"
   }]
 }
