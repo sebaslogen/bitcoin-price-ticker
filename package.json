@@ -5,7 +5,7 @@
   "description": "Bitcoin Price Ticker with multiple sources and configurable",
   "author": "neoranga (neoranga55 AT yahoo DOT es)",
   "license": "MPL 2.0",
-  "version": "2.4.1",
+  "version": "2.4.2",
   "icon": "icons/icon.png",
   "permissions": {"private-browsing": true},
   "preferences": [{
