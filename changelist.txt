@@ -1,3 +1,6 @@
+2.4.3
+- Updated Bitcurex APIs
+
 2.4.2
 - Added CloakCoin from MintPal
 - Added BitSharesX from Bter
