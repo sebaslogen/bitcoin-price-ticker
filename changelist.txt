@@ -1,3 +1,11 @@
+2.4.4
+- Updated API calls to renamed BTSX->BTS
+- Updated API calls to BTCTurk
+- Removed MintPal exchange and with it the last Cloakcoin exchange data source
+- Removed Prelude exchange
+- Removed Dogecoin/Euro pair no longer available from Kraken
+- Removed Litecoin/Pound pair no longer available from Bittylicious
+
 2.4.3
 - Updated Bitcurex APIs
 

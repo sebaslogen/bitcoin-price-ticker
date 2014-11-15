@@ -5,7 +5,7 @@
   "description": "Bitcoin Price Ticker with multiple sources and configurable",
   "author": "neoranga (neoranga55 AT yahoo DOT es)",
   "license": "MPL 2.0",
-  "version": "2.4.3",
+  "version": "2.4.4",
   "icon": "icons/icon.png",
   "permissions": {"private-browsing": true},
   "preferences": [{
@@ -162,17 +162,6 @@
     "title": "BitPay USD Ticker color",
     "type": "color",
     "value": "#FF0000"
-  },
-  {
-    "name": "pPreludeUSD",
-    "title": "Show Prelude USD ($/\u0243) ticker?",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pPreludeUSDColor",
-    "title": "Prelude USD Ticker color",
-    "type": "color",
-    "value": "#6E307C"
   },
   {
     "name": "pTheRockTradingUSD",
@@ -560,17 +549,6 @@
     "value": "#413ADF"
   },
   {
-    "name": "pBittyliciousLitecoinGBP",
-    "title": "Show Bittylicious Litecoin/GBP (\u00a3/\u0141) ticker?",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pBittyliciousLitecoinGBPColor",
-    "title": "Bittylicious Litecoin/GBP Ticker color",
-    "type": "color",
-    "value": "#0B0B3B"
-  },
-  {
     "name": "pVircurexWorldcoin",
     "title": "Show Vircurex Bitcoin/Worldcoin (\u0243/WDC) ticker?",
     "type": "bool",
@@ -593,17 +571,6 @@
     "value": "#413ADF"
   },
   {
-    "name": "pPreludeDogecoin",
-    "title": "Show Prelude Bitcoin/Dogecoin (\u0243/DOGE) ticker?",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pPreludeDogecoinColor",
-    "title": "Prelude Bitcoin/Dogecoin Ticker color",
-    "type": "color",
-    "value": "#413ADF"
-  },
-  {
     "name": "pKrakenDogecoin",
     "title": "Show Kraken Dogecoin/Bitcoin (DOGE/\u0243) ticker? (inverted price)",
     "type": "bool",
@@ -613,17 +580,6 @@
     "title": "Kraken Dogecoin/Bitcoin Ticker color",
     "type": "color",
     "value": "#000066"
-  },
-  {
-    "name": "pPreludeDogecoinUSD",
-    "title": "Show Prelude USD/Dogecoin ($/DOGE) ticker?",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pPreludeDogecoinUSDColor",
-    "title": "Prelude USD/Dogecoin Ticker color",
-    "type": "color",
-    "value": "#413ADF"
   },
   {
     "name": "pKrakenDogecoinEUR",
@@ -659,17 +615,6 @@
     "value": "#413ADF"
   },
   {
-    "name": "pPreludeAuroracoin",
-    "title": "Show Prelude Bitcoin/Auroracoin (\u0243/AUR) ticker?",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pPreludeAuroracoinColor",
-    "title": "Prelude Bitcoin/Auroracoin Ticker color",
-    "type": "color",
-    "value": "#1E2654"
-  },
-  {
     "name": "pCryptsyBlackcoin",
     "title": "Show Cryptsy Bitcoin/Blackcoin (\u0243/BC) ticker?",
     "type": "bool",
@@ -677,17 +622,6 @@
   },{
     "name": "pCryptsyBlackcoinColor",
     "title": "Cryptsy Bitcoin/Blackcoin Ticker color",
-    "type": "color",
-    "value": "#FFD76E"
-  },
-  {
-    "name": "pMintPalBlackcoin",
-    "title": "Show MintPal Bitcoin/Blackcoin (\u0243/BC) ticker?",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pMintPalBlackcoinColor",
-    "title": "MintPal Bitcoin/Blackcoin Ticker color",
     "type": "color",
     "value": "#FFD76E"
   },
@@ -725,24 +659,13 @@
     "value": "#1E2654"
   },
   {
-    "name": "pMintPalCloakcoin",
-    "title": "Show MintPal Bitcoin/Cloakcoin (\u0243/CLOAK) ticker?",
+    "name": "pBterBitshares",
+    "title": "Show Bter Bitcoin/Bitshares (\u0243/BTS) ticker?",
     "type": "bool",
     "value": false
   },{
-    "name": "pMintPalCloakcoinColor",
-    "title": "MintPal Bitcoin/Cloakcoin Ticker color",
-    "type": "color",
-    "value": "#FFFFFF"
-  },
-  {
-    "name": "pBterBitsharesX",
-    "title": "Show Bter Bitcoin/BitsharesX (\u0243/BTSX) ticker?",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pBterBitsharesXColor",
-    "title": "Bter Bitcoin/BitsharesX Ticker color",
+    "name": "pBterBitsharesColor",
+    "title": "Bter Bitcoin/Bitshares Ticker color",
     "type": "color",
     "value": "#131F37"
   }]
