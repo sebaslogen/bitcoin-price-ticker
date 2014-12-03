@@ -5,7 +5,7 @@
   "description": "Bitcoin Price Ticker with multiple sources and configurable",
   "author": "neoranga (neoranga55 AT yahoo DOT es)",
   "license": "MPL 2.0",
-  "version": "2.4.4",
+  "version": "2.4.5",
   "icon": "icons/icon.png",
   "permissions": {"private-browsing": true},
   "preferences": [{
@@ -666,6 +666,17 @@
   },{
     "name": "pBterBitsharesColor",
     "title": "Bter Bitcoin/Bitshares Ticker color",
+    "type": "color",
+    "value": "#131F37"
+  },
+  {
+    "name": "pKrakenRipple",
+    "title": "Show Kraken Ripple/Bitcoin (XRP/\u0243) ticker? (inverted price)",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pKrakenRippleColor",
+    "title": "Kraken Ripple/Bitcoin Ticker color",
     "type": "color",
     "value": "#131F37"
   }]
