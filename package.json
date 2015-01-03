@@ -5,7 +5,7 @@
   "description": "Bitcoin Price Ticker with multiple sources and configurable",
   "author": "neoranga (neoranga55 AT yahoo DOT es)",
   "license": "MPL 2.0",
-  "version": "2.4.5",
+  "version": "2.4.6",
   "icon": "icons/icon.png",
   "permissions": {"private-browsing": true},
   "preferences": [{
@@ -646,6 +646,17 @@
     "title": "Bter Bitcoin/Nxt Ticker color",
     "type": "color",
     "value": "#1E2654"
+  },
+  {
+    "name": "pPoloniexNxt",
+    "title": "Show Poloniex Bitcoin/Nxt (\u0243/NXT) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pPoloniexNxtColor",
+    "title": "Poloniex Bitcoin/Nxt Ticker color",
+    "type": "color",
+    "value": "#413ADF"
   },
   {
     "name": "pBterNxtUSD",
