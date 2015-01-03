@@ -31,6 +31,7 @@ The following price sources are available:
 - Bit2C
 - TheRockTrading
 - Bter.com
+- Poloniex
 
 
 Currencies
@@ -60,6 +61,8 @@ List of fiat and crypto-currencies supported:
 - BlackCoin
 - Nxt
 - BitShares
+- Maidsafe
+- BitcoinDark
 
 
 Customization
