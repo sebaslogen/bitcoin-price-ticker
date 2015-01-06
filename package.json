@@ -5,7 +5,7 @@
   "description": "Bitcoin Price Ticker with multiple sources and configurable",
   "author": "neoranga (neoranga55 AT yahoo DOT es)",
   "license": "MPL 2.0",
-  "version": "2.4.6",
+  "version": "2.4.7",
   "icon": "icons/icon.png",
   "permissions": {"private-browsing": true},
   "preferences": [{
@@ -173,6 +173,17 @@
     "title": "TheRockTrading USD Ticker color",
     "type": "color",
     "value": "#6E307C"
+  },
+  {
+    "name": "pBitFinexUSD",
+    "title": "Show BitFinex USD ($/\u0243) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pBitFinexUSDColor",
+    "title": "BitFinex USD Ticker color",
+    "type": "color",
+    "value": "#FF2200"
   },
   {
     "name": "pBTCeEUR",

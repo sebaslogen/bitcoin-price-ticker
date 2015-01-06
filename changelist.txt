@@ -1,3 +1,6 @@
+2.4.7
+- Added BitFinex exchange with BTC/USD information feed
+
 2.4.6
 - Added Poloniex exchange with NXT, Maidsafe and BitcoinDark
 
