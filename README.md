@@ -23,7 +23,6 @@ The following price sources are available:
 - BitX.co.za
 - BitcoinVenezuela
 - Localbitcoins.com
-- CaVirTex
 - Bitconic.nl
 - Bitcurex
 - Bitcoin-Central

@@ -1,3 +1,8 @@
+2.4.7.1
+- Remove closed exchange CaVirTex
+- Remove closed currency pair from Kraken DOGE/EUR
+- Update BTCTurk API request
+
 2.4.7
 - Added BitFinex exchange with BTC/USD information feed
 

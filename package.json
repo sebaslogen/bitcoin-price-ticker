@@ -5,7 +5,7 @@
   "description": "Bitcoin Price Ticker with multiple sources and configurable",
   "author": "neoranga (neoranga55 AT yahoo DOT es)",
   "license": "MPL 2.0",
-  "version": "2.4.7",
+  "version": "2.4.7.1",
   "icon": "icons/icon.png",
   "permissions": {"private-browsing": true},
   "preferences": [{
@@ -318,17 +318,6 @@
     "value": "#545322"
   },
   {
-    "name": "pCaVirTexCAD",
-    "title": "Show CaVirTex CAD (C$/\u0243) ticker?",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pCaVirTexCADColor",
-    "title": "CaVirTex CAD Ticker color",
-    "type": "color",
-    "value": "#B43104"
-  },
-  {
     "name": "pBTCChinaCNY",
     "title": "Show BTCChina CNY (\u5143/\u0243) ticker?",
     "type": "bool",
@@ -589,17 +578,6 @@
   },{
     "name": "pKrakenDogecoinColor",
     "title": "Kraken Dogecoin/Bitcoin Ticker color",
-    "type": "color",
-    "value": "#000066"
-  },
-  {
-    "name": "pKrakenDogecoinEUR",
-    "title": "Show Kraken Dogecoin/Euro (DOGE/\u20ac) ticker? (inverted price)",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pKrakenDogecoinEURColor",
-    "title": "Kraken Dogecoin/Euro Ticker color",
     "type": "color",
     "value": "#000066"
   },
