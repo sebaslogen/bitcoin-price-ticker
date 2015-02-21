@@ -1,3 +1,7 @@
+2.4.7.2
+- Change Bitshares feed from BTER (defunc) to Poloniex
+- Remove all BTER tickers
+
 2.4.7.1
 - Remove closed exchange CaVirTex
 - Remove closed currency pair from Kraken DOGE/EUR

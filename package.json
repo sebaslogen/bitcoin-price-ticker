@@ -5,7 +5,7 @@
   "description": "Bitcoin Price Ticker with multiple sources and configurable",
   "author": "neoranga (neoranga55 AT yahoo DOT es)",
   "license": "MPL 2.0",
-  "version": "2.4.7.1",
+  "version": "2.4.7.2",
   "icon": "icons/icon.png",
   "permissions": {"private-browsing": true},
   "preferences": [{
@@ -626,17 +626,6 @@
     "value": "#1E2654"
   },
   {
-    "name": "pBterNxt",
-    "title": "Show Bter Bitcoin/Nxt (\u0243/NXT) ticker?",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pBterNxtColor",
-    "title": "Bter Bitcoin/Nxt Ticker color",
-    "type": "color",
-    "value": "#1E2654"
-  },
-  {
     "name": "pPoloniexNxt",
     "title": "Show Poloniex Bitcoin/Nxt (\u0243/NXT) ticker?",
     "type": "bool",
@@ -648,24 +637,13 @@
     "value": "#413ADF"
   },
   {
-    "name": "pBterNxtUSD",
-    "title": "Show Bter USD/NxtUSD ($/NXT) ticker?",
+    "name": "pPoloniexBitshares",
+    "title": "Show Poloniex Bitcoin/Bitshares (\u0243/BTS) ticker?",
     "type": "bool",
     "value": false
   },{
-    "name": "pBterNxtUSDColor",
-    "title": "Bter USD/NxtUSD Ticker color",
-    "type": "color",
-    "value": "#1E2654"
-  },
-  {
-    "name": "pBterBitshares",
-    "title": "Show Bter Bitcoin/Bitshares (\u0243/BTS) ticker?",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pBterBitsharesColor",
-    "title": "Bter Bitcoin/Bitshares Ticker color",
+    "name": "pPoloniexBitsharesColor",
+    "title": "Poloniex Bitcoin/Bitshares Ticker color",
     "type": "color",
     "value": "#131F37"
   },
