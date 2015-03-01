@@ -1,6 +1,6 @@
 2.4.7.2
 - Fixed all BitPay tickers (change in BitPay API information)
-- Change Bitshares feed from BTER (defunc) to Poloniex
+- Change Bitshares feed from BTER (defunct) to Poloniex
 - Remove all BTER tickers
 
 2.4.7.1
