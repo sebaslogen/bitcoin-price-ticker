@@ -29,7 +29,6 @@ The following price sources are available:
 - Bitso
 - Bit2C
 - TheRockTrading
-- Bter.com
 - Poloniex
 
 
