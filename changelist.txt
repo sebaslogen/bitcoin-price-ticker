@@ -1,3 +1,6 @@
+2.4.8.1
+- Added reopened exchange CaVirTex
+
 2.4.8
 - Added Monero XMR/BTC from Poloniex
 - Added background colors to Maidsafe, Bitcoindark and Monero coins
