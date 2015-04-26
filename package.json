@@ -5,7 +5,7 @@
   "description": "Bitcoin Price Ticker with multiple sources and configurable",
   "author": "neoranga (neoranga55 AT yahoo DOT es)",
   "license": "MPL 2.0",
-  "version": "2.4.7.2",
+  "version": "2.4.8",
   "icon": "icons/icon.png",
   "permissions": {"private-browsing": true},
   "preferences": [{
@@ -667,7 +667,7 @@
     "name": "pPoloniexMaidsafeColor",
     "title": "Poloniex Bitcoin/Maidsafe Ticker color",
     "type": "color",
-    "value": "#413ADF"
+    "value": "#000000"
   },
   {
     "name": "pPoloniexBitcoindark",
@@ -677,6 +677,17 @@
   },{
     "name": "pPoloniexBitcoindarkColor",
     "title": "Poloniex Bitcoin/BitcoinDark Ticker color",
+    "type": "color",
+    "value": "#000000"
+  },
+  {
+    "name": "pPoloniexMonero",
+    "title": "Show Poloniex Bitcoin/Monero (\u0243/XMR) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pPoloniexMoneroColor",
+    "title": "Poloniex Bitcoin/Monero Ticker color",
     "type": "color",
     "value": "#413ADF"
   }]

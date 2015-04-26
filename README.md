@@ -61,6 +61,7 @@ List of fiat and crypto-currencies supported:
 - BitShares
 - Maidsafe
 - BitcoinDark
+- Monero
 
 
 Customization
