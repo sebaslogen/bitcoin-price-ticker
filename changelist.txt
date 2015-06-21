@@ -1,6 +1,8 @@
 2.4.8.2
 - Added Dash cryptocurrency for BTC and USD from Cryptsy and BitFinex
 
+- Clean up code and added documentation
+
 2.4.8.1
 - Added reopened exchange CaVirTex
 
