@@ -714,17 +714,6 @@
     "value": "#1c75bc"
   },
   {
-    "name": "pCryptsyDashUSD",
-    "title": "Show Cryptsy USD/Dash ($/DASH) ticker?",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pCryptsyDashUSDColor",
-    "title": "Cryptsy USD/Dash Ticker color",
-    "type": "color",
-    "value": "#1c75bc"
-  },
-  {
     "name": "pBitFinexDashBTC",
     "title": "Show BitFinex Bitcoin/Dash (\u0243/DASH) ticker?",
     "type": "bool",
@@ -732,6 +721,17 @@
   },{
     "name": "pBitFinexDashBTCColor",
     "title": "BitFinex Bitcoin/Dash Ticker color",
+    "type": "color",
+    "value": "#1c75bc"
+  },
+  {
+    "name": "pCryptsyDashUSD",
+    "title": "Show Cryptsy USD/Dash ($/DASH) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pCryptsyDashUSDColor",
+    "title": "Cryptsy USD/Dash Ticker color",
     "type": "color",
     "value": "#1c75bc"
   },
