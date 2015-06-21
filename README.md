@@ -63,6 +63,7 @@ List of fiat and crypto-currencies supported:
 - Maidsafe
 - BitcoinDark
 - Monero
+- Dash
 
 
 Customization

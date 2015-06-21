@@ -150,3 +150,14 @@ div {
   background: linear-gradient(to bottom, #FF6600 0%,#B9EFFF 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FF6600', endColorstr='#B9EFFF',GradientType=0 ); /* IE6-9 */
 }
+
+.dash_background {
+  background: #FFFFFF; /* Old browsers */
+  background: -moz-linear-gradient(top, #FFFFFF 0%, #FFFFFF 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FFFFFF), color-stop(100%,#FFFFFF)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #FFFFFF 0%,#FFFFFF 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #FFFFFF 0%,#FFFFFF 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #FFFFFF 0%,#FFFFFF 100%); /* IE10+ */
+  background: linear-gradient(to bottom, #FFFFFF 0%,#FFFFFF 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFFFFF', endColorstr='#FFFFFF',GradientType=0 ); /* IE6-9 */
+}
