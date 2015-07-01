@@ -1,12 +1,11 @@
 {
   "name": "bitcoin-price-ticker",
-  "fullName": "Bitcoin Price Ticker",
-  "id": "jid0-ziK34XHkBWB9ezxd4l9Q1yC7RP0",
+  "title": "Bitcoin Price Ticker",
+  "id": "jid0-ziK34XHkBWB9ezxd4l9Q1yC7RP0@jetpack",
   "description": "Bitcoin Price Ticker with multiple sources and configurable",
   "author": "neoranga (neoranga55 AT yahoo DOT es)",
   "license": "MPL 2.0",
   "version": "2.5",
-  "icon": "icons/icon.png",
   "permissions": {"private-browsing": true},
   "preferences": [{
     "name": "infoButton",
