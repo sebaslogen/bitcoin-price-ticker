@@ -1,0 +1,7 @@
+# Ignore any zip or xpi files
+*.zip
+*.xpi
+
+# Ignore support files
+*screenshot.png
+.*
