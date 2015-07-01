@@ -64,6 +64,7 @@ List of fiat and crypto-currencies supported:
 - BitcoinDark
 - Monero
 - Dash
+- Burst
 
 
 Customization
