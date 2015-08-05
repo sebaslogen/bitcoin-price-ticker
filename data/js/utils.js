@@ -1,6 +1,20 @@
+
 $(function() {
-  $('#ticker-data').text('JS test externo');
-});
+  loadTickers()
+  $('.ticker').text('JS test externo')
+})
+
+function newEmptyTicker() {
+  return jQuery('<div/>', {
+    class: 'ticker',
+    text: 'Emtpy ticker'
+  })
+}
+
+function loadTickers() {
+  var newTicker = newEmptyTicker()
+  $('#tickers-body').append(newTicker)
+}
 
 
 /*
