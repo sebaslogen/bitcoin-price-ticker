@@ -13,7 +13,6 @@ const DEFAULT_TICKER_SPACING = 2;
 var Preferences = require('sdk/simple-prefs');
 var prefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefService).getBranch("extensions.ADDON_ID.");
 var Request = require("sdk/request").Request;
-
 var tabs = require("sdk/tabs");
 
 var tickers = new Array(); // Store all tickers here

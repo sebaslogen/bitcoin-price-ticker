@@ -1,4 +1,3 @@
-
 $(function() {
   loadTickers()
   $('.ticker').text('JS test externo')
