@@ -1,4 +1,9 @@
+$(function() {
+  $('#ticker-data').text('JS test externo');
+});
 
+
+/*
 // Update content of ticker widget //
 self.port.on("updateContent", function(new_content) {
   if (new_content != null) {
@@ -23,3 +28,4 @@ self.port.on("updateStyle", function(color, font_size, background_color) {
     self.port.emit('increaseWidth', 1);
   }
 });
+*/

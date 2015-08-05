@@ -1,5 +1,5 @@
 // The main module of the neoranga Add-on.
-
+var ui = require('sdk/ui');
 const {Cc, Ci, Cu} = require("chrome");
 Cu.import("resource://gre/modules/AddonManager.jsm"); // Addon Manager required to know addon version
 const setTimeout = require("sdk/timers").setTimeout;
@@ -9,12 +9,11 @@ const ADDON_ID = "jid0-ziK34XHkBWB9ezxd4l9Q1yC7RP0@jetpack";
 const DEFAULT_REFRESH_RATE = 60;
 const DEFAULT_FONT_SIZE = 14;
 const DEFAULT_TICKER_SPACING = 2;
-var Widget = require("sdk/widget").Widget;
+
 var Preferences = require('sdk/simple-prefs');
 var prefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefService).getBranch("extensions.ADDON_ID.");
 var Request = require("sdk/request").Request;
-var self = require("sdk/self");
-var data = self.data;
+
 var tabs = require("sdk/tabs");
 
 var tickers = new Array(); // Store all tickers here
@@ -87,6 +86,15 @@ var last_ticker_position = 0;
 
 exports.main = function() {
 
+  var tickers_frame = ui.Frame({
+    url: "./index.html"
+  });
+
+  var toolbar = ui.Toolbar({
+    title: "Bitcoin Price Ticker",
+    items: [tickers_frame]
+  });
+/*
   var getBackgroundColor = function(id) {
     var low_id = id.toLowerCase();
     var other_bg_cryptos = [ 'dogecoin', 'worldcoin', 'namecoin', 'auroracoin', 'blackcoin', 'nxt',
@@ -365,7 +373,7 @@ exports.main = function() {
    * @param  json_path      Path inside the JSON document to find the price number, the path is an array and each item is a sub-item in the JSON path
    * @return                The ticker object (a Mozilla's Widget), the function to update the ticker, 
    *                        the function to update only the ticker's style, and the ID to stop the interval auto-update
-   */
+   *
   var createTicker = function(id, label, currency, base_currency, color, ticker_url, json_path) {
     var pref_name = "p" + id; // Construct preference name from ID
 
@@ -387,9 +395,9 @@ exports.main = function() {
     var latest_content = labelWithCurrency("---", currency);
 
     // Default ticker widget //
-    /*  Important: Widgets are ordered in the status bar based on creation sequence
-        and the id of the Widget when it was created for the first time
-        (even if Widget is destroyed, the order of id persists) */
+    //  Important: Widgets are ordered in the status bar based on creation sequence
+    //    and the id of the Widget when it was created for the first time
+    //    (even if Widget is destroyed, the order of id persists) 
     var ticker = new Widget({
       id: "Bitoin-Price-Ticker_" + last_ticker_position,
       label: label + " " + label_currency,
@@ -645,4 +653,5 @@ exports.main = function() {
   AddonManager.getAddonByID(ADDON_ID, function(addon) {
     showAddonUpdate(addon.version);
   });
+*/
 };
