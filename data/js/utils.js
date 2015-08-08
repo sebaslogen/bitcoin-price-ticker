@@ -15,16 +15,11 @@ function loadTickers() {
   $('#tickers-body').append(newTicker)
 }
 
-/*self.port.on("ticker", function(id, enabled, color) {
-  $('.ticker').text("Event received")
-});*/
-
-
-
 window.addEventListener("message", updateTicker, false);
 
 function updateTicker(message) {
-  $('.ticker').text(message.data)
+  var data = message.data
+  $('.ticker').text(data.id + " " + data.enabled + " with " + data.color)
 }
 
 /*

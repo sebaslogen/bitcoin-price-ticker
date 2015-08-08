@@ -102,10 +102,8 @@ exports.main = function() {
   })
 
   setTimeout(function() {
-    //tickers_frame.postMessage(message, *);
-    //tickers_frame.port.emit("updateTicker", 'ID0', 'is enabled', 'a color')
-    //updateTicker({"ID0", "is enabled", "a color"})
-    updateTicker("ID0")
+    tickerData = {"id" : "ID0", "enabled" : true, "color" : "a color"}
+    updateTicker(tickerData)
   }, 1000)
 /*
   var getBackgroundColor = function(id) {
