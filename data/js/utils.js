@@ -3,23 +3,27 @@ $(function() {
   $('.ticker').text('JS test externo')
 })
 
-function newEmptyTicker() {
+function newEmptyTicker(tickerId) {
   return jQuery('<div/>', {
+    id: tickerId,
     class: 'ticker',
-    text: 'Emtpy ticker'
+    text: 'New emtpy ticker for ' + tickerId
   })
 }
 
+/* This may happen in the addon index.js
 function loadTickers() {
   var newTicker = newEmptyTicker()
   $('#tickers-body').append(newTicker)
-}
+}*/
 
 window.addEventListener("message", updateTicker, false);
 
 function updateTicker(message) {
   var data = message.data
-  $('.ticker').text(data.id + " " + data.enabled + " with " + data.color)
+  //$('.ticker').text(data.id + " " + data.enabled + " with " + data.color)
+  var ticker = $('#tickers-body').append(newEmptyTicker(data.id))
+  ticker.text(ticker.text() + " " + data.enabled + " with " + data.color)
 }
 
 /*

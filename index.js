@@ -86,7 +86,7 @@ var last_ticker_position = 0;
 exports.main = function() {
 
   var tickers_frame = ui.Frame({
-    url: "./index.html",
+    url: './index.html',
     /*onMessage: function() {
       updateTicker(e.data);
     }*/
@@ -97,12 +97,12 @@ exports.main = function() {
   }
 
   var toolbar = ui.Toolbar({
-    title: "Bitcoin Price Ticker",
+    title: 'Bitcoin Price Ticker',
     items: [tickers_frame]
   })
 
   setTimeout(function() {
-    tickerData = {"id" : "ID0", "enabled" : true, "color" : "a color"}
+    tickerData = {'id' : 'BitStampUSD', 'enabled' : true, 'color' : '#FF0000'}
     updateTicker(tickerData)
   }, 1000)
 /*
