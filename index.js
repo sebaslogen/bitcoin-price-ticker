@@ -15,69 +15,69 @@ var prefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefServic
 var Request = require("sdk/request").Request;
 var tabs = require("sdk/tabs");
 
-var tickers = new Array(); // Store all tickers here
-// Initialize tickers container
-tickers['BitStampUSD'] = null;
-tickers['BTCeUSD'] = null;
-tickers['KrakenUSD'] = null;
-tickers['CoinDeskUSD'] = null;
-tickers['CoinbaseUSD'] = null;
-tickers['CampBXUSD'] = null;
-tickers['BitPayUSD'] = null;
-tickers['TheRockTradingUSD'] = null;
-tickers['BitFinexUSD'] = null;
-tickers['BTCeEUR'] = null;
-tickers['KrakenEUR'] = null;
-tickers['CoinDeskEUR'] = null;
-tickers['BitPayEUR'] = null;
-tickers['BitonicEUR'] = null;
-tickers['Bitcoin-CentralEUR'] = null;
-tickers['TheRockTradingEUR'] = null;
-tickers['CoinDeskGBP'] = null;
-tickers['LocalbitcoinsGBP'] = null;
-tickers['BittyliciousGBP'] = null;
-tickers['BitPayGBP'] = null;
-tickers['BitcurexPLN'] = null;
-tickers['CaVirTexCAD'] = null;
-tickers['BTCChinaCNY'] = null;
-tickers['MercadoBitcoinBRL'] = null;
-tickers['BTCTurkTRY'] = null;
-tickers['BitcoinVenezuelaVEF'] = null;
-tickers['LocalbitcoinsVEF'] = null;
-tickers['CoinbaseVEF'] = null;
-tickers['BitcoinVenezuelaARS'] = null;
-tickers['LocalbitcoinsARS'] = null;
-tickers['CoinbaseARS'] = null;
-tickers['BitexARS'] = null;
-tickers['LocalbitcoinsCLP'] = null;
-tickers['BitsoMXN'] = null;
-tickers['BitXZAR'] = null;
-tickers['CoinbaseZAR'] = null;
-tickers['Bit2CILS'] = null;
-tickers['BTCeLitecoin'] = null;
-tickers['KrakenLitecoin'] = null;
-tickers['VircurexLitecoin'] = null;
-tickers['BTCeLitecoinUSD'] = null;
-tickers['BTCeLitecoinEUR'] = null;
-tickers['VircurexWorldcoin'] = null;
-tickers['CryptsyDogecoin'] = null;
-tickers['KrakenDogecoin'] = null;
-tickers['BTCeNamecoinUSD'] = null;
-tickers['CryptsyAuroracoin'] = null;
-tickers['CryptsyBlackcoin'] = null;
-tickers['CryptsyNxt'] = null;
-tickers['PoloniexNxt'] = null;
-tickers['PoloniexBitshares'] = null;
-tickers['KrakenRipple'] = null;
-tickers['PoloniexMaidsafe'] = null;
-tickers['PoloniexBitcoindark'] = null;
-tickers['PoloniexMonero'] = null;
-tickers['CryptsyDashBTC'] = null;
-tickers['CryptsyDashUSD'] = null;
-tickers['BitFinexDashBTC'] = null;
-tickers['BitFinexDashUSD'] = null;
-tickers['PoloniexBurst'] = null;
-const MAX_TICKERS = Object.keys(tickers).length;
+var tickers = {
+  'BitStampUSD':null,
+  'BTCeUSD':null,
+  'KrakenUSD':null,
+  'CoinDeskUSD':null,
+  'CoinbaseUSD':null,
+  'CampBXUSD':null,
+  'BitPayUSD':null,
+  'TheRockTradingUSD':null,
+  'BitFinexUSD':null,
+  'BTCeEUR':null,
+  'KrakenEUR':null,
+  'CoinDeskEUR':null,
+  'BitPayEUR':null,
+  'BitonicEUR':null,
+  'Bitcoin-CentralEUR':null,
+  'TheRockTradingEUR':null,
+  'CoinDeskGBP':null,
+  'LocalbitcoinsGBP':null,
+  'BittyliciousGBP':null,
+  'BitPayGBP':null,
+  'BitcurexPLN':null,
+  'CaVirTexCAD':null,
+  'BTCChinaCNY':null,
+  'MercadoBitcoinBRL':null,
+  'BTCTurkTRY':null,
+  'BitcoinVenezuelaVEF':null,
+  'LocalbitcoinsVEF':null,
+  'CoinbaseVEF':null,
+  'BitcoinVenezuelaARS':null,
+  'LocalbitcoinsARS':null,
+  'CoinbaseARS':null,
+  'BitexARS':null,
+  'LocalbitcoinsCLP':null,
+  'BitsoMXN':null,
+  'BitXZAR':null,
+  'CoinbaseZAR':null,
+  'Bit2CILS':null,
+  'BTCeLitecoin':null,
+  'KrakenLitecoin':null,
+  'VircurexLitecoin':null,
+  'BTCeLitecoinUSD':null,
+  'BTCeLitecoinEUR':null,
+  'VircurexWorldcoin':null,
+  'CryptsyDogecoin':null,
+  'KrakenDogecoin':null,
+  'BTCeNamecoinUSD':null,
+  'CryptsyAuroracoin':null,
+  'CryptsyBlackcoin':null,
+  'CryptsyNxt':null,
+  'PoloniexNxt':null,
+  'PoloniexBitshares':null,
+  'KrakenRipple':null,
+  'PoloniexMaidsafe':null,
+  'PoloniexBitcoindark':null,
+  'PoloniexMonero':null,
+  'CryptsyDashBTC':null,
+  'CryptsyDashUSD':null,
+  'BitFinexDashBTC':null,
+  'BitFinexDashUSD':null,
+  'PoloniexBurst':null
+};// Store all tickers here
+
 const DEBUG = false
 var ticker_creators = new Array(); // Store all tickers creators here
 var ordered_tickers = new Array();
@@ -86,13 +86,27 @@ var last_ticker_position = 0;
 exports.main = function() {
 
   var tickers_frame = ui.Frame({
-    url: "./index.html"
-  });
+    url: "./index.html",
+    /*onMessage: function() {
+      updateTicker(e.data);
+    }*/
+  })
+
+  function updateTicker(tickerData) {
+    tickers_frame.postMessage(tickerData, tickers_frame.url);
+  }
 
   var toolbar = ui.Toolbar({
     title: "Bitcoin Price Ticker",
     items: [tickers_frame]
-  });
+  })
+
+  setTimeout(function() {
+    //tickers_frame.postMessage(message, *);
+    //tickers_frame.port.emit("updateTicker", 'ID0', 'is enabled', 'a color')
+    //updateTicker({"ID0", "is enabled", "a color"})
+    updateTicker("ID0")
+  }, 1000)
 /*
   var getBackgroundColor = function(id) {
     var low_id = id.toLowerCase();
