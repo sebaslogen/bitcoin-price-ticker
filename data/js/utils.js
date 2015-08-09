@@ -4,10 +4,10 @@ $(function() {
 })
 
 function newEmptyTicker(tickerId) {
-  return jQuery('<div/>', {
-    id: tickerId,
-    class: 'ticker',
-    text: 'New emtpy ticker for ' + tickerId
+  return $( "<div></div>", {
+    "id": tickerId,
+    "class": "ticker",
+    "text": 'New emtpy ticker for ' + tickerId
   })
 }
 
@@ -21,14 +21,19 @@ window.addEventListener("message", updateTicker, false);
 
 function updateTicker(message) {
   var data = message.data
-  //$('.ticker').text(data.id + " " + data.enabled + " with " + data.color)
-  var ticker = $('#tickers-body').append(newEmptyTicker(data.id))
-  ticker.text(ticker.text() + " " + data.enabled + " with " + data.color)
+  // Initialize View
+  var tickerView = newEmptyTicker(data.id)
+  $('#tickers-body').append(tickerView)
+  tickerView.text(tickerView.text() + " " + data.enabled + " with " + data.color)
+
+  // Initialize Data Model
+  tickerModel = createTicker('BitStampUSD')
+  tickerModel.initialize()
 }
 
 /*
 // Update content of ticker widget //
-self.port.on("updateContent", function(new_content) {
+self.port.on("updateContent", function(new_content) { 
   if (new_content != null) {
     $('#ticker-data').text(new_content);
   }
@@ -52,3 +57,33 @@ self.port.on("updateStyle", function(color, font_size, background_color) {
   }
 });
 */
+
+function createTicker(id) {
+  var ticker = {
+    id: id,
+    exchangeName: null,
+    currency: null,
+    baseCurrency: null,
+    url: null,
+    jsonPath: null,
+    color: null,
+    // Retrieve tickers provider and configuration data from repository
+    initialize: function() {
+      var data = getDataProvider(ticker.id)
+      if (data) {
+        ticker.exchangeName = data.exchangeName
+        ticker.currency = data.currency
+        ticker.baseCurrency = data.baseCurrency
+        ticker.url = data.url
+        ticker.jsonPath = data.jsonPath
+        ticker.color = data.color
+        $('.ticker').text(ticker.id + ' ' + ticker.exchangeName + ' internal')
+      }
+    }
+  }
+  return ticker
+}
+
+function getDataProvider(id) {
+  return tickersRepository[id]
+}
