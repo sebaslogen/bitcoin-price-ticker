@@ -1,3 +1,6 @@
+const DEBUG = false
+var tickerModels = {}
+
 $(function() {
   loadTickers()
   $('.ticker').text('JS test externo')
@@ -17,10 +20,18 @@ function loadTickers() {
   $('#tickers-body').append(newTicker)
 }*/
 
-window.addEventListener("message", updateTicker, false);
+window.addEventListener("message", handleAddonMessages, false);
+
+function handleAddonMessages(message) {
+  if (message.data.type == "updateTicker" && (! (message.data.data == "undefined")) ) {
+    updateTicker(message.data.data)
+  } else if (message.data.type == "updateTickerPrice") {
+    updateTickerPrice(message.data.data)
+  }
+}
 
 function updateTicker(message) {
-  var data = message.data
+  var data = message
   // Initialize View
   var tickerView = newEmptyTicker(data.id)
   $('#tickers-body').append(tickerView)
@@ -29,6 +40,8 @@ function updateTicker(message) {
   // Initialize Data Model
   tickerModel = createTicker('BitStampUSD')
   tickerModel.initialize()
+  tickerModels[tickerModel.id] = tickerModel
+  getLatestData(tickerModel.id, tickerModel.updatePrice)
 }
 
 /*
@@ -61,29 +74,76 @@ self.port.on("updateStyle", function(color, font_size, background_color) {
 function createTicker(id) {
   var ticker = {
     id: id,
+    enabled: false,
     exchangeName: null,
     currency: null,
     baseCurrency: null,
-    url: null,
-    jsonPath: null,
     color: null,
+    price: 0,
     // Retrieve tickers provider and configuration data from repository
     initialize: function() {
-      var data = getDataProvider(ticker.id)
+      var data = getProvider(ticker.id)
       if (data) {
         ticker.exchangeName = data.exchangeName
         ticker.currency = data.currency
         ticker.baseCurrency = data.baseCurrency
-        ticker.url = data.url
-        ticker.jsonPath = data.jsonPath
         ticker.color = data.color
-        $('.ticker').text(ticker.id + ' ' + ticker.exchangeName + ' internal')
+        $('.ticker').text(ticker.id + ' ' + ticker.exchangeName + ' internal') // DEBUG line TODO remove
+      }
+    },
+    updatePrice: function(newPrice) {
+      if (newPrice > 0) {
+        ticker.price = newPrice
+        // TODO Notify view
+        $('.ticker').text(ticker.id + ' ' + ticker.exchangeName + ' - price ' + ticker.price) // DEBUG line TODO remove
       }
     }
   }
   return ticker
 }
 
-function getDataProvider(id) {
+function getProvider(id) {
   return tickersRepository[id]
+}
+
+function getLatestData(id) {
+  data = getProvider(id)
+  if (data) {
+    url = data.url
+    jsonPath = data.jsonPath
+    $('.ticker').text(' Getting ' + url) // DEBUG line TODO remove
+    window.parent.postMessage({
+      "id" : id,
+      "url" : url,
+      "jsonPath" : jsonPath
+    }, "*");
+    // $.get("http://www.w3schools.com/jquery/demo_test.asp", function(data, status){
+    //     $('.ticker').text(' DEBUG1' ); // DEBUG line TODO remove
+    // });
+    // $.get( url, function( response ) {
+    //   $('.ticker').text(' DEBUG1' ); // DEBUG line TODO remove
+    //   // Parse JSON answer
+    //   if ((response != null) && (response.json != null)) {
+    //     var price = response.json
+    //     for (var i = 0; i < jsonPath.length; i++) { // Parse JSON path
+    //       if (typeof price[jsonPath[i]] == "undefined") {
+    //         if (DEBUG) console.log("BitcoinPriceTicker error loading ticker " + id + ", URL not responding:" + url)
+    //         return
+    //       }
+    //       price = price[jsonPath[i]]
+    //       callback(price)
+    //     }
+    //   }
+    // }).fail(function( jqXHR, textStatus, errorThrown ) {
+    //   $('.ticker').text(' error' + textStatus + '-' + errorThrown); // DEBUG line TODO remove
+    // });
+  }
+}
+
+function updateTickerPrice(data) {
+  if (! (data.id == "undefined" || data.price == "undefined")) {
+    if (tickerModels[data.id]) {
+      tickerModels[data.id].updatePrice(data.price)
+    }
+  }
 }

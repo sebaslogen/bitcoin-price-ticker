@@ -88,13 +88,48 @@ exports.main = function() {
 
   var tickers_frame = ui.Frame({
     url: './index.html',
-    /*onMessage: function() {
-      updateTicker(e.data);
-    }*/
+    onMessage: fetchData
   })
 
+  function fetchData(e) {
+    console.log("Request received!")
+    if (e.data == "undefined" || e.data.id == "undefined" ||
+        e.data.url == "undefined" || e.data.jsonPath == "undefined") {
+      return
+    }
+    var id = e.data.id
+    var url = e.data.url
+    var jsonPath = e.data.jsonPath
+    Request({
+      url: url,
+      onComplete: function (response) {
+        if ((response != null) && (response.json != null)) {
+          var price = response.json
+          for (var i = 0; i < jsonPath.length; i++) { // Parse JSON path
+            if (typeof price[jsonPath[i]] == "undefined") {
+              if (DEBUG) console.log("BitcoinPriceTicker error loading ticker " + id + ", URL not responding:" + url)
+              return
+            }
+            price = price[jsonPath[i]]
+            console.log("Price received: "+price)
+            e.source.postMessage({
+              "type": "updateTickerPrice",
+              "data": {
+                "id": id,
+                "price": price
+              }
+            }, e.origin)
+          }
+        }
+      }
+    }).get();
+  }
+
   function updateTicker(tickerData) {
-    tickers_frame.postMessage(tickerData, tickers_frame.url);
+    tickers_frame.postMessage({
+      "type": "updateTicker",
+      "data": tickerData
+    }, tickers_frame.url);
   }
 
   var toolbar = ui.Toolbar({
