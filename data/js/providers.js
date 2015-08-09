@@ -1,3 +1,4 @@
+// Configuration data for each possible ticker ID. These IDs are declared in file index.js
 var tickersRepository = {
   // US Dollar prices
   'BitStampUSD': { exchangeName:'BitStamp', currency:'$', baseCurrency:'\u0243', url:"https://www.bitstamp.net/api/ticker/", jsonPath:['last']},

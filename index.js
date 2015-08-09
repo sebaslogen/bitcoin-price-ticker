@@ -15,6 +15,7 @@ var prefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefServic
 var Request = require("sdk/request").Request;
 var tabs = require("sdk/tabs");
 
+// Ids of all tickers available. Ticker configuration for each ID is in file data/js/providers.js
 var tickers = {
   'BitStampUSD':null,
   'BTCeUSD':null,
