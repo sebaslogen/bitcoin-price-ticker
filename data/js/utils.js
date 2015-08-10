@@ -1,10 +1,11 @@
 const DEBUG = false
-var tickerModels = {}
+var tickers = { "models": {}, "views": {}, "controllers": {}}
+var counter = 0 // DEBUG line TODO remove
 
 window.addEventListener("message", handleAddonMessages, false);
 
 function handleAddonMessages(message) {
-  if (message.data.type == "updateTickerConfiguration" && (! (message.data.data == "undefined")) ) {
+  if (message.data.type == "updateTickerConfiguration" && (typeof message.data.data != "undefined") ) {
     updateTickerConfiguration(message.data.data)
   } else if (message.data.type == "updateTickerModelPrice") {
     updateTickerModelPrice(message.data.data)
@@ -13,46 +14,52 @@ function handleAddonMessages(message) {
 
 function updateTickerConfiguration(message) {
   var data = message
+  var id = data.id
 
   // Initialize View
-  var tickerView = getTickerView(data.id)
-  tickerView.text(tickerView.text() + " " + data.enabled + " with " + data.color) // DEBUG line TODO remove
+  tickers["views"][id] = getTickerView(id)
 
   // Initialize Data Model
   var tickerModel = getTickerModel(data)
+  tickers["models"][id] = tickerModel
+
+  // Initialize Controllers
+  tickers["controllers"][id] = getTickerController(tickerModel)
 }
 
 // Models
 
 function getTickerModel(data) {
-  var tickerModel = tickerModels[data.id]
+  var tickerModel = tickers["models"][data.id]
   if (tickerModel) {
     updateTickerModelConfiguration(tickerModel, data)
   } else {
-    tickerModel = createTickerModel(data)
+    tickerModel = createAndConfigureTickerModel(data)
   }
   return tickerModel;
 }
 
-function createTickerModel(data) {
-  var tickerModel = createTicker(data.id)
-  tickerModel.initialize(updateView)
+function createAndConfigureTickerModel(data) {
+  var tickerModel = createTickerModel(data.id)
+  tickerModel.initialize(updateView, getLatestData)
   updateTickerModelConfiguration(tickerModel, data)
-  tickerModels[tickerModel.id] = tickerModel
+  tickers["models"][tickerModel.id] = tickerModel
   return tickerModel
 }
 
 function updateTickerModelConfiguration(tickerModel, data) {
+  if (data.enabled) {
+    tickerModel.enabled = true
+  }
   if (data.color) {
     tickerModel.color = data.color
   }
-  if (data.enabled) {
-    tickerModel.enabled = true
-    getLatestData(tickerModel.id, tickerModel.updatePrice)
+  if (data.updateInterval) {
+    tickerModel.updateInterval = data.updateInterval
   }
 }
 
-function createTicker(id) {
+function createTickerModel(id) {
   var ticker = {
     id: id,
     enabled: false,
@@ -61,17 +68,20 @@ function createTicker(id) {
     baseCurrency: null,
     color: null,
     price: 0,
+    priceUpdater: null,
+    updateInterval: 0,
     observers: [],
     // Retrieve tickers provider and configuration data from repository
-    initialize: function(observer) {
+    initialize: function(observer, priceUpdaterFunction) {
       ticker.observers.push(observer)
+      ticker.priceUpdater = priceUpdaterFunction
       var data = getProvider(ticker.id)
       if (data) {
         ticker.exchangeName = data.exchangeName
         ticker.currency = data.currency
         ticker.baseCurrency = data.baseCurrency
         ticker.color = data.color
-        $('.ticker').text(ticker.id + ' ' + ticker.exchangeName + ' internal') // DEBUG line TODO remove
+        $('.ticker').text(ticker.id + ' ' + ticker.exchangeName + ' initialized') // DEBUG line TODO remove
       }
     },
     updatePrice: function(newPrice) {
@@ -80,18 +90,19 @@ function createTicker(id) {
         for (var i = 0; i < ticker.observers.length; i++) {
           ticker.observers[i](ticker) // Notify observers
         }
-        // TODO Notify view
-        
       }
+    },
+    requestPriceUpdate: function() {
+      ticker.priceUpdater(ticker.id, ticker.updatePrice)
     }
   }
   return ticker
 }
 
 function updateTickerModelPrice(data) {
-  if (! (data.id == "undefined" || data.price == "undefined")) {
-    if (tickerModels[data.id]) {
-      tickerModels[data.id].updatePrice(data.price)
+  if ((typeof data.id != "undefined") && (typeof data.price != "undefined")) {
+    if (tickers["models"][data.id]) {
+      tickers["models"][data.id].updatePrice(data.price)
     }
   }
 }
@@ -105,7 +116,7 @@ function getLatestData(id) {
   if (data) {
     var url = data.url
     var jsonPath = data.jsonPath
-    $('.ticker').text(' Getting ' + url) // DEBUG line TODO remove
+    $('.ticker').text(' Getting ' + url + '-' + jsonPath.length) // DEBUG line TODO remove
     window.parent.postMessage({
       "id" : id,
       "url" : url,
@@ -137,10 +148,33 @@ function newViewTicker(tickerId) {
   })
 }
 
+// Controller
+
+function getTickerController(tickerModel) {
+  var tickerController = tickers["controllers"][tickerModel.id]
+  if (tickerController) {
+    
+  } else {
+    tickerController = createTickerController(tickerModel.requestPriceUpdate, tickerModel.updateInterval)
+  }
+  return tickerController
+}
+
+function createTickerController(requestPriceUpdate, intervalSeconds) {
+  var timerHandler = null
+  if (intervalSeconds > 0) {
+    timerHandler = setInterval(requestPriceUpdate, (intervalSeconds * 1000))
+  }
+  return {
+    id: tickerModel.id,
+    timer: timerHandler
+  }
+}
+
 function updateView(ticker) {
   var tickerView = $(".ticker#"+ticker.id)
   if (tickerView.size() == 1) {
-    tickerView.text(ticker.id + ' ' + ticker.price) // DEBUG line TODO remove
+    tickerView.text(ticker.id + ' ' + ticker.price + ' ' + ++counter) // DEBUG line TODO remove
   }
 }
 

@@ -92,7 +92,7 @@ exports.main = function() {
   })
 
   function fetchURLData(e) {
-    console.log("Request received!")
+    console.log("Request received!"+JSON.stringify(e)) // DEBUG line TODO remove
     if (e.data == "undefined" || e.data.id == "undefined" ||
         e.data.url == "undefined" || e.data.jsonPath == "undefined") {
       return
@@ -100,26 +100,38 @@ exports.main = function() {
     var id = e.data.id
     var url = e.data.url
     var jsonPath = e.data.jsonPath
+    if (typeof jsonPath.length == "undefined") { // Array has been transformed into JSON
+      var newJsonPath = []
+      for (i in jsonPath) {
+        newJsonPath.push(jsonPath[i])
+      }
+      if (newJsonPath.length > 0) {
+        jsonPath = newJsonPath
+      }
+    }
+    console.log("Requesting "+url) // DEBUG line TODO remove
     Request({
       url: url,
       onComplete: function (response) {
         if ((response != null) && (response.json != null)) {
+          console.log("Data received, path size:"+jsonPath.length+"-"+jsonPath)
           var price = response.json
           for (var i = 0; i < jsonPath.length; i++) { // Parse JSON path
+            console.log("Iterating over data received")
             if (typeof price[jsonPath[i]] == "undefined") {
               if (DEBUG) console.log("BitcoinPriceTicker error loading ticker " + id + ", URL not responding:" + url)
               return
             }
             price = price[jsonPath[i]]
-            console.log("Price received: "+price)
-            e.source.postMessage({
-              "type": "updateTickerModelPrice",
-              "data": {
-                "id": id,
-                "price": price
-              }
-            }, e.origin)
           }
+          console.log("Price received: "+price) // DEBUG line TODO remove
+          e.source.postMessage({
+            "type": "updateTickerModelPrice",
+            "data": {
+              "id": id,
+              "price": price
+            }
+          }, e.origin)
         }
       }
     }).get();
@@ -138,7 +150,7 @@ exports.main = function() {
   })
 
   setTimeout(function() {
-    tickerData = {'id' : 'BitStampUSD', 'enabled' : true, 'color' : '#FF0000'}
+    tickerData = {'id': 'BTCeUSD', 'enabled': true, 'color': '#FF0000', 'updateInterval': 5}
     updateTickerConfiguration(tickerData)
   }, 1000)
 /*
