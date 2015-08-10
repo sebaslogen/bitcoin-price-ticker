@@ -28,7 +28,7 @@ function updateTickerConfiguration(message) {
   tickerView.text(tickerView.text() + " " + data.enabled + " with " + data.color) // DEBUG line TODO remove
 
   // Initialize Data Model
-  tickerModel = createTicker('BitStampUSD')
+  var tickerModel = createTicker('BitStampUSD')
   tickerModel.initialize(updateView)
   tickerModels[tickerModel.id] = tickerModel
   if (data.color) {
@@ -101,10 +101,10 @@ function createTicker(id) {
       if (newPrice > 0) {
         ticker.price = newPrice
         for (var i = 0; i < ticker.observers.length; i++) {
-          ticker.observers[i](ticker)
+          ticker.observers[i](ticker) // Notify observers
         }
         // TODO Notify view
-        $('.ticker').text(ticker.id + ' ' + ticker.exchangeName + ' - price ' + ticker.price) // DEBUG line TODO remove
+        
       }
     }
   }
@@ -116,10 +116,10 @@ function getProvider(id) {
 }
 
 function getLatestData(id) {
-  data = getProvider(id)
+  var data = getProvider(id)
   if (data) {
-    url = data.url
-    jsonPath = data.jsonPath
+    var url = data.url
+    var jsonPath = data.jsonPath
     $('.ticker').text(' Getting ' + url) // DEBUG line TODO remove
     window.parent.postMessage({
       "id" : id,
@@ -130,5 +130,9 @@ function getLatestData(id) {
 }
 
 function updateView(ticker) {
+  $(".ticker#"+ticker.id)
+  if (.size()) {
 
+  }
+  $('.ticker').text(ticker.id + ' ' + ticker.exchangeName + ' - price ' + ticker.price) // DEBUG line TODO remove
 }
