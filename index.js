@@ -113,7 +113,7 @@ exports.main = function() {
             price = price[jsonPath[i]]
             console.log("Price received: "+price)
             e.source.postMessage({
-              "type": "updateTickerPrice",
+              "type": "updateTickerModelPrice",
               "data": {
                 "id": id,
                 "price": price

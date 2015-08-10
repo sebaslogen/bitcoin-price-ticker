@@ -1,11 +1,6 @@
 const DEBUG = false
 var tickerModels = {}
 
-$(function() {
-  loadTickers()
-  $('.ticker').text('JS test externo')
-})
-
 function newEmptyTicker(tickerId) {
   return $( "<div></div>", {
     "id": tickerId,
@@ -14,19 +9,13 @@ function newEmptyTicker(tickerId) {
   })
 }
 
-/* This may happen in the addon index.js
-function loadTickers() {
-  var newTicker = newEmptyTicker()
-  $('#tickers-body').append(newTicker)
-}*/
-
 window.addEventListener("message", handleAddonMessages, false);
 
 function handleAddonMessages(message) {
   if (message.data.type == "updateTickerConfiguration" && (! (message.data.data == "undefined")) ) {
     updateTickerConfiguration(message.data.data)
-  } else if (message.data.type == "updateTickerPrice") {
-    updateTickerPrice(message.data.data)
+  } else if (message.data.type == "updateTickerModelPrice") {
+    updateTickerModelPrice(message.data.data)
   }
 }
 
@@ -40,7 +29,7 @@ function updateTickerConfiguration(message) {
 
   // Initialize Data Model
   tickerModel = createTicker('BitStampUSD')
-  tickerModel.initialize()
+  tickerModel.initialize(updateView)
   tickerModels[tickerModel.id] = tickerModel
   if (data.color) {
     tickerModel.color = data.color
@@ -48,6 +37,14 @@ function updateTickerConfiguration(message) {
   if (data.enabled) {
     tickerModel.enabled = true
     getLatestData(tickerModel.id, tickerModel.updatePrice)
+  }
+}
+
+function updateTickerModelPrice(data) {
+  if (! (data.id == "undefined" || data.price == "undefined")) {
+    if (tickerModels[data.id]) {
+      tickerModels[data.id].updatePrice(data.price)
+    }
   }
 }
 
@@ -87,8 +84,10 @@ function createTicker(id) {
     baseCurrency: null,
     color: null,
     price: 0,
+    observers: [],
     // Retrieve tickers provider and configuration data from repository
-    initialize: function() {
+    initialize: function(observer) {
+      ticker.observers.push(observer)
       var data = getProvider(ticker.id)
       if (data) {
         ticker.exchangeName = data.exchangeName
@@ -101,6 +100,9 @@ function createTicker(id) {
     updatePrice: function(newPrice) {
       if (newPrice > 0) {
         ticker.price = newPrice
+        for (var i = 0; i < ticker.observers.length; i++) {
+          ticker.observers[i](ticker)
+        }
         // TODO Notify view
         $('.ticker').text(ticker.id + ' ' + ticker.exchangeName + ' - price ' + ticker.price) // DEBUG line TODO remove
       }
@@ -124,33 +126,9 @@ function getLatestData(id) {
       "url" : url,
       "jsonPath" : jsonPath
     }, "*");
-    // $.get("http://www.w3schools.com/jquery/demo_test.asp", function(data, status){
-    //     $('.ticker').text(' DEBUG1' ); // DEBUG line TODO remove
-    // });
-    // $.get( url, function( response ) {
-    //   $('.ticker').text(' DEBUG1' ); // DEBUG line TODO remove
-    //   // Parse JSON answer
-    //   if ((response != null) && (response.json != null)) {
-    //     var price = response.json
-    //     for (var i = 0; i < jsonPath.length; i++) { // Parse JSON path
-    //       if (typeof price[jsonPath[i]] == "undefined") {
-    //         if (DEBUG) console.log("BitcoinPriceTicker error loading ticker " + id + ", URL not responding:" + url)
-    //         return
-    //       }
-    //       price = price[jsonPath[i]]
-    //       callback(price)
-    //     }
-    //   }
-    // }).fail(function( jqXHR, textStatus, errorThrown ) {
-    //   $('.ticker').text(' error' + textStatus + '-' + errorThrown); // DEBUG line TODO remove
-    // });
   }
 }
 
-function updateTickerPrice(data) {
-  if (! (data.id == "undefined" || data.price == "undefined")) {
-    if (tickerModels[data.id]) {
-      tickerModels[data.id].updatePrice(data.price)
-    }
-  }
+function updateView(ticker) {
+
 }
