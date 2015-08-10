@@ -151,8 +151,8 @@ function newViewTicker(tickerId) {
 
 function getTickerController(tickerModel) {
   var tickerController = tickers["controllers"][tickerModel.id]
-  if (tickerController) {
-    
+  if (tickerController) { // TODO Review this nrach, do we want to restart the interval when it's already runnning on getTickerController()?
+    tickerController.timer = startAutoPriceUpdate(tickerModel.id, tickerModel.requestPriceUpdate, tickerModel.updateInterval)
   } else {
     tickerController = createTickerController(tickerModel.id, tickerModel.requestPriceUpdate, tickerModel.updateInterval)
   }
@@ -170,11 +170,11 @@ function startAutoPriceUpdate(tickerId, requestPriceUpdate, intervalSeconds) {
   if (tickers["controllers"][tickerId] && tickers["controllers"][tickerId][timer]) {
     clearInterval(tickers["controllers"][tickerId][timer]); // Stop automatic refresh of ticker
   }
-  var timerHandler = null
+  var timer = null
   if (intervalSeconds > 0) {
-    timerHandler = setInterval(requestPriceUpdate, (intervalSeconds * 1000)) // Start periodic auto update
+    timer = setInterval(requestPriceUpdate, (intervalSeconds * 1000)) // Start periodic auto update
   }
-  return timerHandler
+  return timer
 }
 
 function updateView(ticker) {
