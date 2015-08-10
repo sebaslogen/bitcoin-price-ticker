@@ -130,9 +130,8 @@ function getLatestData(id) {
 }
 
 function updateView(ticker) {
-  $(".ticker#"+ticker.id)
-  if (.size()) {
-
+  var tickerView = $(".ticker#"+ticker.id)
+  if (tickerView.size() == 1) {
+    tickerView.text(ticker.id + ' ' + ticker.price) // DEBUG line TODO remove
   }
-  $('.ticker').text(ticker.id + ' ' + ticker.exchangeName + ' - price ' + ticker.price) // DEBUG line TODO remove
 }
