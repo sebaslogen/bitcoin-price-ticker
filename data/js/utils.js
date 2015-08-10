@@ -43,7 +43,6 @@ function createAndConfigureTickerModel(data) {
   var tickerModel = createTickerModel(data.id)
   tickerModel.initialize(updateView, getLatestData)
   updateTickerModelConfiguration(tickerModel, data)
-  tickers["models"][tickerModel.id] = tickerModel
   return tickerModel
 }
 
@@ -155,20 +154,27 @@ function getTickerController(tickerModel) {
   if (tickerController) {
     
   } else {
-    tickerController = createTickerController(tickerModel.requestPriceUpdate, tickerModel.updateInterval)
+    tickerController = createTickerController(tickerModel.id, tickerModel.requestPriceUpdate, tickerModel.updateInterval)
   }
   return tickerController
 }
 
-function createTickerController(requestPriceUpdate, intervalSeconds) {
+function createTickerController(tickerId, requestPriceUpdate, intervalSeconds) {
+  return {
+    id: tickerId,
+    timer: startAutoPriceUpdate(tickerId, requestPriceUpdate, intervalSeconds)
+  }
+}
+
+function startAutoPriceUpdate(tickerId, requestPriceUpdate, intervalSeconds) {
+  if (tickers["controllers"][tickerId] && tickers["controllers"][tickerId][timer]) {
+    clearInterval(tickers["controllers"][tickerId][timer]); // Stop automatic refresh of ticker
+  }
   var timerHandler = null
   if (intervalSeconds > 0) {
-    timerHandler = setInterval(requestPriceUpdate, (intervalSeconds * 1000))
+    timerHandler = setInterval(requestPriceUpdate, (intervalSeconds * 1000)) // Start periodic auto update
   }
-  return {
-    id: tickerModel.id,
-    timer: timerHandler
-  }
+  return timerHandler
 }
 
 function updateView(ticker) {
