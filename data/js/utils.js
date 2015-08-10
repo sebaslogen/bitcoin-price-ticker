@@ -15,13 +15,34 @@ function updateTickerConfiguration(message) {
   var data = message
 
   // Initialize View
-  var tickerView = createTickerView(data.id)
+  var tickerView = getTickerView(data.id)
   tickerView.text(tickerView.text() + " " + data.enabled + " with " + data.color) // DEBUG line TODO remove
 
   // Initialize Data Model
-  var tickerModel = createTicker('BitStampUSD')
+  var tickerModel = getTickerModel(data)
+}
+
+// Models
+
+function getTickerModel(data) {
+  var tickerModel = tickerModels[data.id]
+  if (tickerModel) {
+    updateTickerModelConfiguration(tickerModel, data)
+  } else {
+    tickerModel = createTickerModel(data)
+  }
+  return tickerModel;
+}
+
+function createTickerModel(data) {
+  var tickerModel = createTicker(data.id)
   tickerModel.initialize(updateView)
+  updateTickerModelConfiguration(tickerModel, data)
   tickerModels[tickerModel.id] = tickerModel
+  return tickerModel
+}
+
+function updateTickerModelConfiguration(tickerModel, data) {
   if (data.color) {
     tickerModel.color = data.color
   }
@@ -30,8 +51,6 @@ function updateTickerConfiguration(message) {
     getLatestData(tickerModel.id, tickerModel.updatePrice)
   }
 }
-
-// Models
 
 function createTicker(id) {
   var ticker = {
@@ -97,12 +116,17 @@ function getLatestData(id) {
 
 // Views
 
-function createTickerView(id) {
+function getTickerView(id) {
   var tickerView = $(".ticker#"+id)
   if (tickerView.size() == 0) {
-    tickerView = newViewTicker(id)
-    $('#tickers-body').append(tickerView)
+    tickerView = createTickerView(id)
   }
+  return tickerView
+}
+
+function createTickerView(id) {
+  var tickerView = newViewTicker(id)
+  $('#tickers-body').append(tickerView)
   return tickerView
 }
 function newViewTicker(tickerId) {
