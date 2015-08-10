@@ -125,9 +125,9 @@ exports.main = function() {
     }).get();
   }
 
-  function updateTicker(tickerData) {
+  function updateTickerConfiguration(tickerData) {
     tickers_frame.postMessage({
-      "type": "updateTicker",
+      "type": "updateTickerConfiguration",
       "data": tickerData
     }, tickers_frame.url);
   }
@@ -139,7 +139,7 @@ exports.main = function() {
 
   setTimeout(function() {
     tickerData = {'id' : 'BitStampUSD', 'enabled' : true, 'color' : '#FF0000'}
-    updateTicker(tickerData)
+    updateTickerConfiguration(tickerData)
   }, 1000)
 /*
   var getBackgroundColor = function(id) {

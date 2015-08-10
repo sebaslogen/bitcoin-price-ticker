@@ -23,25 +23,32 @@ function loadTickers() {
 window.addEventListener("message", handleAddonMessages, false);
 
 function handleAddonMessages(message) {
-  if (message.data.type == "updateTicker" && (! (message.data.data == "undefined")) ) {
-    updateTicker(message.data.data)
+  if (message.data.type == "updateTickerConfiguration" && (! (message.data.data == "undefined")) ) {
+    updateTickerConfiguration(message.data.data)
   } else if (message.data.type == "updateTickerPrice") {
     updateTickerPrice(message.data.data)
   }
 }
 
-function updateTicker(message) {
+function updateTickerConfiguration(message) {
   var data = message
+
   // Initialize View
   var tickerView = newEmptyTicker(data.id)
   $('#tickers-body').append(tickerView)
-  tickerView.text(tickerView.text() + " " + data.enabled + " with " + data.color)
+  tickerView.text(tickerView.text() + " " + data.enabled + " with " + data.color) // DEBUG line TODO remove
 
   // Initialize Data Model
   tickerModel = createTicker('BitStampUSD')
   tickerModel.initialize()
   tickerModels[tickerModel.id] = tickerModel
-  getLatestData(tickerModel.id, tickerModel.updatePrice)
+  if (data.color) {
+    tickerModel.color = data.color
+  }
+  if (data.enabled) {
+    tickerModel.enabled = true
+    getLatestData(tickerModel.id, tickerModel.updatePrice)
+  }
 }
 
 /*
