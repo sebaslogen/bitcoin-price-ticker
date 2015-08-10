@@ -88,10 +88,10 @@ exports.main = function() {
 
   var tickers_frame = ui.Frame({
     url: './index.html',
-    onMessage: fetchData
+    onMessage: fetchURLData
   })
 
-  function fetchData(e) {
+  function fetchURLData(e) {
     console.log("Request received!")
     if (e.data == "undefined" || e.data.id == "undefined" ||
         e.data.url == "undefined" || e.data.jsonPath == "undefined") {
