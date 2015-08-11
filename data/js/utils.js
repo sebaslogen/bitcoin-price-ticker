@@ -20,7 +20,7 @@ function updateTickerConfiguration(message) {
   tickers["views"][id] = getTickerView(id)
 
   // Initialize Data Model
-  var tickerModel = getTickerModel(data)
+  var tickerModel = getTickerModel(data, updateView)
   tickers["models"][id] = tickerModel
 
   // Initialize Controllers
@@ -29,19 +29,19 @@ function updateTickerConfiguration(message) {
 
 // Models
 
-function getTickerModel(data) {
+function getTickerModel(data, observer) {
   var tickerModel = tickers["models"][data.id]
   if (tickerModel) {
     updateTickerModelConfiguration(tickerModel, data)
   } else {
-    tickerModel = createAndConfigureTickerModel(data)
+    tickerModel = createAndConfigureTickerModel(data, observer)
   }
   return tickerModel;
 }
 
-function createAndConfigureTickerModel(data) {
+function createAndConfigureTickerModel(data, observer) {
   var tickerModel = createTickerModel(data.id)
-  tickerModel.initialize(updateView, getLatestData)
+  tickerModel.initialize(observer)
   updateTickerModelConfiguration(tickerModel, data)
   return tickerModel
 }
@@ -67,13 +67,11 @@ function createTickerModel(id) {
     baseCurrency: null,
     color: null,
     price: 0,
-    priceUpdater: null,
     updateInterval: 0,
     observers: [],
     // Retrieve tickers provider and configuration data from repository
-    initialize: function(observer, priceUpdaterFunction) {
+    initialize: function(observer) {
       ticker.observers.push(observer)
-      ticker.priceUpdater = priceUpdaterFunction
       var data = getProvider(ticker.id)
       if (data) {
         ticker.exchangeName = data.exchangeName
@@ -90,9 +88,6 @@ function createTickerModel(id) {
           ticker.observers[i](ticker) // Notify observers
         }
       }
-    },
-    requestPriceUpdate: function() {
-      ticker.priceUpdater(ticker.id, ticker.updatePrice)
     }
   }
   return ticker
@@ -147,21 +142,23 @@ function newViewTicker(tickerId) {
   })
 }
 
-// Controller
+// Controllers
 
 function getTickerController(tickerModel) {
   var tickerController = tickers["controllers"][tickerModel.id]
-  if (tickerController) { // TODO Review this nrach, do we want to restart the interval when it's already runnning on getTickerController()?
-    tickerController.timer = startAutoPriceUpdate(tickerModel.id, tickerModel.requestPriceUpdate, tickerModel.updateInterval)
-  } else {
+  if (typeof tickerController == "undefined") {
     tickerController = createTickerController(tickerModel.id, tickerModel.requestPriceUpdate, tickerModel.updateInterval)
   }
   return tickerController
 }
 
 function createTickerController(tickerId, requestPriceUpdate, intervalSeconds) {
+  var requestPriceUpdate = function() {
+    getLatestData(tickerId)
+  }
   return {
     id: tickerId,
+    priceUpdater: requestPriceUpdate,
     timer: startAutoPriceUpdate(tickerId, requestPriceUpdate, intervalSeconds)
   }
 }
