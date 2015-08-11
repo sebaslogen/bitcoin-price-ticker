@@ -150,7 +150,7 @@ exports.main = function() {
   })
 
   setTimeout(function() {
-    tickerData = {'id': 'BTCeUSD', 'enabled': true, 'color': '#FF0000', 'updateInterval': 5}
+    tickerData = {'id': 'BTCeUSD', 'enabled': true, 'color': '#FF0000', 'updateInterval': 3}
     updateTickerConfiguration(tickerData)
   }, 1000)
 /*
