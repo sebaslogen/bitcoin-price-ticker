@@ -78,7 +78,7 @@ function createTickerModel(id) {
         ticker.currency = data.currency
         ticker.baseCurrency = data.baseCurrency
         ticker.color = data.color
-        $('.ticker').text(ticker.id + ' ' + ticker.exchangeName + ' initialized') // DEBUG line TODO remove
+        $(".ticker#"+ticker.id).text(ticker.id + ' ' + ticker.exchangeName + ' initialized') // DEBUG line TODO remove
       }
     },
     updatePrice: function(newPrice) {
@@ -110,11 +110,11 @@ function getLatestData(id) {
   if (data) {
     var url = data.url
     var jsonPath = data.jsonPath
-    $('.ticker').text(' Getting ' + url + '-' + jsonPath.length) // DEBUG line TODO remove
+    $(".ticker#"+id).text(' Getting ' + url + '-' + jsonPath.length) // DEBUG line TODO remove
     window.parent.postMessage({
       "id" : id,
       "url" : url,
-      "jsonPath" : jsonPath
+      "jsonPath" : JSON.stringify(jsonPath)
     }, "*");
   }
 }

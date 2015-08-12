@@ -99,16 +99,7 @@ exports.main = function() {
     }
     var id = e.data.id
     var url = e.data.url
-    var jsonPath = e.data.jsonPath
-    if (typeof jsonPath.length == "undefined") { // Array has been transformed into JSON
-      var newJsonPath = []
-      for (i in jsonPath) {
-        newJsonPath.push(jsonPath[i])
-      }
-      if (newJsonPath.length > 0) {
-        jsonPath = newJsonPath
-      }
-    }
+    var jsonPath = JSON.parse(e.data.jsonPath)
     console.log("Requesting "+url) // DEBUG line TODO remove
     Request({
       url: url,
@@ -150,6 +141,8 @@ exports.main = function() {
 
   setTimeout(function() {
     tickerData = {'id': 'BTCeUSD', 'enabled': true, 'color': '#FF0000', 'updateInterval': 3}
+    updateTickerConfiguration(tickerData)
+    tickerData = {'id': 'BitStampUSD', 'enabled': true, 'color': '#FF0000', 'updateInterval': 5}
     updateTickerConfiguration(tickerData)
   }, 1000)
 /*
