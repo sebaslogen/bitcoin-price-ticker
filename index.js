@@ -1,4 +1,6 @@
-// The main module of the neoranga Add-on.
+const DEBUG = true
+
+// The main module of the Add-on.
 var ui = require('sdk/ui');
 const {Cc, Ci, Cu} = require("chrome");
 Cu.import("resource://gre/modules/AddonManager.jsm"); // Addon Manager required to know addon version
@@ -79,7 +81,6 @@ var tickers = {
   'PoloniexBurst':null
 };// Store all tickers here
 
-const DEBUG = false
 var ticker_creators = new Array(); // Store all tickers creators here
 var ordered_tickers = new Array();
 var last_ticker_position = 0;
@@ -138,7 +139,7 @@ exports.main = function() {
     }
     return null
   }
-//setupTicker('BitStampUSD', 'BitStamp', '$', '\u0243', '#FF0000', "https://www.bitstamp.net/api/ticker/", ['last']);
+
   function getTickerConfigurationData(tickerId) {
     var fontSize = getIntegerPreference("defaultFontSize");
     if (fontSize <= 0) {
@@ -168,7 +169,7 @@ exports.main = function() {
   }
 
   function fetchURLData(e) {
-    console.log("Request received!"+JSON.stringify(e)) // DEBUG line TODO remove
+    if (DEBUG) console.log("Request received from frame:" + JSON.stringify(e))
     if (e.data == "undefined" || e.data.id == "undefined" ||
         e.data.url == "undefined" || e.data.jsonPath == "undefined") {
       return
@@ -176,16 +177,16 @@ exports.main = function() {
     var id = e.data.id
     var url = e.data.url
     var jsonPath = JSON.parse(e.data.jsonPath)
-    console.log("Requesting "+url) // DEBUG line TODO remove
+    if (DEBUG) console.log("Requesting JSON data from " + url)
     Request({
       url: url,
       onComplete: function (response) {
         if ((response != null) && (response.json != null)) {
-          console.log("Data received, path size:"+jsonPath.length+"-"+jsonPath) // DEBUG line TODO remove
+          if (DEBUG) console.log("Data received, searching in document for path:" + jsonPath) // DEBUG line TODO remove
           var price = response.json
           for (var i = 0; i < jsonPath.length; i++) { // Parse JSON path
             if (typeof price[jsonPath[i]] == "undefined") {
-              if (DEBUG) console.log("BitcoinPriceTicker error loading ticker " + id + ", URL not responding:" + url)
+              if (DEBUG) console.log("BitcoinPriceTicker error loading ticker " + id + ". URL is not correctly responding:" + url)
               return
             }
             price = price[jsonPath[i]]
@@ -203,6 +204,22 @@ exports.main = function() {
     }).get()
   }
 
+  function showAddonUpdateDocument() {
+    tabs.open("http://neoranga55.github.io/bitcoin-price-ticker/")
+  };
+
+  function showAddonUpdate(version) {
+    try {
+      if ( ! getBooleanPreference("show-updates")) {
+        return;
+      } else if (prefs.getCharPref("extensions.ADDON_ID.version") == version) { // Not updated
+        return;
+      }
+    } catch (e) {} // There is no addon version set yet
+    if (! DEBUG) setTimeout(showAddonUpdateDocument, 5000) // Showing update webpage
+    prefs.setCharPref("extensions.ADDON_ID.version", version) // Update version number in preferences
+  }
+
   var tickers_frame = ui.Frame({
     url: './index.html',
     onMessage: fetchURLData
@@ -218,8 +235,13 @@ exports.main = function() {
     tickerData = getTickerConfigurationData('BitStampUSD')
     console.log(JSON.stringify(tickerData))
     updateTickerConfiguration(tickerData)
+    tickerData = getTickerConfigurationData('PoloniexNxt')
+    console.log(JSON.stringify(tickerData))
+    tickerData.enabled = true
+    tickerData.updateInterval = 5
+    updateTickerConfiguration(tickerData)
   }, 1000)
-  /*
+/*  
   setTimeout(function() {
     tickerData = {'id': 'BTCeUSD', 'enabled': true, 'color': '#FF0000', background: getBackgroundColor('BTCeUSD'), 'updateInterval': 3}
     updateTickerConfiguration(tickerData)
@@ -247,34 +269,8 @@ exports.main = function() {
 */
 
 /*
+
   ;
-
-  var labelWithCurrency = function(value, currency) {
-    switch (getStringPreference("show-currency-label")) {
-    case 'B':
-      return currency + value;
-    case 'A':
-      return value + currency;
-    default:
-      return value;
-    }
-  };
-
-  var showAddonUpdateDocument = function() {
-    tabs.open("http://neoranga55.github.io/bitcoin-price-ticker/");
-  };
-
-  var showAddonUpdate = function(version) {
-    try {
-      if ( ! getBooleanPreference("show-updates")) {
-        return;
-      } else if (prefs.getCharPref("extensions.ADDON_ID.version") == version) { // Not updated
-        return;
-      }
-    } catch (e) {} // There is no addon version set yet
-    setTimeout(showAddonUpdateDocument, 5000); // Showing update webpage
-    prefs.setCharPref("extensions.ADDON_ID.version", version); // Update version number in preferences
-  };
 
 
 
@@ -746,7 +742,6 @@ exports.main = function() {
   // Register general settings events
   Preferences.on('defaultFontSize', updateStyleAllTickers);
   Preferences.on('defaultTickerSpacing', updateStyleAllTickers);
-  Preferences.on('infoButton', showAddonUpdateDocument);
   Preferences.on('Timer', updateTickerRefreshInterval);
   Preferences.on('gold-background', updateStyleAllTickers);
   Preferences.on('silver-background', updateStyleAllTickers);
@@ -754,9 +749,10 @@ exports.main = function() {
   Preferences.on('show-long-trend', updateAllTickers);
   Preferences.on('show-short-trend', updateAllTickers);
   Preferences.on('show-currency-label', updateAllTickers);
+*/
+  Preferences.on('infoButton', showAddonUpdateDocument)
   // Check updated version
   AddonManager.getAddonByID(ADDON_ID, function(addon) {
     showAddonUpdate(addon.version);
   });
-*/
 };
