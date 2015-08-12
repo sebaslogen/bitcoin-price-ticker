@@ -81,9 +81,9 @@ var tickers = {
   'PoloniexBurst':null
 };// Store all tickers here
 
-var ticker_creators = new Array(); // Store all tickers creators here
-var ordered_tickers = new Array();
-var last_ticker_position = 0;
+//var ticker_creators = new Array(); // Store all tickers creators here
+var orderedTickers = new Array();
+//var last_ticker_position = 0;
 
 exports.main = function() {
 
@@ -161,6 +161,64 @@ exports.main = function() {
     return tickerData
   }
 
+  // Use tickers enabled in preferences to load in that order regardless of stored order
+  function loadDefaultTickers() {
+    for (var tickerId in tickers) {
+      console.log(tickerId)
+      if ( getBooleanPreference('p' + tickerId) ) { // Create Ticker
+        tickerData = getTickerConfigurationData(tickerId)
+        if (DEBUG) console.log(JSON.stringify(tickerData))
+        updateTickerConfiguration(tickerData)
+      }
+    }
+    if ((orderedTickers != null) && (orderedTickers.length > 0)) {
+      storeTickersOrder()
+    }
+  }
+
+  // Load the order of the tickers and simultaneously create them
+  function loadTickersInOrder() {
+    var orderedActiveTickers = ""
+    try {
+      orderedActiveTickers = prefs.getCharPref("extensions.ADDON_ID.tickers_order")
+      if (orderedActiveTickers.length < 1) { // There is no order of tickers in addon set yet
+        loadDefaultTickers()
+        return
+      }
+      var listOrderedTickers = orderedActiveTickers.split(',')
+      if (listOrderedTickers.length < 1) { // There is no order of tickers in addon set yet
+        loadDefaultTickers()
+        return
+      }
+      for (var i in listOrderedTickers) {
+        tickerData = getTickerConfigurationData(listOrderedTickers[i])
+        if (DEBUG) console.log(JSON.stringify(tickerData))
+        updateTickerConfiguration(tickerData)
+      }
+    } catch (e) { // There is no order of tickers in addon set yet
+      loadDefaultTickers()
+    }
+  }
+
+  // Store the order of the active tickers
+  function storeTickersOrder() {
+    if ((orderedTickers == null) || (orderedTickers.length == 0)) {
+      loadDefaultTickers()
+    } else {
+      var orderedActiveTickers = ""
+      if ((orderedTickers != null) && (orderedTickers.length > 0)) {
+        for (var i in orderedTickers) { // Traverse skipping empty
+          if (orderedActiveTickers.length > 0) {
+            orderedActiveTickers += "," + orderedTickers[i]
+          } else {
+            orderedActiveTickers = orderedTickers[i]
+          }
+        }
+      }
+      prefs.setCharPref("extensions.ADDON_ID.tickers_order", orderedActiveTickers) // Update list of tickers active in order in preferences
+    }
+  }
+
   function updateTickerConfiguration(tickerData) {
     tickers_frame.postMessage({
       "type": "updateTickerConfiguration",
@@ -191,7 +249,7 @@ exports.main = function() {
             }
             price = price[jsonPath[i]]
           }
-          console.log("Price received: "+price) // DEBUG line TODO remove
+          if (DEBUG) console.log("Price received and parsed: "+price) // DEBUG line TODO remove
           e.source.postMessage({
             "type": "updateTickerModelPrice",
             "data": {
@@ -206,7 +264,7 @@ exports.main = function() {
 
   function showAddonUpdateDocument() {
     tabs.open("http://neoranga55.github.io/bitcoin-price-ticker/")
-  };
+  }
 
   function showAddonUpdate(version) {
     try {
@@ -232,6 +290,10 @@ exports.main = function() {
 
 // Test suite
   setTimeout(function() {
+    loadTickersInOrder() // Load and create all selected tickers
+  }, 1000)
+/*
+  setTimeout(function() {
     tickerData = getTickerConfigurationData('BitStampUSD')
     console.log(JSON.stringify(tickerData))
     updateTickerConfiguration(tickerData)
@@ -241,6 +303,7 @@ exports.main = function() {
     tickerData.updateInterval = 5
     updateTickerConfiguration(tickerData)
   }, 1000)
+*/
 /*  
   setTimeout(function() {
     tickerData = {'id': 'BTCeUSD', 'enabled': true, 'color': '#FF0000', background: getBackgroundColor('BTCeUSD'), 'updateInterval': 3}
@@ -276,59 +339,7 @@ exports.main = function() {
 
 
 
-  // Use tickers enabled in preferences to load in that order regardless of stored order
-  var loadDefaultTickers = function() {
-    for (var ticker_name in tickers) {
-      if ( getBooleanPreference('p' + ticker_name) ) {
-        tickers[ticker_name] = ticker_creators[ticker_name](); // Create Ticker
-      }
-    }
-    if ((ordered_tickers != null) && (ordered_tickers.length > 0)) {
-      storeTickersOrder();
-    }
-  };
 
-  // Load the order of the tickers and simultaneously create them
-  var loadTickersInOrder = function() {
-    var ordered_active_tickers = "";
-    try {
-      ordered_active_tickers = prefs.getCharPref("extensions.ADDON_ID.tickers_order");
-      if (ordered_active_tickers.length < 1) { // There is no addon tickers_order set yet
-        loadDefaultTickers();
-        return;
-      }
-      var list_ordered_tickers = ordered_active_tickers.split(',');
-      if (list_ordered_tickers.length < 1) { // There is no addon tickers_order set yet
-        loadDefaultTickers();
-        return;
-      }
-      for (var i in list_ordered_tickers) {
-        var ticker_name = list_ordered_tickers[i];
-        tickers[ticker_name] = ticker_creators[ticker_name](); // Create Ticker
-      }
-    } catch (e) { // There is no addon tickers_order set yet
-      loadDefaultTickers();
-    }
-  };
-
-  // Store the order of the active tickers
-  var storeTickersOrder = function() {
-    if ((ordered_tickers == null) || (ordered_tickers.length == 0)) {
-      loadDefaultTickers();
-    } else {
-      var ordered_active_tickers = "";
-      if ((ordered_tickers != null) && (ordered_tickers.length > 0)) {
-        for (var i in ordered_tickers) { // Traverse skipping empty
-          if (ordered_active_tickers.length > 0) {
-            ordered_active_tickers += "," + ordered_tickers[i];
-          } else {
-            ordered_active_tickers = ordered_tickers[i];
-          }
-        }
-      }
-      prefs.setCharPref("extensions.ADDON_ID.tickers_order", ordered_active_tickers); // Update list of tickers active in order in preferences
-    }
-  };
 
   // Live enable/disable ticker from options checkbox
   var toggleTicker = function(tickerName) {
@@ -339,9 +350,9 @@ exports.main = function() {
       }
     } else if ( tickers[tickerName] != null ) { // Disable Ticker if it exists
       clearInterval(tickers[tickerName][3]); // Stop automatic refresh of removed ticker
-      for (var position in ordered_tickers) {
-        if (ordered_tickers[position] == tickerName) {
-          ordered_tickers.splice(position, 1); // Remove the position completely from the array with reordering
+      for (var position in orderedTickers) {
+        if (orderedTickers[position] == tickerName) {
+          orderedTickers.splice(position, 1); // Remove the position completely from the array with reordering
           break;
         }
       }
@@ -521,7 +532,7 @@ exports.main = function() {
       }
       updateTickerStyle();
     });
-    ordered_tickers.push(id);
+    orderedTickers.push(id);
     last_ticker_position = (Number.MAX_VALUE == last_ticker_position)? 0 : last_ticker_position + 1 ;
     ticker.last = 0;
     ticker.trend = [0,0];
@@ -737,7 +748,7 @@ exports.main = function() {
   setupTicker('PoloniexBurst', 'Poloniex', '\u0243', 'BURST', '#fff', "https://poloniex.com/public?command=returnTicker", ['BTC_BURST', 'last']);
 
 
-  loadTickersInOrder(); // Load and create all selected tickers
+  
 
   // Register general settings events
   Preferences.on('defaultFontSize', updateStyleAllTickers);
@@ -754,5 +765,5 @@ exports.main = function() {
   // Check updated version
   AddonManager.getAddonByID(ADDON_ID, function(addon) {
     showAddonUpdate(addon.version);
-  });
+  })
 };
