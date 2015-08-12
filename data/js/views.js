@@ -18,7 +18,7 @@ function newViewTicker(tickerId) {
   return $( "<div></div>", {
     "id": tickerId,
     "class": DEFAULT_TICKER_CSS_CLASSES,
-    "text": 'New emtpy ticker for ' + tickerId
+    "text": '---'
   })
 }
 
@@ -53,8 +53,8 @@ function updateView(tickerId, price, exchangeName, currency, baseCurrency, curre
       tickerText =  roundedPrice + currency
       break
   }
+  tickerView.text(tickerText)
   var label = exchangeName + " " + currency + "/" + baseCurrency
-  if (DEBUG) tickerView.text(tickerText)
   tickerView.attr("tooltiptext", label)
   tickerView.attr("title", label)
 }

@@ -1,6 +1,6 @@
 // Models to store and control data
 
-const DEBUG = true
+const DEBUG = false
 const DEFAULT_TICKER_CSS_CLASSES = "ticker"
 var tickers = { "models": {}, "views": {}, "controllers": {}}
 

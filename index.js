@@ -1,4 +1,4 @@
-const DEBUG = true
+const DEBUG = false
 
 // The main module of the Add-on.
 var ui = require('sdk/ui');
@@ -41,6 +41,7 @@ var tickers = {
   'BitcurexPLN':null,
   'CaVirTexCAD':null,
   'BTCChinaCNY':null,
+  'BTCeRUR':null,
   'MercadoBitcoinBRL':null,
   'BTCTurkTRY':null,
   'BitcoinVenezuelaVEF':null,
@@ -168,7 +169,6 @@ exports.main = function() {
   // Use tickers enabled in preferences to load in that order regardless of stored order
   function loadDefaultTickers() {
     for (var tickerId in tickers) {
-      console.log(tickerId)
       if ( getBooleanPreference('p' + tickerId) ) { // Create Ticker
         var tickerData = loadTicker(tickerId)
         if (tickerData.enabled) orderedTickers.push(tickerId)
@@ -223,7 +223,6 @@ exports.main = function() {
 
   // Live enable/disable ticker from options checkbox
   function toggleTicker(tickerId) {
-    console.log("registered ONE event for " + tickerId)
     if ( getBooleanPreference('p' + tickerId) ) { // Enable Ticker
       if (tickers[tickerId] == null) {
         var tickerData = loadTicker(tickerId)
@@ -443,7 +442,6 @@ exports.main = function() {
   Preferences.on('show-currency-label', updateActiveTickersSharedStyle);
 
   function registerTickerEvents(tickerId) {
-    console.log("registered events for " + tickerId)
     Preferences.on('p' + tickerId, function() { // Create event to enable/disable of tickers
       toggleTicker(tickerId)
     })
