@@ -1,24 +1,22 @@
 const DEBUG = false
 
 // The main module of the Add-on.
-var ui = require('sdk/ui');
-const {Cc, Ci, Cu} = require("chrome");
-Cu.import("resource://gre/modules/AddonManager.jsm"); // Addon Manager required to know addon version
-const setTimeout = require("sdk/timers").setTimeout;
-const setInterval = require("sdk/timers").setInterval;
-const clearInterval = require("sdk/timers").clearInterval;
-const ADDON_ID = "jid0-ziK34XHkBWB9ezxd4l9Q1yC7RP0@jetpack";
-const DEFAULT_REFRESH_RATE = 60;
-const DEFAULT_FONT_SIZE = 14;
-const DEFAULT_TICKER_SPACING = 2;
+var ui = require('sdk/ui')
+const {Cc, Ci, Cu} = require("chrome")
+Cu.import("resource://gre/modules/AddonManager.jsm") // Addon Manager required to know addon version
+const setTimeout = require("sdk/timers").setTimeout
+const ADDON_ID = "jid0-ziK34XHkBWB9ezxd4l9Q1yC7RP0@jetpack"
+const DEFAULT_REFRESH_RATE = 60
+const DEFAULT_FONT_SIZE = 14
 
 var Preferences = require('sdk/simple-prefs');
 var prefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefService).getBranch("extensions.ADDON_ID.");
 var Request = require("sdk/request").Request;
 var tabs = require("sdk/tabs");
 
+var orderedTickers = new Array()
 // Ids of all tickers available. Ticker configuration for each ID is in file data/js/providers.js
-var tickers = {
+var tickers = { // Store all tickers here
   'BitStampUSD':null,
   'BTCeUSD':null,
   'KrakenUSD':null,
@@ -79,11 +77,7 @@ var tickers = {
   'BitFinexDashBTC':null,
   'BitFinexDashUSD':null,
   'PoloniexBurst':null
-};// Store all tickers here
-
-//var ticker_creators = new Array(); // Store all tickers creators here
-var orderedTickers = new Array();
-//var last_ticker_position = 0;
+}
 
 exports.main = function() {
 
@@ -292,19 +286,6 @@ exports.main = function() {
         loadTicker(tickerId) // Update configuration
       }
     }
-    // var text_size = latest_content.toString().length;
-    // ticker_width += (text_size * font_size * 9 / 14); // Aproximately 8 pixels per character (except dots)
-    // if (currency == "\u5143") { // Yuan character needs extra pixels to be painted
-    //   ticker_width += 10;
-    // } else if (currency.length > 2) { // Calculate currency name size and extend text width accordingly
-    //   ticker_width += ((currency.length - 3) * font_size * 9 / 14);
-    // }
-    // if (typeof ticker.default_width !== 'undefined') { // Enlarge width with calculated extra width required to show it
-    //   ticker.width = ticker_width + ticker.default_width;
-    // } else {
-    //   ticker.width = ticker_width;
-    // }
-    // ticker.port.emit("updateStyle", color, font_size, getBackgroundColor(id));
   }
 
   function showAddonUpdateDocument() {
@@ -332,14 +313,13 @@ exports.main = function() {
     items: [tickers_frame]
   })
 
-// Test suite
+
   setTimeout(function() {
     loadTickersInOrder() // Load and create all selected tickers
   }, 1000)
 
 /*
-
-  
+  Feature disabled until refactored
 
   var calculateSlopeAndTrend = function(last_price, price, trend) {
     var slope = (last_price>0) ? price/last_price - 1 : 0;
@@ -385,50 +365,32 @@ exports.main = function() {
         label_trend: label_trend,
         label_slope: label_slope
     };
-  };
+  }
 
-    var updateTicker = function() {
-      if ( ! getBooleanPreference(pref_name)) {
-        return null; // Tikcer is disabled
-      }
-      Request({
-        url: ticker_url,
-        onComplete: function (response) {
-          // Update ticker content
-          latest_content = labelWithCurrency("???", currency);
-          if ((response != null) && (response.json != null)) {
-            var price = response.json;
-            for (var i = 0; i < ticker.json_path.length; i++) { // Parse JSON path
-              if (typeof price[ticker.json_path[i]] == "undefined") {
-                if (DEBUG) console.log("BitcoinPriceTicker error loading ticker " + id + ", URL not responding:" + ticker_url);
-                return;
-              }
-              price = price[ticker.json_path[i]];
-            }
-            var trends = calculateSlopeAndTrend(ticker.last, price, ticker.trend);
-            ticker.trend = trends.trend;
-            label_trend = trends.label_trend;
-            label_slope = trends.label_slope;
-            var round = calculateRoundFactor(price);
-            var change = Math.round(1000000*ticker.trend[1]/ticker.trend[0])/100;
-            var last_ticker_price = Math.round(ticker.last * round.factor) / round.factor;
-            last_ticker_price = (round.size > 1) && (last_ticker_price > 0) ? last_ticker_price.toFixed(round.size) : last_ticker_price;
-            ticker.tooltip = ticker.label + " -- previous: "
-                + labelWithCurrency(last_ticker_price, currency)
-                + " -- trend: " + ((change>0) ? "+" : "") + change;
-            ticker.last = price;
-            price = Math.round(price * round.factor) / round.factor;
-            price = (round.size > 1) && (price > 0) ? price.toFixed(round.size) : price;
-            latest_content = labelWithCurrency(price, currency);
-            if (getBooleanPreference("show-short-trend")) {
-              latest_content = label_slope + latest_content;
-            }
-            if (getBooleanPreference("show-long-trend")) {
-              latest_content = label_trend + latest_content;
-            }
-          }
-          ticker.port.emit("updateContent", latest_content);
-          updateTickerStyle();
+    price = price[ticker.json_path[i]];
+    var trends = calculateSlopeAndTrend(ticker.last, price, ticker.trend);
+    ticker.trend = trends.trend;
+    label_trend = trends.label_trend;
+    label_slope = trends.label_slope;
+    var round = calculateRoundFactor(price);
+    var change = Math.round(1000000*ticker.trend[1]/ticker.trend[0])/100;
+    var last_ticker_price = Math.round(ticker.last * round.factor) / round.factor;
+    last_ticker_price = (round.size > 1) && (last_ticker_price > 0) ? last_ticker_price.toFixed(round.size) : last_ticker_price;
+    ticker.tooltip = ticker.label + " -- previous: "
+        + labelWithCurrency(last_ticker_price, currency)
+        + " -- trend: " + ((change>0) ? "+" : "") + change;
+    ticker.last = price;
+    price = Math.round(price * round.factor) / round.factor;
+    price = (round.size > 1) && (price > 0) ? price.toFixed(round.size) : price;
+    latest_content = labelWithCurrency(price, currency);
+    if (getBooleanPreference("show-short-trend")) {
+      latest_content = label_slope + latest_content;
+    }
+    if (getBooleanPreference("show-long-trend")) {
+      latest_content = label_trend + latest_content;
+    }
+  ticker.port.emit("updateContent", latest_content);
+  updateTickerStyle();
   */
 
   // Register general settings events
