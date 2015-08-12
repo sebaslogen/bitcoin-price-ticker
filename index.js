@@ -88,11 +88,31 @@ exports.main = function() {
 
   function getBooleanPreference(pref_name) {
     if (typeof Preferences.prefs[pref_name] == "undefined") {
-       if (DEBUG) console.log("bitcoin-price-ticker addon error: " + pref_name + " preference is not defined")
+      if (DEBUG) console.log("bitcoin-price-ticker addon error: " + pref_name + " preference is not defined")
       return false
     }
     else {
       return Preferences.prefs[pref_name]
+    }
+  }
+
+  function getIntegerPreference(pref_name) {
+    if (typeof Preferences.prefs[pref_name] == "undefined") {
+      if (DEBUG) console.log("bitcoin-price-ticker addon error: " + pref_name + " preference is not defined")
+      return -1
+    }
+    else {
+      return Preferences.prefs[pref_name];
+    }
+  };
+
+   function getStringPreference(pref_name) {
+    if (typeof Preferences.prefs[pref_name] == "undefined") {
+      if (DEBUG) console.log("bitcoin-price-ticker addon error: " + pref_name + " preference is not defined")
+      return ""
+    }
+    else {
+      return Preferences.prefs[pref_name];
     }
   }
 
@@ -117,6 +137,26 @@ exports.main = function() {
       }
     }
     return null
+  }
+//setupTicker('BitStampUSD', 'BitStamp', '$', '\u0243', '#FF0000', "https://www.bitstamp.net/api/ticker/", ['last']);
+  function getTickerConfigurationData(tickerId) {
+    var fontSize = getIntegerPreference("defaultFontSize");
+    if (fontSize <= 0) {
+      fontSize = DEFAULT_FONT_SIZE
+    }
+    var refresh_rate = getIntegerPreference("Timer");
+    if (refresh_rate < 1) {
+      refresh_rate = DEFAULT_REFRESH_RATE;
+    }
+    var tickerData = {
+      id: tickerId,
+      enabled: getBooleanPreference("p" + tickerId),
+      color: getStringPreference("p" + tickerId + "Color"),
+      fontSize: fontSize,
+      background: getBackgroundColor(tickerId),
+      updateInterval: refresh_rate
+    }
+    return tickerData
   }
 
   function updateTickerConfiguration(tickerData) {
@@ -174,6 +214,12 @@ exports.main = function() {
 
 // Test suite
   setTimeout(function() {
+    tickerData = getTickerConfigurationData('BitStampUSD')
+    console.log(JSON.stringify(tickerData))
+    updateTickerConfiguration(tickerData)
+  }, 1000)
+  /*
+  setTimeout(function() {
     tickerData = {'id': 'BTCeUSD', 'enabled': true, 'color': '#FF0000', background: getBackgroundColor('BTCeUSD'), 'updateInterval': 3}
     updateTickerConfiguration(tickerData)
     tickerData = {'id': 'BitStampUSD', 'enabled': true, 'color': '#413ADF', background: getBackgroundColor('BitStampUSD'), 'updateInterval': 15}
@@ -197,7 +243,7 @@ exports.main = function() {
     tickerData = {'id': 'PoloniexNxt', 'enabled': true, 'color': '#B43104', background: getBackgroundColor('PoloniexNxt'), 'updateInterval': 3}
     updateTickerConfiguration(tickerData)
   }, 19000)
-
+*/
 
 /*
   ;
@@ -229,27 +275,9 @@ exports.main = function() {
     prefs.setCharPref("extensions.ADDON_ID.version", version); // Update version number in preferences
   };
 
-  var ;
 
-  var getIntegerPreference = function(pref_name) {
-    if (typeof Preferences.prefs[pref_name] == "undefined") {
-      if (DEBUG) console.log("bitcoin-price-ticker addon error: " + pref_name + " preference is not defined");
-      return -1;
-    }
-    else {
-      return Preferences.prefs[pref_name];
-    }
-  };
 
-  var getStringPreference = function(pref_name) {
-    if (typeof Preferences.prefs[pref_name] == "undefined") {
-      if (DEBUG) console.log("bitcoin-price-ticker addon error: " + pref_name + " preference is not defined");
-      return "";
-    }
-    else {
-      return Preferences.prefs[pref_name];
-    }
-  };
+
 
   // Use tickers enabled in preferences to load in that order regardless of stored order
   var loadDefaultTickers = function() {
