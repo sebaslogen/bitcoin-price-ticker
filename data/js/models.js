@@ -70,6 +70,7 @@ function updateTickerModelConfiguration(tickerModel, data) {
       tickerModel.enabled = data.enabled ? true : false
     }
   }
+
   if (data.currencyPosition) {
     if (data.currencyPosition != tickerModel.currencyPosition) {
       notifyObservers = true
@@ -88,12 +89,11 @@ function updateTickerModelConfiguration(tickerModel, data) {
     }
     tickerModel.fontSize = data.fontSize
   }
-  if (data.background) {
-    if (data.background != tickerModel.background) {
-      notifyObservers = true
-    }
-    tickerModel.background = data.background
+  // Background can be null
+  if (data.background != tickerModel.background) {
+    notifyObservers = true
   }
+  tickerModel.background = data.background
   if (data.updateInterval) {
     if (data.updateInterval != tickerModel.updateInterval) {
       notifyObservers = true
