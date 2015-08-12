@@ -233,17 +233,6 @@
     "value": "#6E307C"
   },
   {
-    "name": "pBitcoin-CentralEUR",
-    "title": "Show Bitcoin-Central EUR (\u20ac/\u0243) ticker?",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pBitcoin-CentralEURColor",
-    "title": "Bitcoin-Central EUR Ticker color",
-    "type": "color",
-    "value": "#6E307C"
-  },
-  {
     "name": "pTheRockTradingEUR",
     "title": "Show TheRockTrading EUR (\u20ac/\u0243) ticker?",
     "type": "bool",

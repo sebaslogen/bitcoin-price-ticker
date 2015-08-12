@@ -54,7 +54,7 @@ function updateView(tickerId, price, exchangeName, currency, baseCurrency, curre
       break
   }
   var label = exchangeName + " " + currency + "/" + baseCurrency
-  if (DEBUG) tickerView.text( tickerText + " " + ++counter) // DEBUG TODO remove counter
+  if (DEBUG) tickerView.text(tickerText)
   tickerView.attr("tooltiptext", label)
   tickerView.attr("title", label)
 }

@@ -44,7 +44,6 @@ function createTickerModel(id) {
         ticker.currency = data.currency
         ticker.baseCurrency = data.baseCurrency
         ticker.color = data.color
-        if (DEBUG) $(".ticker#"+ticker.id).text(ticker.id + ' ' + ticker.exchangeName + ' initialized')
       }
     },
     updatePrice: function(newPrice) {

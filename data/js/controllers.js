@@ -1,5 +1,3 @@
-    var counter = 0 // DEBUG line TODO remove
-
 window.addEventListener("message", handleAddonMessages, false);
 
 function handleAddonMessages(message) {

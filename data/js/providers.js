@@ -16,7 +16,6 @@ var tickersRepository = {
   'CoinDeskEUR': { exchangeName:'CoinDesk', currency:'\u20ac', baseCurrency:'\u0243', url:"http://api.coindesk.com/v1/bpi/currentprice.json", jsonPath:['bpi','EUR','rate_float']},
   'BitPayEUR': { exchangeName:'BitPay', currency:'\u20ac', baseCurrency:'\u0243', url:"https://bitpay.com/api/rates", jsonPath:[2,'rate']},
   'BitonicEUR': { exchangeName:'Bitonic', currency:'\u20ac', baseCurrency:'\u0243', url:"https://bitonic.nl/api/price", jsonPath:['price']},
-  'Bitcoin-CentralEUR': { exchangeName:'Bitcoin-Central', currency:'\u20ac', baseCurrency:'\u0243', url:"https://bitcoin-central.net/api/v1/data/eur/ticker", jsonPath:['price']},
   'TheRockTradingEUR': { exchangeName:'TheRockTrading', currency:'\u20ac', baseCurrency:'\u0243', url:"https://www.therocktrading.com/api/ticker/BTCEUR", jsonPath:['result',0,'last']},
   // Pound prices
   'CoinDeskGBP': { exchangeName:'CoinDesk', currency:'\u00a3', baseCurrency:'\u0243', url:"http://api.coindesk.com/v1/bpi/currentprice.json", jsonPath:['bpi','GBP','rate_float']},
