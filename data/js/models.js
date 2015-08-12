@@ -98,14 +98,6 @@ function updateTickerModelConfiguration(tickerModel, data) {
   }
 }
 
-function updateTickerModelPrice(data) {
-  if ((typeof data.id != "undefined") && (typeof data.price != "undefined")) {
-    if (tickers["models"][data.id]) {
-      tickers["models"][data.id].updatePrice(data.price)
-    }
-  }
-}
-
 function getProvider(id) {
   return tickersRepository[id]
 }

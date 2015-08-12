@@ -10,8 +10,7 @@ function handleAddonMessages(message) {
   }
 }
 
-function updateTickerConfiguration(message) {
-  var data = message
+function updateTickerConfiguration(data) {
   var id = data.id
 
   // Initialize View
@@ -25,6 +24,13 @@ function updateTickerConfiguration(message) {
   tickers["controllers"][id] = getTickerController(tickerModel)
 }
 
+function updateTickerModelPrice(data) {
+  if ((typeof data.id != "undefined") && (typeof data.price != "undefined")) {
+    if (tickers["models"][data.id]) {
+      tickers["models"][data.id].updatePrice(data.price)
+    }
+  }
+}
 
 // Controllers
 
