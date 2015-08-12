@@ -47,14 +47,25 @@ function createAndConfigureTickerModel(data, observer) {
 }
 
 function updateTickerModelConfiguration(tickerModel, data) {
-  if (data.enabled) {
-    tickerModel.enabled = true
+  var notifyObservers = false
+  if (data.enabled != tickerModel.enabled) {
+    notifyObservers = true
   }
+  tickerModel.enabled = data.enabled ? true : false
   if (data.color) {
+    if (data.color != tickerModel.color) {
+      notifyObservers = true
+    }
     tickerModel.color = data.color
   }
   if (data.updateInterval) {
+    if (data.updateInterval != tickerModel.updateInterval) {
+      notifyObservers = true
+    }
     tickerModel.updateInterval = data.updateInterval
+  }
+  if (notifyObservers) {
+    tickerModel.notifyObservers()
   }
 }
 
@@ -84,9 +95,12 @@ function createTickerModel(id) {
     updatePrice: function(newPrice) {
       if (newPrice > 0) {
         ticker.price = newPrice
-        for (var i = 0; i < ticker.observers.length; i++) {
-          ticker.observers[i](ticker) // Notify observers
-        }
+        ticker.notifyObservers()
+      }
+    },
+    notifyObservers: function() {
+      for (var i = 0; i < ticker.observers.length; i++) {
+        ticker.observers[i](ticker) // Notify observers
       }
     }
   }
@@ -155,17 +169,26 @@ function getTickerController(tickerModel) {
 function createTickerController(tickerId, intervalSeconds) {
   var tickerController = {
     id: tickerId,
+    updateInterval: intervalSeconds,
     timer: startAutoPriceUpdate(tickerId, intervalSeconds),
     setRequestPriceUpdateInterval: function (intervalSeconds) {
+      tickerController.updateInterval = intervalSeconds
       tickerController.timer = startAutoPriceUpdate(tickerController.id, intervalSeconds)
+    },
+    stopAutoPriceUpdate: function () {
+      if (tickerController.timer) {
+        clearInterval(tickerController.timer) // Stop automatic refresh of ticker
+        tickerController.timer = null
+      }
     }
   }
   return tickerController
 }
 
 function startAutoPriceUpdate(tickerId, intervalSeconds) {
-  if (tickers["controllers"][tickerId] && tickers["controllers"][tickerId][timer]) {
-    clearInterval(tickers["controllers"][tickerId][timer]); // Stop automatic refresh of ticker
+  var tickerController = tickers["controllers"][tickerId]
+  if (tickerController) {
+    tickerController.stopAutoPriceUpdate()
   }
   var timer = null
   if (intervalSeconds > 0) {
@@ -176,10 +199,26 @@ function startAutoPriceUpdate(tickerId, intervalSeconds) {
   return timer
 }
 
-function updateView(ticker) {
-  var tickerView = $(".ticker#"+ticker.id)
-  if (tickerView.size() == 1) {
-    tickerView.text(ticker.id + ' ' + ticker.price + ' ' + ++counter) // DEBUG line TODO remove
+function updateView(tickerModel) {
+  var tickerController = tickers["controllers"][tickerModel.id]
+  var tickerView = $(".ticker#"+tickerModel.id)
+  if (tickerView.size() != 1) {
+    tickerView = null // Simplify if conditions below
+  }
+  if (tickerModel.enabled) {
+    if (tickerController && ( tickerController.updateInterval != tickerModel.updateInterval )) {
+      tickerController.setRequestPriceUpdateInterval(tickerModel.updateInterval)
+    }
+    if (tickerView) {
+      tickerView.text(tickerModel.id + ' ' + tickerModel.price + ' ' + ++counter) // DEBUG line TODO remove
+    }
+  } else {
+    if (tickerController) {
+      tickerController.stopAutoPriceUpdate()
+    }
+    if (tickerView) {
+      tickerView.remove()
+    }
   }
 }
 

@@ -139,6 +139,7 @@ exports.main = function() {
     items: [tickers_frame]
   })
 
+// Test suite
   setTimeout(function() {
     tickerData = {'id': 'BTCeUSD', 'enabled': true, 'color': '#FF0000', 'updateInterval': 3}
     updateTickerConfiguration(tickerData)
@@ -147,6 +148,22 @@ exports.main = function() {
     tickerData = {'id': 'PoloniexNxt', 'enabled': true, 'color': '#FF0000', 'updateInterval': 25}
     updateTickerConfiguration(tickerData)
   }, 1000)
+  setTimeout(function() {
+    tickerData = {'id': 'BTCeUSD', 'enabled': false, 'color': '#FF0000', 'updateInterval': 25}
+    updateTickerConfiguration(tickerData)
+  }, 10000)
+  setTimeout(function() {
+    tickerData = {'id': 'BTCeUSD', 'enabled': true, 'color': '#FF0000', 'updateInterval': 25}
+    updateTickerConfiguration(tickerData)
+  }, 15000)
+  setTimeout(function() {
+    tickerData = {'id': 'BitStampUSD', 'enabled': false, 'color': '#FF0000', 'updateInterval': 25}
+    updateTickerConfiguration(tickerData)
+  }, 18000)
+  setTimeout(function() {
+    tickerData = {'id': 'PoloniexNxt', 'enabled': true, 'color': '#FF0000', 'updateInterval': 3}
+    updateTickerConfiguration(tickerData)
+  }, 19000)
 /*
   var getBackgroundColor = function(id) {
     var low_id = id.toLowerCase();
