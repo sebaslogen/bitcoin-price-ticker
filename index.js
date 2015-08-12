@@ -142,7 +142,9 @@ exports.main = function() {
   setTimeout(function() {
     tickerData = {'id': 'BTCeUSD', 'enabled': true, 'color': '#FF0000', 'updateInterval': 3}
     updateTickerConfiguration(tickerData)
-    tickerData = {'id': 'BitStampUSD', 'enabled': true, 'color': '#FF0000', 'updateInterval': 5}
+    tickerData = {'id': 'BitStampUSD', 'enabled': true, 'color': '#FF0000', 'updateInterval': 15}
+    updateTickerConfiguration(tickerData)
+    tickerData = {'id': 'PoloniexNxt', 'enabled': true, 'color': '#FF0000', 'updateInterval': 25}
     updateTickerConfiguration(tickerData)
   }, 1000)
 /*
