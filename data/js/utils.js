@@ -48,10 +48,12 @@ function createAndConfigureTickerModel(data, observer) {
 
 function updateTickerModelConfiguration(tickerModel, data) {
   var notifyObservers = false
-  if (data.enabled != tickerModel.enabled) {
-    notifyObservers = true
+  if (typeof data.enabled != "undefined") {
+    if (data.enabled != tickerModel.enabled) {
+      notifyObservers = true
+      tickerModel.enabled = data.enabled ? true : false
+    }
   }
-  tickerModel.enabled = data.enabled ? true : false
   if (data.color) {
     if (data.color != tickerModel.color) {
       notifyObservers = true
@@ -135,16 +137,16 @@ function getLatestData(id) {
 
 // Views
 
-function getTickerView(id) {
-  var tickerView = $(".ticker#"+id)
+function getTickerView(tickerId) {
+  var tickerView = $(".ticker#"+tickerId)
   if (tickerView.size() == 0) {
-    tickerView = createTickerView(id)
+    tickerView = createTickerView(tickerId)
   }
   return tickerView
 }
 
-function createTickerView(id) {
-  var tickerView = newViewTicker(id)
+function createTickerView(tickerId) {
+  var tickerView = newViewTicker(tickerId)
   $('#tickers-body').append(tickerView)
   return tickerView
 }
