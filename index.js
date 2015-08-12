@@ -161,14 +161,20 @@ exports.main = function() {
     return tickerData
   }
 
+  function loadTicker(tickerId) {
+    var tickerData = getTickerConfigurationData(tickerId)
+    if (DEBUG) console.log(JSON.stringify(tickerData))
+    tickers[tickerId] = tickerData
+    updateTickerConfiguration(tickerData)
+    if (tickerData.enabled) orderedTickers.push(tickerId)    
+  }
+
   // Use tickers enabled in preferences to load in that order regardless of stored order
   function loadDefaultTickers() {
     for (var tickerId in tickers) {
       console.log(tickerId)
       if ( getBooleanPreference('p' + tickerId) ) { // Create Ticker
-        tickerData = getTickerConfigurationData(tickerId)
-        if (DEBUG) console.log(JSON.stringify(tickerData))
-        updateTickerConfiguration(tickerData)
+        loadTicker(tickerId)
       }
     }
     if ((orderedTickers != null) && (orderedTickers.length > 0)) {
@@ -191,9 +197,7 @@ exports.main = function() {
         return
       }
       for (var i in listOrderedTickers) {
-        tickerData = getTickerConfigurationData(listOrderedTickers[i])
-        if (DEBUG) console.log(JSON.stringify(tickerData))
-        updateTickerConfiguration(tickerData)
+        loadTicker(listOrderedTickers[i])
       }
     } catch (e) { // There is no order of tickers in addon set yet
       loadDefaultTickers()
@@ -216,6 +220,27 @@ exports.main = function() {
         }
       }
       prefs.setCharPref("extensions.ADDON_ID.tickers_order", orderedActiveTickers) // Update list of tickers active in order in preferences
+    }
+  }
+
+  // Live enable/disable ticker from options checkbox
+  function toggleTicker(tickerId) {
+    if ( getBooleanPreference('p' + tickerId) ) { // Enable Ticker
+      if (tickers[tickerId] == null) {
+        tickers[tickerId] = ticker_creators[tickerId]()
+        storeTickersOrder()
+      }
+    } else if ( tickers[tickerId] != null ) { // Disable Ticker if it exists
+      clearInterval(tickers[tickerId][3]) // Stop automatic refresh of removed ticker
+      for (var position in orderedTickers) {
+        if (orderedTickers[position] == tickerId) {
+          orderedTickers.splice(position, 1) // Remove the position completely from the array with reordering
+          break;
+        }
+      }
+      tickers[tickerId][0].destroy(); // Destroy unwanted ticker widget
+      tickers[tickerId] = null;
+      storeTickersOrder()
     }
   }
 
@@ -341,26 +366,7 @@ exports.main = function() {
 
 
 
-  // Live enable/disable ticker from options checkbox
-  var toggleTicker = function(tickerName) {
-    if ( getBooleanPreference('p' + tickerName) ) { // Enable Ticker
-      if (tickers[tickerName] == null) {
-        tickers[tickerName] = ticker_creators[tickerName]();
-        storeTickersOrder();
-      }
-    } else if ( tickers[tickerName] != null ) { // Disable Ticker if it exists
-      clearInterval(tickers[tickerName][3]); // Stop automatic refresh of removed ticker
-      for (var position in orderedTickers) {
-        if (orderedTickers[position] == tickerName) {
-          orderedTickers.splice(position, 1); // Remove the position completely from the array with reordering
-          break;
-        }
-      }
-      tickers[tickerName][0].destroy(); // Destroy unwanted ticker widget
-      tickers[tickerName] = null;
-      storeTickersOrder();
-    }
-  };
+  ;
 
   // Refresh ticker when changing add-on options
   var updateTickerCaller = function(tickerName, onlyStyle) {
