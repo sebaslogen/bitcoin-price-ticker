@@ -157,7 +157,7 @@ function createTickerController(tickerId, intervalSeconds) {
     id: tickerId,
     timer: startAutoPriceUpdate(tickerId, intervalSeconds),
     setRequestPriceUpdateInterval: function (intervalSeconds) {
-      tickerController[timer] = startAutoPriceUpdate(tickerController.id, intervalSeconds)
+      tickerController.timer = startAutoPriceUpdate(tickerController.id, intervalSeconds)
     }
   }
   return tickerController

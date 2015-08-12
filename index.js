@@ -114,10 +114,9 @@ exports.main = function() {
       url: url,
       onComplete: function (response) {
         if ((response != null) && (response.json != null)) {
-          console.log("Data received, path size:"+jsonPath.length+"-"+jsonPath)
+          console.log("Data received, path size:"+jsonPath.length+"-"+jsonPath) // DEBUG line TODO remove
           var price = response.json
           for (var i = 0; i < jsonPath.length; i++) { // Parse JSON path
-            console.log("Iterating over data received")
             if (typeof price[jsonPath[i]] == "undefined") {
               if (DEBUG) console.log("BitcoinPriceTicker error loading ticker " + id + ", URL not responding:" + url)
               return
