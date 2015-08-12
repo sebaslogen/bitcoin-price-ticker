@@ -756,9 +756,12 @@ exports.main = function() {
   Preferences.on('show-currency-label', updateAllTickers);
 */
   function registerEvents() {
-    for (var tickerId in tickers) {
+    for (tickerId in tickers) {
+      //var tickerId = 'BitStampUSD'
       console.log("registered events for " + tickerId)
-      Preferences.on('p' + tickerId, function() { toggleTicker(tickerId); }) // Create event to enable/disable of tickers
+      Preferences.on('p' + tickerId, function() { 
+        toggleTicker(tickerId)
+      }) // Create event to enable/disable of tickers
       // Create events to update ticker when a particular option is changed
                       // Preferences.on('p' + tickerId + 'Color', function() { updateTickerCaller(tickerId, true); });
     }
