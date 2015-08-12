@@ -166,7 +166,7 @@ exports.main = function() {
     if (DEBUG) console.log(JSON.stringify(tickerData))
     tickers[tickerId] = tickerData
     updateTickerConfiguration(tickerData)
-    if (tickerData.enabled) orderedTickers.push(tickerId)    
+    return tickerData
   }
 
   // Use tickers enabled in preferences to load in that order regardless of stored order
@@ -174,7 +174,8 @@ exports.main = function() {
     for (var tickerId in tickers) {
       console.log(tickerId)
       if ( getBooleanPreference('p' + tickerId) ) { // Create Ticker
-        loadTicker(tickerId)
+        var tickerData = loadTicker(tickerId)
+        if (tickerData.enabled) orderedTickers.push(tickerId)
       }
     }
     if ((orderedTickers != null) && (orderedTickers.length > 0)) {
@@ -197,7 +198,8 @@ exports.main = function() {
         return
       }
       for (var i in listOrderedTickers) {
-        loadTicker(listOrderedTickers[i])
+        var tickerData = loadTicker(listOrderedTickers[i])
+        if (tickerData.enabled) orderedTickers.push(tickerId)
       }
     } catch (e) { // There is no order of tickers in addon set yet
       loadDefaultTickers()
@@ -228,7 +230,8 @@ exports.main = function() {
     console.log("registered ONE event for " + tickerId)
     if ( getBooleanPreference('p' + tickerId) ) { // Enable Ticker
       if (tickers[tickerId] == null) {
-        loadTicker(tickerId)
+        var tickerData = loadTicker(tickerId)
+        if (tickerData.enabled) orderedTickers.push(tickerId)
         storeTickersOrder()
       }
     } else if ( (tickers[tickerId] != null) && (tickers[tickerId].enabled)) { // Disable Ticker if it exists
@@ -286,6 +289,27 @@ exports.main = function() {
         }
       }
     }).get()
+  }
+
+  function updateActiveTickersSharedStyle() {
+    for (tickerId in tickers) {
+      if (tickers[tickerId]) {
+        loadTicker(tickerId) // Update configuration
+      }
+    }
+    // var text_size = latest_content.toString().length;
+    // ticker_width += (text_size * font_size * 9 / 14); // Aproximately 8 pixels per character (except dots)
+    // if (currency == "\u5143") { // Yuan character needs extra pixels to be painted
+    //   ticker_width += 10;
+    // } else if (currency.length > 2) { // Calculate currency name size and extend text width accordingly
+    //   ticker_width += ((currency.length - 3) * font_size * 9 / 14);
+    // }
+    // if (typeof ticker.default_width !== 'undefined') { // Enlarge width with calculated extra width required to show it
+    //   ticker.width = ticker_width + ticker.default_width;
+    // } else {
+    //   ticker.width = ticker_width;
+    // }
+    // ticker.port.emit("updateStyle", color, font_size, getBackgroundColor(id));
   }
 
   function showAddonUpdateDocument() {
@@ -535,33 +559,33 @@ exports.main = function() {
     ticker.port.emit("updateContent", latest_content);
     // Default ticker created //
 
-    var updateTickerStyle = function() {
-      if ( ! getBooleanPreference(pref_name)) {
-        return null; // Tikcer is disabled
-      }
-      var color = getStringPreference("p" + id + "Color");
-      var font_size = getIntegerPreference("defaultFontSize");
-      if (font_size <= 0) {
-        font_size = DEFAULT_FONT_SIZE; // Default value
-      }
-      var ticker_width = getIntegerPreference("defaultTickerSpacing");
-      if (ticker_width <= 0) {
-        ticker_width = DEFAULT_TICKER_SPACING;
-      }
-      var text_size = latest_content.toString().length;
-      ticker_width += (text_size * font_size * 9 / 14); // Aproximately 8 pixels per character (except dots)
-      if (currency == "\u5143") { // Yuan character needs extra pixels to be painted
-        ticker_width += 10;
-      } else if (currency.length > 2) { // Calculate currency name size and extend text width accordingly
-        ticker_width += ((currency.length - 3) * font_size * 9 / 14);
-      }
-      if (typeof ticker.default_width !== 'undefined') { // Enlarge width with calculated extra width required to show it
-        ticker.width = ticker_width + ticker.default_width;
-      } else {
-        ticker.width = ticker_width;
-      }
-      ticker.port.emit("updateStyle", color, font_size, getBackgroundColor(id));
-    };
+                                      var updateTickerStyle = function() {
+                                        if ( ! getBooleanPreference(pref_name)) {
+                                          return null; // Tikcer is disabled
+                                        }
+                                        var color = getStringPreference("p" + id + "Color");
+                                        var font_size = getIntegerPreference("defaultFontSize");
+                                        if (font_size <= 0) {
+                                          font_size = DEFAULT_FONT_SIZE; // Default value
+                                        }
+                                        var ticker_width = getIntegerPreference("defaultTickerSpacing");
+                                        if (ticker_width <= 0) {
+                                          ticker_width = DEFAULT_TICKER_SPACING;
+                                        }
+                                        var text_size = latest_content.toString().length;
+                                        ticker_width += (text_size * font_size * 9 / 14); // Aproximately 8 pixels per character (except dots)
+                                        if (currency == "\u5143") { // Yuan character needs extra pixels to be painted
+                                          ticker_width += 10;
+                                        } else if (currency.length > 2) { // Calculate currency name size and extend text width accordingly
+                                          ticker_width += ((currency.length - 3) * font_size * 9 / 14);
+                                        }
+                                        if (typeof ticker.default_width !== 'undefined') { // Enlarge width with calculated extra width required to show it
+                                          ticker.width = ticker_width + ticker.default_width;
+                                        } else {
+                                          ticker.width = ticker_width;
+                                        }
+                                        ticker.port.emit("updateStyle", color, font_size, getBackgroundColor(id));
+                                      };
 
     var updateTicker = function() {
       if ( ! getBooleanPreference(pref_name)) {
@@ -743,18 +767,18 @@ exports.main = function() {
 
 
   
-
-  // Register general settings events
-  Preferences.on('defaultFontSize', updateStyleAllTickers);
-  Preferences.on('defaultTickerSpacing', updateStyleAllTickers);
-  Preferences.on('Timer', updateTickerRefreshInterval);
-  Preferences.on('gold-background', updateStyleAllTickers);
-  Preferences.on('silver-background', updateStyleAllTickers);
-  Preferences.on('other-background', updateStyleAllTickers);
-  Preferences.on('show-long-trend', updateAllTickers);
-  Preferences.on('show-short-trend', updateAllTickers);
-  Preferences.on('show-currency-label', updateAllTickers);
 */
+  // Register general settings events
+  Preferences.on('defaultFontSize', updateActiveTickersSharedStyle);
+  // Preferences.on('defaultTickerSpacing', updateActiveTickersSharedStyle);
+  Preferences.on('Timer', updateActiveTickersSharedStyle);
+  Preferences.on('gold-background', updateActiveTickersSharedStyle);
+  Preferences.on('silver-background', updateActiveTickersSharedStyle);
+  Preferences.on('other-background', updateActiveTickersSharedStyle);
+  // Preferences.on('show-long-trend', updateAllTickers);
+  // Preferences.on('show-short-trend', updateAllTickers);
+  Preferences.on('show-currency-label', updateActiveTickersSharedStyle);
+
   function registerTickerEvents(tickerId) {
     console.log("registered events for " + tickerId)
     Preferences.on('p' + tickerId, function() { // Create event to enable/disable of tickers
