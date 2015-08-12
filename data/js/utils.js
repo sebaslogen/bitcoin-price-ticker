@@ -56,7 +56,7 @@ function createTickerModel(id) {
     baseCurrency: null,
     color: null,
     fontSize: null,
-    backgroundColor: null,
+    background: null,
     price: 0,
     updateInterval: 0,
     observers: [],
@@ -107,11 +107,11 @@ function updateTickerModelConfiguration(tickerModel, data) {
     }
     tickerModel.fontSize = data.fontSize
   }
-  if (data.backgroundColor) {
-    if (data.backgroundColor != tickerModel.backgroundColor) {
+  if (data.background) {
+    if (data.background != tickerModel.background) {
       notifyObservers = true
     }
-    tickerModel.backgroundColor = data.backgroundColor
+    tickerModel.background = data.background
   }
   if (data.updateInterval) {
     if (data.updateInterval != tickerModel.updateInterval) {
@@ -175,15 +175,15 @@ function newViewTicker(tickerId) {
 }
 
 // Update and style of ticker div //
-function updateStyle(tickerId, color, fontSize, backgroundColor) {
+function updateStyle(tickerId, color, fontSize, background) {
   $(".ticker#"+tickerId).css('font-size', fontSize)
   $(".ticker#"+tickerId).css('color', color)
-  if (backgroundColor) {
-    if (backgroundColor.match(/-bg$/) == null) {
-      backgroundColor += "-bg" // Append background CSS to name when missing
+  if (background) {
+    if (background.match(/-bg$/) == null) {
+      background += "-bg" // Append background CSS to name when missing
     }
     $(".ticker#"+tickerId).removeClass().addClass(DEFAULT_TICKER_CSS_CLASSES)
-    $(".ticker#"+tickerId).addClass(backgroundColor)
+    $(".ticker#"+tickerId).addClass(background)
   } else {
     $(".ticker#"+tickerId).removeClass().addClass(DEFAULT_TICKER_CSS_CLASSES)
   }
@@ -195,6 +195,7 @@ function updateStyle(tickerId, color, fontSize, backgroundColor) {
     self.port.emit('increaseWidth', 1);
   }*/
 }
+
 
 // Controllers
 
@@ -251,7 +252,7 @@ function updateView(tickerModel) {
       tickerController.setRequestPriceUpdateInterval(tickerModel.updateInterval)
     }
     if (tickerView) {
-      updateStyle(tickerId, tickerModel.color, tickerModel.fontSize, tickerModel.backgroundColor)
+      updateStyle(tickerId, tickerModel.color, tickerModel.fontSize, tickerModel.background)
       if (DEBUG) tickerView.text(tickerId + ' ' + tickerModel.price + ' ' + ++counter)
     }
   } else {

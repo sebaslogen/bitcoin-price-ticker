@@ -86,10 +86,45 @@ var last_ticker_position = 0;
 
 exports.main = function() {
 
-  var tickers_frame = ui.Frame({
-    url: './index.html',
-    onMessage: fetchURLData
-  })
+  function getBooleanPreference(pref_name) {
+    if (typeof Preferences.prefs[pref_name] == "undefined") {
+       if (DEBUG) console.log("bitcoin-price-ticker addon error: " + pref_name + " preference is not defined")
+      return false
+    }
+    else {
+      return Preferences.prefs[pref_name]
+    }
+  }
+
+  function getBackgroundColor(id) {
+    var low_id = id.toLowerCase()
+    var other_bg_cryptos = [ 'dogecoin', 'worldcoin', 'namecoin', 'auroracoin', 'blackcoin', 'nxt',
+      'bitshares', 'ripple', 'maidsafe', 'bitcoindark', 'monero', 'dash', 'burst' ]
+    for (var i in other_bg_cryptos) {
+      if (low_id.indexOf(other_bg_cryptos[i]) != -1) {  // Alt-coin
+        if (getBooleanPreference("other-background")) {
+          return other_bg_cryptos[i]
+        }
+      }
+    }
+    if (low_id.indexOf("litecoin") != -1) {
+      if (getBooleanPreference("silver-background")) { // Currency is Litecoin
+        return "silver"
+      }
+    } else {
+      if (getBooleanPreference("gold-background")) { // Currency is Bitcoin
+        return "gold"
+      }
+    }
+    return null
+  }
+
+  function updateTickerConfiguration(tickerData) {
+    tickers_frame.postMessage({
+      "type": "updateTickerConfiguration",
+      "data": tickerData
+    }, tickers_frame.url);
+  }
 
   function fetchURLData(e) {
     console.log("Request received!"+JSON.stringify(e)) // DEBUG line TODO remove
@@ -124,15 +159,13 @@ exports.main = function() {
           }, e.origin)
         }
       }
-    }).get();
+    }).get()
   }
 
-  function updateTickerConfiguration(tickerData) {
-    tickers_frame.postMessage({
-      "type": "updateTickerConfiguration",
-      "data": tickerData
-    }, tickers_frame.url);
-  }
+  var tickers_frame = ui.Frame({
+    url: './index.html',
+    onMessage: fetchURLData
+  })
 
   var toolbar = ui.Toolbar({
     title: 'Bitcoin Price Ticker',
@@ -141,52 +174,33 @@ exports.main = function() {
 
 // Test suite
   setTimeout(function() {
-    tickerData = {'id': 'BTCeUSD', 'enabled': true, 'color': '#FF0000', 'updateInterval': 3}
+    tickerData = {'id': 'BTCeUSD', 'enabled': true, 'color': '#FF0000', background: getBackgroundColor('BTCeUSD'), 'updateInterval': 3}
     updateTickerConfiguration(tickerData)
-    tickerData = {'id': 'BitStampUSD', 'enabled': true, 'color': '#413ADF', 'updateInterval': 15}
+    tickerData = {'id': 'BitStampUSD', 'enabled': true, 'color': '#413ADF', background: getBackgroundColor('BitStampUSD'), 'updateInterval': 15}
     updateTickerConfiguration(tickerData)
-    tickerData = {'id': 'PoloniexNxt', 'enabled': true, 'color': '#6E307C', 'updateInterval': 25}
+    tickerData = {'id': 'PoloniexNxt', 'enabled': true, 'color': '#6E307C', background: getBackgroundColor('PoloniexNxt'), 'updateInterval': 25}
     updateTickerConfiguration(tickerData)
   }, 1000)
   setTimeout(function() {
-    tickerData = {'id': 'BTCeUSD', 'enabled': false, 'color': '#FF2200', 'updateInterval': 25}
+    tickerData = {'id': 'BTCeUSD', 'enabled': false, 'color': '#FF2200', background: getBackgroundColor('BTCeUSD'), 'updateInterval': 25}
     updateTickerConfiguration(tickerData)
   }, 10000)
   setTimeout(function() {
-    tickerData = {'id': 'BTCeUSD', 'enabled': true, 'color': '#013ADF', 'updateInterval': 25}
+    tickerData = {'id': 'BTCeUSD', 'enabled': true, 'color': '#013ADF', background: getBackgroundColor('BTCeUSD'), 'updateInterval': 25}
     updateTickerConfiguration(tickerData)
   }, 15000)
   setTimeout(function() {
-    tickerData = {'id': 'BitStampUSD', 'enabled': false, 'color': '#3366FF', 'updateInterval': 25}
+    tickerData = {'id': 'BitStampUSD', 'enabled': false, 'color': '#3366FF', background: getBackgroundColor('BitStampUSD'), 'updateInterval': 25}
     updateTickerConfiguration(tickerData)
   }, 18000)
   setTimeout(function() {
-    tickerData = {'id': 'PoloniexNxt', 'enabled': true, 'color': '#B43104', 'updateInterval': 3}
+    tickerData = {'id': 'PoloniexNxt', 'enabled': true, 'color': '#B43104', background: getBackgroundColor('PoloniexNxt'), 'updateInterval': 3}
     updateTickerConfiguration(tickerData)
   }, 19000)
+
+
 /*
-  var getBackgroundColor = function(id) {
-    var low_id = id.toLowerCase();
-    var other_bg_cryptos = [ 'dogecoin', 'worldcoin', 'namecoin', 'auroracoin', 'blackcoin', 'nxt',
-      'bitshares', 'ripple', 'maidsafe', 'bitcoindark', 'monero', 'dash', 'burst' ];
-    for (var i in other_bg_cryptos) {
-      if (low_id.indexOf(other_bg_cryptos[i]) != -1) {  // Alt-coin
-        if (getBooleanPreference("other-background")) {
-          return other_bg_cryptos[i];
-        }
-      }
-    }
-    if (low_id.indexOf("litecoin") != -1) {
-      if (getBooleanPreference("silver-background")) { // Currency is Litecoin
-        return "silver";
-      }
-    } else {
-      if (getBooleanPreference("gold-background")) { // Currency is Bitcoin
-        return "gold";
-      }
-    }
-    return null;
-  };
+  ;
 
   var labelWithCurrency = function(value, currency) {
     switch (getStringPreference("show-currency-label")) {
@@ -215,15 +229,7 @@ exports.main = function() {
     prefs.setCharPref("extensions.ADDON_ID.version", version); // Update version number in preferences
   };
 
-  var getBooleanPreference = function(pref_name) {
-    if (typeof Preferences.prefs[pref_name] == "undefined") {
-       if (DEBUG) console.log("bitcoin-price-ticker addon error: " + pref_name + " preference is not defined");
-      return false;
-    }
-    else {
-      return Preferences.prefs[pref_name];
-    }
-  };
+  var ;
 
   var getIntegerPreference = function(pref_name) {
     if (typeof Preferences.prefs[pref_name] == "undefined") {
