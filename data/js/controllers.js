@@ -17,7 +17,7 @@ function updateTickerConfiguration(data) {
   tickers["views"][id] = getTickerView(id)
 
   // Initialize Data Model
-  var tickerModel = getTickerModel(data, updateView)
+  var tickerModel = getTickerModel(data, updateTicker)
   tickers["models"][id] = tickerModel
 
   // Initialize Controllers
@@ -76,7 +76,7 @@ function startAutoPriceUpdate(tickerId, intervalSeconds) {
   return timer
 }
 
-function updateView(tickerModel) {
+function updateTicker(tickerModel) {
   var tickerId = tickerModel.id
   var tickerController = tickers["controllers"][tickerId]
   var tickerView = $(".ticker#"+tickerId)
@@ -88,8 +88,7 @@ function updateView(tickerModel) {
       tickerController.setRequestPriceUpdateInterval(tickerModel.updateInterval)
     }
     if (tickerView) {
-      updateStyle(tickerId, tickerModel.color, tickerModel.fontSize, tickerModel.background)
-      if (DEBUG) tickerView.text(tickerId + ' ' + tickerModel.price + ' ' + ++counter)
+      updateView(tickerId, tickerModel.price, tickerModel.color, tickerModel.fontSize, tickerModel.background)
     }
   } else {
     if (tickerController) {
@@ -100,15 +99,3 @@ function updateView(tickerModel) {
     }
   }
 }
-
-
-
-
-/*
-// Update content of ticker widget //
-self.port.on("updateContent", function(new_content) { 
-  if (new_content != null) {
-    $('#ticker-data').text(new_content);
-  }
-});
-*/

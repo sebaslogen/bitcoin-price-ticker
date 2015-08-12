@@ -36,3 +36,12 @@ function updateStyle(tickerId, color, fontSize, background) {
     $(".ticker#"+tickerId).removeClass().addClass(DEFAULT_TICKER_CSS_CLASSES)
   }
 }
+
+function updateView(tickerId, price, color, fontSize, background) {
+  var tickerView = $(".ticker#"+tickerId)
+  if (tickerView.size() != 1) {
+    return // Ticker was removed
+  }
+  updateStyle(tickerId, color, fontSize, background)
+  if (DEBUG) tickerView.text(tickerId + ' ' + price + ' ' + ++counter)
+}
