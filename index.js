@@ -761,7 +761,12 @@ exports.main = function() {
       toggleTicker(tickerId)
     })
     // Create events to update ticker when a particular option is changed
-                      // Preferences.on('p' + tickerId + 'Color', function() { updateTickerCaller(tickerId, true); });
+    Preferences.on('p' + tickerId + 'Color', function() {
+      if (tickers[tickerId] != null) {
+        tickers[tickerId].color = getStringPreference("p" + tickerId + "Color")
+        updateTickerConfiguration(tickers[tickerId])
+      }
+    })
   }
 
   function registerEvents() {
