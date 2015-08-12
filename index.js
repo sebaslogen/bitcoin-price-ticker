@@ -151,6 +151,7 @@ exports.main = function() {
     var tickerData = {
       id: tickerId,
       enabled: getBooleanPreference("p" + tickerId),
+      currencyPosition: getStringPreference("show-currency-label"),
       color: getStringPreference("p" + tickerId + "Color"),
       fontSize: fontSize,
       background: getBackgroundColor(tickerId),

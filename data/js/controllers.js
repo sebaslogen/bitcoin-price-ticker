@@ -88,7 +88,7 @@ function updateTicker(tickerModel) {
       tickerController.setRequestPriceUpdateInterval(tickerModel.updateInterval)
     }
     if (tickerView) {
-      updateView(tickerId, tickerModel.price, tickerModel.color, tickerModel.fontSize, tickerModel.background)
+      updateView(tickerId, tickerModel.price, tickerModel.exchangeName, tickerModel.currency, tickerModel.baseCurrency, tickerModel.currencyPosition, tickerModel.color, tickerModel.fontSize, tickerModel.background)
     }
   } else {
     if (tickerController) {

@@ -28,6 +28,7 @@ function createTickerModel(id) {
     exchangeName: null,
     currency: null,
     baseCurrency: null,
+    currencyPosition: null,
     color: null,
     fontSize: null,
     background: null,
@@ -68,6 +69,12 @@ function updateTickerModelConfiguration(tickerModel, data) {
       notifyObservers = true
       tickerModel.enabled = data.enabled ? true : false
     }
+  }
+  if (data.currencyPosition) {
+    if (data.currencyPosition != tickerModel.currencyPosition) {
+      notifyObservers = true
+    }
+    tickerModel.currencyPosition = data.currencyPosition
   }
   if (data.color) {
     if (data.color != tickerModel.color) {

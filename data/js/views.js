@@ -37,11 +37,18 @@ function updateStyle(tickerId, color, fontSize, background) {
   }
 }
 
-function updateView(tickerId, price, color, fontSize, background) {
+function updateView(tickerId, price, exchangeName, currency, baseCurrency, currencyPosition, color, fontSize, background) {
   var tickerView = $(".ticker#"+tickerId)
   if (tickerView.size() != 1) {
     return // Ticker was removed
   }
   updateStyle(tickerId, color, fontSize, background)
-  if (DEBUG) tickerView.text(tickerId + ' ' + price + ' ' + ++counter)
+  var tickerText = price
+  switch (currencyPosition) {
+    case 'B':
+      tickerText = currency + price
+    case 'A':
+      tickerText =  price + currency
+  }
+  if (DEBUG) tickerView.text(tickerId + ' ' + tickerText + ' ' + ++counter)
 }
