@@ -249,7 +249,7 @@ exports.main = function() {
             }
             price = price[jsonPath[i]]
           }
-          if (DEBUG) console.log("Price received and parsed: "+price) // DEBUG line TODO remove
+          if (DEBUG) console.log("Price received and parsed: " + price) // DEBUG line TODO remove
           e.source.postMessage({
             "type": "updateTickerModelPrice",
             "data": {
