@@ -225,21 +225,22 @@ exports.main = function() {
 
   // Live enable/disable ticker from options checkbox
   function toggleTicker(tickerId) {
+    console.log("registered ONE event for " + tickerId)
     if ( getBooleanPreference('p' + tickerId) ) { // Enable Ticker
       if (tickers[tickerId] == null) {
-        tickers[tickerId] = ticker_creators[tickerId]()
+        loadTicker(tickerId)
         storeTickersOrder()
       }
-    } else if ( tickers[tickerId] != null ) { // Disable Ticker if it exists
-      clearInterval(tickers[tickerId][3]) // Stop automatic refresh of removed ticker
+    } else if ( (tickers[tickerId] != null) && (tickers[tickerId].enabled)) { // Disable Ticker if it exists
+      tickers[tickerId].enabled = false
+      updateTickerConfiguration(tickers[tickerId])
       for (var position in orderedTickers) {
         if (orderedTickers[position] == tickerId) {
           orderedTickers.splice(position, 1) // Remove the position completely from the array with reordering
-          break;
+          break
         }
       }
-      tickers[tickerId][0].destroy(); // Destroy unwanted ticker widget
-      tickers[tickerId] = null;
+      tickers[tickerId] = null
       storeTickersOrder()
     }
   }
@@ -358,15 +359,6 @@ exports.main = function() {
 
 /*
 
-  ;
-
-
-
-
-
-
-
-  ;
 
   // Refresh ticker when changing add-on options
   var updateTickerCaller = function(tickerName, onlyStyle) {
@@ -409,11 +401,7 @@ exports.main = function() {
     }
   };
 
-  var registerEvents = function(tickerName) {
-    Preferences.on('p' + tickerName, function() { toggleTicker(tickerName); }); // Create event to enable/disable of tickers
-    // Create events to update ticker when a particular option is changed
-    Preferences.on('p' + tickerName + 'Color', function() { updateTickerCaller(tickerName, true); });
-  };
+  
 
   var calculateSlopeAndTrend = function(last_price, price, trend) {
     var slope = (last_price>0) ? price/last_price - 1 : 0;
@@ -767,6 +755,15 @@ exports.main = function() {
   Preferences.on('show-short-trend', updateAllTickers);
   Preferences.on('show-currency-label', updateAllTickers);
 */
+  function registerEvents() {
+    for (var tickerId in tickers) {
+      console.log("registered events for " + tickerId)
+      Preferences.on('p' + tickerId, function() { toggleTicker(tickerId); }) // Create event to enable/disable of tickers
+      // Create events to update ticker when a particular option is changed
+                      // Preferences.on('p' + tickerId + 'Color', function() { updateTickerCaller(tickerId, true); });
+    }
+  }
+  registerEvents()
   Preferences.on('infoButton', showAddonUpdateDocument)
   // Check updated version
   AddonManager.getAddonByID(ADDON_ID, function(addon) {
