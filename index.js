@@ -132,10 +132,8 @@ exports.main = function() {
       if (getBooleanPreference("silver-background")) { // Currency is Litecoin
         return "silver"
       }
-    } else {
-      if (getBooleanPreference("gold-background")) { // Currency is Bitcoin
-        return "gold"
-      }
+    } else if (getBooleanPreference("gold-background")) { // Currency is Bitcoin
+      return "gold"
     }
     return null
   }
@@ -318,10 +316,9 @@ exports.main = function() {
 
   function showAddonUpdate(version) {
     try {
-      if ( ! getBooleanPreference("show-updates")) {
-        return;
-      } else if (prefs.getCharPref("extensions.ADDON_ID.version") == version) { // Not updated
-        return;
+      if (( ! getBooleanPreference("show-updates")) || // Requested to not show updates
+          (prefs.getCharPref("extensions.ADDON_ID.version") == version)) { // Not updated
+        return
       }
     } catch (e) {} // There is no addon version set yet
     if (! DEBUG) setTimeout(showAddonUpdateDocument, 5000) // Showing update webpage
@@ -382,48 +379,6 @@ exports.main = function() {
 */
 
 /*
-
-
-  // Refresh ticker when changing add-on options
-  var updateTickerCaller = function(tickerName, onlyStyle) {
-    if ( (tickers[tickerName] != null) && (tickers[tickerName].length >= 2)) {
-      if (onlyStyle) {
-        tickers[tickerName][2](); // Call update Ticker method to update only the style
-      } else {
-        tickers[tickerName][1](); // Call update Ticker method
-      }
-    }
-  };
-
-  // Create new refresh interval for each ticker when option is changed
-  var updateTickerRefreshInterval = function() {
-    var refresh_rate = getIntegerPreference("Timer");
-    if (refresh_rate < 1) {
-      refresh_rate = DEFAULT_REFRESH_RATE;
-    }
-    for (var i in tickers) {
-      if ( (tickers[i] != null) && (tickers[i].length >= 4)) {
-        clearInterval(tickers[i][3]); // Stop automatic refresh of removed ticker
-        tickers[i][3] = setInterval(tickers[i][1], (refresh_rate * 1000));
-      }
-    }
-  };
-
-  var updateAllTickers = function() {
-    for (var i in tickers) {
-      if ( (tickers[i] != null) && (tickers[i].length >= 3)) {
-        tickers[i][1](); // Call update Ticker method
-      }
-    }
-  };
-
-  var updateStyleAllTickers = function() {
-    for (var i in tickers) {
-      if ( (tickers[i] != null) && (tickers[i].length >= 3)) {
-        tickers[i][2](); // Call update Ticker style method
-      }
-    }
-  };
 
   
 
@@ -770,7 +725,6 @@ exports.main = function() {
 */
   // Register general settings events
   Preferences.on('defaultFontSize', updateActiveTickersSharedStyle);
-  // Preferences.on('defaultTickerSpacing', updateActiveTickersSharedStyle);
   Preferences.on('Timer', updateActiveTickersSharedStyle);
   Preferences.on('gold-background', updateActiveTickersSharedStyle);
   Preferences.on('silver-background', updateActiveTickersSharedStyle);

@@ -5,7 +5,7 @@
   "description": "Bitcoin Price Ticker with multiple sources and configurable",
   "author": "neoranga (neoranga55 AT yahoo DOT es)",
   "license": "MPL 2.0",
-  "version": "2.5",
+  "version": "3",
   "permissions": {"private-browsing": true},
   "preferences": [{
     "name": "infoButton",
@@ -19,13 +19,6 @@
     "description": "Indicate the amount of seconds to wait between each refresh (Warning: Short refresh intervals can cause BitStamp to ban your computer's IP)",
     "type": "integer",
     "value": 120
-  },
-  {
-    "name": "defaultTickerSpacing",
-    "title": "Space between tickers",
-    "description": "Increase the space between prices if they overlap",
-    "type": "integer",
-    "value": 4
   },
   {
     "name": "defaultFontSize",
