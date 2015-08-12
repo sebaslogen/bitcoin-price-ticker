@@ -428,19 +428,6 @@ exports.main = function() {
     };
   };
 
-  var calculateRoundFactor = function(price) { // Allow more decimals for low price values
-    var round_factor = 1;
-    var size_round_factor = 0;
-    if (price == 0) {
-      return round_factor;
-    }
-    while (round_factor * price <= 100) {
-      round_factor *= 10;
-      if ((round_factor * price) % 10 != 0) // Amount of decimals without zeros to the right
-        size_round_factor++;
-    }
-    return {factor: round_factor, size: size_round_factor};
-  };
 
   var setupTicker = function(id, label, currency, base_currency, color, ticker_url, json_path) {
     ticker_creators[id] = function() { return createTicker(id, label, currency, base_currency, color, ticker_url, json_path); };
