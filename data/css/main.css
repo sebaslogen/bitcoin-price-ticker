@@ -8,7 +8,7 @@ div {
   border-radius: 8px 8px 0px 8px;
 }
 
-.gold {
+.gold-bg {
   background: #FDEAAB; /* Old browsers */
   background: -moz-linear-gradient(top, #FDEAAB 0%, #CFA347 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FDEAAB), color-stop(100%,#CFA347)); /* Chrome,Safari4+ */
@@ -19,7 +19,7 @@ div {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FDEAAB', endColorstr='#CFA347',GradientType=0 ); /* IE6-9 */
 }
 
-.silver {
+.silver-bg {
   background: #DDDDDD; /* Old browsers */
   background: -moz-linear-gradient(top, #DDDDDD 0%, #888888 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#DDDDDD), color-stop(100%,#888888)); /* Chrome,Safari4+ */
@@ -30,7 +30,7 @@ div {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#DDDDDD', endColorstr='#888888',GradientType=0 ); /* IE6-9 */
 }
 
-.dogecoin {
+.dogecoin-bg {
   background: #BA9F33; /* Old browsers */
   background: -moz-linear-gradient(top, #BA9F33 0%, #F8F3E4 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#BA9F33), color-stop(100%,#F8F3E4)); /* Chrome,Safari4+ */
@@ -41,7 +41,7 @@ div {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#BA9F33', endColorstr='#F8F3E4',GradientType=0 ); /* IE6-9 */
 }
 
-.worldcoin {
+.worldcoin-bg {
   background: #0391E1; /* Old browsers */
   background: -moz-linear-gradient(top, #0391E1 0%, #F8F3E4 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#0391E1), color-stop(100%,#F8F3E4)); /* Chrome,Safari4+ */
@@ -52,7 +52,7 @@ div {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0391E1', endColorstr='#F8F3E4',GradientType=0 ); /* IE6-9 */
 }
 
-.namecoin {
+.namecoin-bg {
   background: #BA8D88; /* Old browsers */
   background: -moz-linear-gradient(top, #BA8D88 0%, #BA9F33 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#BA8D88), color-stop(100%,#BA9F33)); /* Chrome,Safari4+ */
@@ -63,7 +63,7 @@ div {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#BA8D88', endColorstr='#BA9F33',GradientType=0 ); /* IE6-9 */
 }
 
-.auroracoin {
+.auroracoin-bg {
   background: #00B05F; /* Old browsers */
   background: -moz-linear-gradient(top, #00B05F 0%, #9FF2A8 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#00B05F), color-stop(100%,#9FF2A8)); /* Chrome,Safari4+ */
@@ -74,7 +74,7 @@ div {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00B05F', endColorstr='#9FF2A8',GradientType=0 ); /* IE6-9 */
 }
 
-.blackcoin {
+.blackcoin-bg {
   background: #555555; /* Old browsers */
   background: -moz-linear-gradient(top, #555555 0%, #000 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#555555), color-stop(100%,#000)); /* Chrome,Safari4+ */
@@ -85,7 +85,7 @@ div {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#555555', endColorstr='#000',GradientType=0 ); /* IE6-9 */
 }
 
-.nxt {
+.nxt-bg {
   background: #BA9F33; /* Old browsers */
   background: -moz-linear-gradient(top, #BA9F33 0%, #F8F3E4 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#BA9F33), color-stop(100%,#F8F3E4)); /* Chrome,Safari4+ */
@@ -96,7 +96,7 @@ div {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#BA9F33', endColorstr='#F8F3E4',GradientType=0 ); /* IE6-9 */
 }
 
-.bitshares {
+.bitshares-bg {
   background: #03A3DB; /* Old browsers */
   background: -moz-linear-gradient(top, #03A3DB 0%, #9FF2A8 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#03A3DB), color-stop(100%,#9FF2A8)); /* Chrome,Safari4+ */
@@ -107,7 +107,7 @@ div {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#03A3DB', endColorstr='#9FF2A8',GradientType=0 ); /* IE6-9 */
 }
 
-.ripple {
+.ripple-bg {
   background: #03A3DB; /* Old browsers */
   background: -moz-linear-gradient(top, #03A3DB 0%, #B9EFFF 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#03A3DB), color-stop(100%,#B9EFFF)); /* Chrome,Safari4+ */
@@ -118,7 +118,7 @@ div {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#03A3DB', endColorstr='#B9EFFF',GradientType=0 ); /* IE6-9 */
 }
 
-.maidsafe {
+.maidsafe-bg {
   background: #5593D7; /* Old browsers */
   background: -moz-linear-gradient(top, #5593D7 0%, #B9EFFF 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#5593D7), color-stop(100%,#B9EFFF)); /* Chrome,Safari4+ */
@@ -129,7 +129,7 @@ div {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5593D7', endColorstr='#B9EFFF',GradientType=0 ); /* IE6-9 */
 }
 
-.bitcoindark {
+.bitcoindark-bg {
   background: #0069E0; /* Old browsers */
   background: -moz-linear-gradient(top, #0069E0 0%, #B9EFFF 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#0069E0), color-stop(100%,#B9EFFF)); /* Chrome,Safari4+ */
@@ -140,7 +140,7 @@ div {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0069E0', endColorstr='#B9EFFF',GradientType=0 ); /* IE6-9 */
 }
 
-.monero {
+.monero-bg {
   background: #FF6600; /* Old browsers */
   background: -moz-linear-gradient(top, #FF6600 0%, #B9EFFF 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FF6600), color-stop(100%,#B9EFFF)); /* Chrome,Safari4+ */
@@ -151,7 +151,7 @@ div {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FF6600', endColorstr='#B9EFFF',GradientType=0 ); /* IE6-9 */
 }
 
-.dash {
+.dash-bg {
   background: #FFFFFF; /* Old browsers */
   background: -moz-linear-gradient(top, #FFFFFF 0%, #FFFFFF 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FFFFFF), color-stop(100%,#FFFFFF)); /* Chrome,Safari4+ */
@@ -162,7 +162,7 @@ div {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFFFFF', endColorstr='#FFFFFF',GradientType=0 ); /* IE6-9 */
 }
 
-.burst {
+.burst-bg {
   background: #5593D7; /* Old browsers */
   background: -moz-linear-gradient(top, #5593D7 0%, #34495E 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#5593D7), color-stop(100%,#34495E)); /* Chrome,Safari4+ */

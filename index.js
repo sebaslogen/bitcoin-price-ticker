@@ -143,25 +143,25 @@ exports.main = function() {
   setTimeout(function() {
     tickerData = {'id': 'BTCeUSD', 'enabled': true, 'color': '#FF0000', 'updateInterval': 3}
     updateTickerConfiguration(tickerData)
-    tickerData = {'id': 'BitStampUSD', 'enabled': true, 'color': '#FF0000', 'updateInterval': 15}
+    tickerData = {'id': 'BitStampUSD', 'enabled': true, 'color': '#413ADF', 'updateInterval': 15}
     updateTickerConfiguration(tickerData)
-    tickerData = {'id': 'PoloniexNxt', 'enabled': true, 'color': '#FF0000', 'updateInterval': 25}
+    tickerData = {'id': 'PoloniexNxt', 'enabled': true, 'color': '#6E307C', 'updateInterval': 25}
     updateTickerConfiguration(tickerData)
   }, 1000)
   setTimeout(function() {
-    tickerData = {'id': 'BTCeUSD', 'enabled': false, 'color': '#FF0000', 'updateInterval': 25}
+    tickerData = {'id': 'BTCeUSD', 'enabled': false, 'color': '#FF2200', 'updateInterval': 25}
     updateTickerConfiguration(tickerData)
   }, 10000)
   setTimeout(function() {
-    tickerData = {'id': 'BTCeUSD', 'enabled': true, 'color': '#FF0000', 'updateInterval': 25}
+    tickerData = {'id': 'BTCeUSD', 'enabled': true, 'color': '#013ADF', 'updateInterval': 25}
     updateTickerConfiguration(tickerData)
   }, 15000)
   setTimeout(function() {
-    tickerData = {'id': 'BitStampUSD', 'enabled': false, 'color': '#FF0000', 'updateInterval': 25}
+    tickerData = {'id': 'BitStampUSD', 'enabled': false, 'color': '#3366FF', 'updateInterval': 25}
     updateTickerConfiguration(tickerData)
   }, 18000)
   setTimeout(function() {
-    tickerData = {'id': 'PoloniexNxt', 'enabled': true, 'color': '#FF0000', 'updateInterval': 3}
+    tickerData = {'id': 'PoloniexNxt', 'enabled': true, 'color': '#B43104', 'updateInterval': 3}
     updateTickerConfiguration(tickerData)
   }, 19000)
 /*

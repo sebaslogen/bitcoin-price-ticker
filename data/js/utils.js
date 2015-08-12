@@ -1,6 +1,7 @@
-const DEBUG = false
+const DEBUG = true
+const DEFAULT_TICKER_CSS_CLASSES = "ticker"
 var tickers = { "models": {}, "views": {}, "controllers": {}}
-var counter = 0 // DEBUG line TODO remove
+    var counter = 0 // DEBUG line TODO remove
 
 window.addEventListener("message", handleAddonMessages, false);
 
@@ -46,31 +47,6 @@ function createAndConfigureTickerModel(data, observer) {
   return tickerModel
 }
 
-function updateTickerModelConfiguration(tickerModel, data) {
-  var notifyObservers = false
-  if (typeof data.enabled != "undefined") {
-    if (data.enabled != tickerModel.enabled) {
-      notifyObservers = true
-      tickerModel.enabled = data.enabled ? true : false
-    }
-  }
-  if (data.color) {
-    if (data.color != tickerModel.color) {
-      notifyObservers = true
-    }
-    tickerModel.color = data.color
-  }
-  if (data.updateInterval) {
-    if (data.updateInterval != tickerModel.updateInterval) {
-      notifyObservers = true
-    }
-    tickerModel.updateInterval = data.updateInterval
-  }
-  if (notifyObservers) {
-    tickerModel.notifyObservers()
-  }
-}
-
 function createTickerModel(id) {
   var ticker = {
     id: id,
@@ -79,6 +55,8 @@ function createTickerModel(id) {
     currency: null,
     baseCurrency: null,
     color: null,
+    fontSize: null,
+    backgroundColor: null,
     price: 0,
     updateInterval: 0,
     observers: [],
@@ -91,7 +69,7 @@ function createTickerModel(id) {
         ticker.currency = data.currency
         ticker.baseCurrency = data.baseCurrency
         ticker.color = data.color
-        $(".ticker#"+ticker.id).text(ticker.id + ' ' + ticker.exchangeName + ' initialized') // DEBUG line TODO remove
+        if (DEBUG) $(".ticker#"+ticker.id).text(ticker.id + ' ' + ticker.exchangeName + ' initialized')
       }
     },
     updatePrice: function(newPrice) {
@@ -107,6 +85,43 @@ function createTickerModel(id) {
     }
   }
   return ticker
+}
+
+function updateTickerModelConfiguration(tickerModel, data) {
+  var notifyObservers = false
+  if (typeof data.enabled != "undefined") {
+    if (data.enabled != tickerModel.enabled) {
+      notifyObservers = true
+      tickerModel.enabled = data.enabled ? true : false
+    }
+  }
+  if (data.color) {
+    if (data.color != tickerModel.color) {
+      notifyObservers = true
+    }
+    tickerModel.color = data.color
+  }
+  if (data.fontSize) {
+    if (data.fontSize != tickerModel.fontSize) {
+      notifyObservers = true
+    }
+    tickerModel.fontSize = data.fontSize
+  }
+  if (data.backgroundColor) {
+    if (data.backgroundColor != tickerModel.backgroundColor) {
+      notifyObservers = true
+    }
+    tickerModel.backgroundColor = data.backgroundColor
+  }
+  if (data.updateInterval) {
+    if (data.updateInterval != tickerModel.updateInterval) {
+      notifyObservers = true
+    }
+    tickerModel.updateInterval = data.updateInterval
+  }
+  if (notifyObservers) {
+    tickerModel.notifyObservers()
+  }
 }
 
 function updateTickerModelPrice(data) {
@@ -126,7 +141,7 @@ function getLatestData(id) {
   if (data) {
     var url = data.url
     var jsonPath = data.jsonPath
-    $(".ticker#"+id).text(' Getting ' + url + '-' + jsonPath.length) // DEBUG line TODO remove
+    if (DEBUG) $(".ticker#"+id).text(' Getting ' + url + '-' + JSON.stringify(jsonPath))
     window.parent.postMessage({
       "id" : id,
       "url" : url,
@@ -150,12 +165,35 @@ function createTickerView(tickerId) {
   $('#tickers-body').append(tickerView)
   return tickerView
 }
+
 function newViewTicker(tickerId) {
   return $( "<div></div>", {
     "id": tickerId,
-    "class": "ticker",
+    "class": DEFAULT_TICKER_CSS_CLASSES,
     "text": 'New emtpy ticker for ' + tickerId
   })
+}
+
+// Update and style of ticker div //
+function updateStyle(tickerId, color, fontSize, backgroundColor) {
+  $(".ticker#"+tickerId).css('font-size', fontSize)
+  $(".ticker#"+tickerId).css('color', color)
+  if (backgroundColor) {
+    if (backgroundColor.match(/-bg$/) == null) {
+      backgroundColor += "-bg" // Append background CSS to name when missing
+    }
+    $(".ticker#"+tickerId).removeClass().addClass(DEFAULT_TICKER_CSS_CLASSES)
+    $(".ticker#"+tickerId).addClass(backgroundColor)
+  } else {
+    $(".ticker#"+tickerId).removeClass().addClass(DEFAULT_TICKER_CSS_CLASSES)
+  }
+  /* Handle ticker size
+  var body_el = document.getElementById('ticker-body');
+  var client_width = body_el.clientWidth;
+  var scroll_width = body_el.scrollWidth;
+  if (($('#ticker-data').width() > 0) && (client_width != scroll_width)) {
+    self.port.emit('increaseWidth', 1);
+  }*/
 }
 
 // Controllers
@@ -202,8 +240,9 @@ function startAutoPriceUpdate(tickerId, intervalSeconds) {
 }
 
 function updateView(tickerModel) {
-  var tickerController = tickers["controllers"][tickerModel.id]
-  var tickerView = $(".ticker#"+tickerModel.id)
+  var tickerId = tickerModel.id
+  var tickerController = tickers["controllers"][tickerId]
+  var tickerView = $(".ticker#"+tickerId)
   if (tickerView.size() != 1) {
     tickerView = null // Simplify if conditions below
   }
@@ -212,7 +251,8 @@ function updateView(tickerModel) {
       tickerController.setRequestPriceUpdateInterval(tickerModel.updateInterval)
     }
     if (tickerView) {
-      tickerView.text(tickerModel.id + ' ' + tickerModel.price + ' ' + ++counter) // DEBUG line TODO remove
+      updateStyle(tickerId, tickerModel.color, tickerModel.fontSize, tickerModel.backgroundColor)
+      if (DEBUG) tickerView.text(tickerId + ' ' + tickerModel.price + ' ' + ++counter)
     }
   } else {
     if (tickerController) {
@@ -232,24 +272,6 @@ function updateView(tickerModel) {
 self.port.on("updateContent", function(new_content) { 
   if (new_content != null) {
     $('#ticker-data').text(new_content);
-  }
-});
-
-// Update and style of ticker widget //
-self.port.on("updateStyle", function(color, font_size, background_color) {
-  $('#ticker-data').css('font-size', font_size);
-  $('#ticker-data').css('color', color);
-  if (background_color) {
-    $('#ticker-data').removeClass();
-    $('#ticker-data').addClass(background_color);
-  } else {
-    $('#ticker-data').removeClass();
-  }
-  var body_el = document.getElementById('ticker-body');
-  var client_width = body_el.clientWidth;
-  var scroll_width = body_el.scrollWidth;
-  if (($('#ticker-data').width() > 0) && (client_width != scroll_width)) {
-    self.port.emit('increaseWidth', 1);
   }
 });
 */
