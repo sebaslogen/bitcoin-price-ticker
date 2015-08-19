@@ -313,10 +313,7 @@ exports.main = function() {
     items: [tickers_frame]
   })
 
-
-  setTimeout(function() {
-    loadTickersInOrder() // Load and create all selected tickers
-  }, 1000)
+  tickers_frame.on("ready", loadTickersInOrder)
 
 /*
   Feature disabled until refactored
