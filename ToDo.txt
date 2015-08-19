@@ -1,3 +1,7 @@
+- Disbale toolbar in options with explanation of how to add to naviagtion bar
+
+- Refactor to not use window.parent.postMessage from iFrame to avoid being blocked by NoScript
+
 - Add price trends feature
 
 - Add search function to search for cryptocurrency by name or symbol
