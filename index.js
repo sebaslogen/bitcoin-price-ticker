@@ -3,7 +3,7 @@ const DATA_PROVIDERS_URL = "https://raw.githubusercontent.com/neoranga55/bitcoin
 const ADDON_UPDATE_DOCUMENT_URL = "http://neoranga55.github.io/bitcoin-price-ticker/"
 
 // The main module of the Add-on.
-var ui = require('sdk/ui')
+var ui = require("sdk/ui")
 const {Cc, Ci, Cu} = require("chrome")
 Cu.import("resource://gre/modules/AddonManager.jsm") // Addon Manager required to know addon version
 const setTimeout = require("sdk/timers").setTimeout
@@ -13,7 +13,7 @@ const ADDON_ID = "jid0-ziK34XHkBWB9ezxd4l9Q1yC7RP0@jetpack"
 const DEFAULT_REFRESH_RATE = 60
 const DEFAULT_FONT_SIZE = 14
 
-var Preferences = require('sdk/simple-prefs')
+var Preferences = require("sdk/simple-prefs")
 var prefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefService).getBranch("extensions.ADDON_ID.")
 var Request = require("sdk/request").Request
 var tabs = require("sdk/tabs")
@@ -54,8 +54,8 @@ exports.main = function() {
 
   function getBackgroundColor(id) {
     var lowId = id.toLowerCase()
-    var otherBgCryptos = [ 'dogecoin', 'worldcoin', 'namecoin', 'auroracoin', 'blackcoin', 'nxt',
-      'bitshares', 'ripple', 'maidsafe', 'bitcoindark', 'monero', 'dash', 'burst' ]
+    var otherBgCryptos = [ "dogecoin", "worldcoin", "namecoin", "auroracoin", "blackcoin", "nxt",
+      "bitshares", "ripple", "maidsafe", "bitcoindark", "monero", "dash", "burst" ]
     for (var i in otherBgCryptos) {
       if (lowId.indexOf(otherBgCryptos[i]) != -1) {  // Alt-coin
         if (getBooleanPreference("other-background")) {
@@ -90,7 +90,7 @@ exports.main = function() {
   // Use tickers enabled in preferences to load in that order regardless of stored order
   function loadDefaultTickers() {
     for (var tickerId in tickers) {
-      if ( getBooleanPreference('p' + tickerId) ) { // Create Ticker
+      if ( getBooleanPreference("p" + tickerId) ) { // Create Ticker
         updateTickerConfiguration(tickerId)
         if (tickers[tickerId].enabled) orderedTickers.push(tickerId)
       }
@@ -109,7 +109,7 @@ exports.main = function() {
         loadDefaultTickers()
         return
       }
-      var listOrderedTickers = orderedActiveTickers.split(',')
+      var listOrderedTickers = orderedActiveTickers.split(",")
       if (listOrderedTickers.length < 1) { // There is no order of tickers in addon set yet
         loadDefaultTickers()
         return
@@ -145,7 +145,7 @@ exports.main = function() {
 
   // Live enable/disable ticker from options checkbox
   function toggleTicker(tickerId) {
-    if ( getBooleanPreference('p' + tickerId) ) { // Enable Ticker
+    if ( getBooleanPreference("p" + tickerId) ) { // Enable Ticker
       updateTickerConfiguration(tickerId)
       updateTickerRefreshIntervalForTicker(tickerId)
       orderedTickers.push(tickerId)
@@ -297,7 +297,7 @@ exports.main = function() {
     if (getBooleanPreference("bar")) {
       if (toolbar == null) {
         toolbar = ui.Toolbar({
-          title: 'Bitcoin Price Ticker',
+          title: "Bitcoin Price Ticker",
           items: [tickersFrame]
         })
       }
@@ -308,7 +308,7 @@ exports.main = function() {
   }
 
   var tickersFrame = ui.Frame({
-    url: './index.html'
+    url: "./index.html"
   })
 
   tickersFrame.on("ready", loadProvidersData) // When the presenter is ready load config data and tickers
@@ -322,14 +322,14 @@ exports.main = function() {
 
   var calculateSlopeAndTrend = function(last_price, price, trend) {
     var slope = (last_price>0) ? price/last_price - 1 : 0;
-    var label_slope = '\u2194';
+    var label_slope = "\u2194";
     var st = price;
     var bt = 0;
     if (slope>=0.001) {
-      label_slope = (slope>=0.01) ? '\u219f' : '\u2191';
+      label_slope = (slope>=0.01) ? "\u219f" : "\u2191";
     }
     else if (slope<=-0.001) {
-      label_slope = (slope<=-0.01) ? '\u21a1' : '\u2193';
+      label_slope = (slope<=-0.01) ? "\u21a1" : "\u2193";
     }
     // Double Exponential Smoothing
     // http://en.wikipedia.org/wiki/Exponential_smoothing
@@ -345,19 +345,19 @@ exports.main = function() {
         bt = .1 * (st - trend[0]) + .9 * trend[1];
       }
     }
-    var label_trend = '\u21d4'; // ⇔
+    var label_trend = "\u21d4"; // ⇔
     var change = 10000*bt/st;
     if (change>=2.5) {
-      label_trend = '\u21d1'; // ⇑
+      label_trend = "\u21d1"; // ⇑
     }
     else if (change>=1.0) {
-      label_trend = '\u21d7'; // ⇗
+      label_trend = "\u21d7"; // ⇗
     }
     else if (change<=-2.5) { // ⇓
-      label_trend = '\u21d3';
+      label_trend = "\u21d3";
     }
     else if (change<=-1.0) { // ⇘
-      label_trend = '\u21d8';
+      label_trend = "\u21d8";
     }
     return {
         trend: [st, bt],
@@ -393,11 +393,11 @@ exports.main = function() {
   */
 
   function registerTickerEvents(tickerId) {
-    Preferences.on('p' + tickerId, function() { // Create event to enable/disable of tickers
+    Preferences.on("p" + tickerId, function() { // Create event to enable/disable of tickers
       toggleTicker(tickerId)
     })
     // Create events to update ticker when a particular option is changed
-    Preferences.on('p' + tickerId + 'Color', function() {
+    Preferences.on("p" + tickerId + "Color", function() {
       if (tickers[tickerId] != null) {
         updateTickerConfiguration(tickerId)
       }
@@ -411,17 +411,17 @@ exports.main = function() {
   }
 
   // Register general settings events
-  Preferences.on('bar', toggleBarDisplay)
-  Preferences.on('Timer', updateTickerRefreshInterval)
-  Preferences.on('defaultFontSize', updateActiveTickersSharedStyle)
-  Preferences.on('gold-background', updateActiveTickersSharedStyle)
-  Preferences.on('silver-background', updateActiveTickersSharedStyle)
-  Preferences.on('other-background', updateActiveTickersSharedStyle)
-  // Preferences.on('show-long-trend', updateAllTickers)
-  // Preferences.on('show-short-trend', updateAllTickers)
-  Preferences.on('show-currency-label', updateActiveTickersSharedStyle)
+  Preferences.on("bar", toggleBarDisplay)
+  Preferences.on("Timer", updateTickerRefreshInterval)
+  Preferences.on("defaultFontSize", updateActiveTickersSharedStyle)
+  Preferences.on("gold-background", updateActiveTickersSharedStyle)
+  Preferences.on("silver-background", updateActiveTickersSharedStyle)
+  Preferences.on("other-background", updateActiveTickersSharedStyle)
+  // Preferences.on("show-long-trend", updateAllTickers)
+  // Preferences.on("show-short-trend", updateAllTickers)
+  Preferences.on("show-currency-label", updateActiveTickersSharedStyle)
 
-  Preferences.on('infoButton', showAddonUpdateDocument)
+  Preferences.on("infoButton", showAddonUpdateDocument)
   // Check updated version
   AddonManager.getAddonByID(ADDON_ID, function(addon) {
     showAddonUpdate(addon.version)
