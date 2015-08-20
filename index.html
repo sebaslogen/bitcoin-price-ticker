@@ -49,6 +49,15 @@
 <p>Latest changes included in the add-on:</p>
 
 <pre><code>
+3.1
+- Big fix to avoid being blocked by NoScript Firefox Addon. Read:
+To use this plugin and NoScript together you need to Allow in NoScript
+the domain raw.githubusercontent.com
+(or add this domain to the whitelist in NoScript options)
+- Lots of bugfixes
+- Added new option to switch between placing the tickers on a separate toolbar
+or placing the tickers on the navigation bar
+
 3.0
 - Full port from old Firefox framework to new Firefox UI (Australis)
 in Firefox versions 40+ there are no more widgets.
@@ -214,11 +223,12 @@ nevertheless, it will be restored in future versions.
   </ul>
 <p>Configuration options:</p>
   <ul>
+	<li>Select between placing the tickers on a separate toolbar or placing the tickers on the navigation bar (disable the toolbar option in this Addon and then in Firefox->Customize, drag&drop the tickers to the navigation bar) </li>
     <li>Select exchange price update interval</li>
     <li>Select exchanges and currencies</li>
     <li>Select ticker colors and backgrounds</li>
     <li>Show short and long trend indicators</li>
-    <li>Customize font size and spacing</li>
+    <li>Customize font size</li>
     <li>Select order of tickers displayed (HOW: disable all tickers and enable in order)</li>
   </ul>
 </p>
@@ -229,7 +239,10 @@ nevertheless, it will be restored in future versions.
 
 <p>In Firefox's top menu select <code>Addons (or Ctrl+Shift+A)->Extensions->Options</code></p>
 
-
+<h2>NoScript Addon Users Warning</h2>
+<p>To be able to use this Addon in combination with NoScript Addon you need to Allow in NoScript the domain this Addon uses</p>
+<p>To do this, 'Allow' the domain below or go to NoScript options, and insite the whitelist tab, add the domain below</p>
+<p>raw.githubusercontent.com</p>
 
 <h2>Upcoming features</h2>
 
