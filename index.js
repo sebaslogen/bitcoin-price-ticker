@@ -1,5 +1,6 @@
 const DEBUG = true
 const DATA_PROVIDERS_URL = "https://raw.githubusercontent.com/neoranga55/bitcoin-price-ticker/refactor-to-use-firefox-frames/data/data-providers.json"
+const ADDON_UPDATE_DOCUMENT_URL = "http://neoranga55.github.io/bitcoin-price-ticker/"
 
 // The main module of the Add-on.
 var ui = require('sdk/ui')
@@ -18,67 +19,6 @@ var tabs = require("sdk/tabs");
 var orderedTickers = new Array()
 // Ids of all tickers available. Ticker configuration for each ID is in file data/js/providers.js
 var tickers = {} // Store all tickers here
-  /*'BitStampUSD':null,
-  'BTCeUSD':null,
-  'KrakenUSD':null,
-  'CoinDeskUSD':null,
-  'CoinbaseUSD':null,
-  'CampBXUSD':null,
-  'BitPayUSD':null,
-  'TheRockTradingUSD':null,
-  'BitFinexUSD':null,
-  'BTCeEUR':null,
-  'KrakenEUR':null,
-  'CoinDeskEUR':null,
-  'BitPayEUR':null,
-  'BitonicEUR':null,
-  'TheRockTradingEUR':null,
-  'CoinDeskGBP':null,
-  'LocalbitcoinsGBP':null,
-  'BittyliciousGBP':null,
-  'BitPayGBP':null,
-  'BitcurexPLN':null,
-  'CaVirTexCAD':null,
-  'BTCChinaCNY':null,
-  'BTCeRUR':null,
-  'MercadoBitcoinBRL':null,
-  'BTCTurkTRY':null,
-  'BitcoinVenezuelaVEF':null,
-  'LocalbitcoinsVEF':null,
-  'CoinbaseVEF':null,
-  'BitcoinVenezuelaARS':null,
-  'LocalbitcoinsARS':null,
-  'CoinbaseARS':null,
-  'BitexARS':null,
-  'LocalbitcoinsCLP':null,
-  'BitsoMXN':null,
-  'BitXZAR':null,
-  'CoinbaseZAR':null,
-  'Bit2CILS':null,
-  'BTCeLitecoin':null,
-  'KrakenLitecoin':null,
-  'VircurexLitecoin':null,
-  'BTCeLitecoinUSD':null,
-  'BTCeLitecoinEUR':null,
-  'VircurexWorldcoin':null,
-  'CryptsyDogecoin':null,
-  'KrakenDogecoin':null,
-  'BTCeNamecoinUSD':null,
-  'CryptsyAuroracoin':null,
-  'CryptsyBlackcoin':null,
-  'CryptsyNxt':null,
-  'PoloniexNxt':null,
-  'PoloniexBitshares':null,
-  'KrakenRipple':null,
-  'PoloniexMaidsafe':null,
-  'PoloniexBitcoindark':null,
-  'PoloniexMonero':null,
-  'CryptsyDashBTC':null,
-  'CryptsyDashUSD':null,
-  'BitFinexDashBTC':null,
-  'BitFinexDashUSD':null,
-  'PoloniexBurst':null
-}*/
 
 exports.main = function() {
 
@@ -290,7 +230,7 @@ exports.main = function() {
   }
 
   function showAddonUpdateDocument() {
-    tabs.open("http://neoranga55.github.io/bitcoin-price-ticker/")
+    tabs.open(ADDON_UPDATE_DOCUMENT_URL)
   }
 
   function showAddonUpdate(version) {
