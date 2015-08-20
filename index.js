@@ -1,4 +1,4 @@
-const DEBUG = true;
+const DEBUG = false;
 const DATA_PROVIDERS_URL = "https://raw.githubusercontent.com/neoranga55/bitcoin-price-ticker/refactor-to-use-firefox-frames/data/data-providers.json";
 const ADDON_UPDATE_DOCUMENT_URL = "http://neoranga55.github.io/bitcoin-price-ticker/";
 
@@ -176,7 +176,8 @@ exports.main = function() {
   function updateTickerConfiguration(tickerId) {
     getTickerConfigurationData(tickerId);
     if (DEBUG) {
-      console.log("Sending config JSON data to frame:" + tickerId + "-" + JSON.stringify(tickers[tickerId]));
+      console.log("Sending config JSON data to frame:" + tickerId + 
+                  "-" + JSON.stringify(tickers[tickerId]));
     }
     tickersFrame.postMessage({
       "type": "updateTickerConfiguration",
@@ -195,7 +196,7 @@ exports.main = function() {
     Request({
       url: url,
       onComplete: function (response) {
-        if ((response != null) && (response.json != null)) {
+        if ((response !== null) && (response.json !== null)) {
           if (DEBUG) {
             console.log("Data received, searching in document for path:" + jsonPath);
           }
@@ -231,7 +232,8 @@ exports.main = function() {
         fetchURLData(tickerId, tickers[tickerId].url, tickers[tickerId].jsonPath);
       };
       fetchURLDataWrapper();
-      tickers[tickerId].timer = setInterval(fetchURLDataWrapper, (tickers[tickerId].updateInterval * 1000));
+      tickers[tickerId].timer = setInterval(fetchURLDataWrapper, 
+                                            (tickers[tickerId].updateInterval * 1000));
     }
   }
 
@@ -262,13 +264,16 @@ exports.main = function() {
   // Create new refresh interval for each ticker when option is changed
   function updateTickerRefreshInterval() {
     for (var tickerId in tickers) { // Update all tickers that require it
-      updateTickerRefreshIntervalForTicker(tickerId);
+      if (tickers.hasOwnProperty(tickerId)) {
+        updateTickerRefreshIntervalForTicker(tickerId);
+      }
     }
   }
 
   function updateActiveTickersSharedStyle() {
-    for (tickerId in tickers) {
-      if (tickers[tickerId] && tickers[tickerId].enabled) {
+    for (var tickerId in tickers) {
+      if (tickers.hasOwnProperty(tickerId) &&
+          tickers[tickerId] && tickers[tickerId].enabled) {
         updateTickerConfiguration(tickerId); // Update configuration
       }
     }
@@ -299,12 +304,12 @@ exports.main = function() {
     Request({
       url: url,
       onComplete: function (response) {
-        if ((response != null) && (response.json != null)) {
+        if ((response !== null) && (response.json !== null)) {
           if (DEBUG) {
             console.log("Data received from data providers JSON configuration");
           }
           tickers = response.json;
-          if (Object.keys(tickers).length == 0) {
+          if (Object.keys(tickers).length === 0) {
             if (DEBUG) {
               console.log("Error: No ticker configuration found in JSON configuration received from server:"+url);
             }
