@@ -221,7 +221,7 @@ exports.main = function() {
 
   function updateActiveTickersSharedStyle() {
     for (tickerId in tickers) {
-      if (tickers[tickerId]) {
+      if (tickers[tickerId] && tickers[tickerId].enabled) {
         loadTicker(tickerId) // Update configuration
       }
     }
