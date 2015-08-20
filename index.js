@@ -1,89 +1,92 @@
-const DEBUG = false
-const DATA_PROVIDERS_URL = "https://raw.githubusercontent.com/neoranga55/bitcoin-price-ticker/refactor-to-use-firefox-frames/data/data-providers.json"
-const ADDON_UPDATE_DOCUMENT_URL = "http://neoranga55.github.io/bitcoin-price-ticker/"
+const DEBUG = true;
+const DATA_PROVIDERS_URL = "https://raw.githubusercontent.com/neoranga55/bitcoin-price-ticker/refactor-to-use-firefox-frames/data/data-providers.json";
+const ADDON_UPDATE_DOCUMENT_URL = "http://neoranga55.github.io/bitcoin-price-ticker/";
 
 // The main module of the Add-on.
-var ui = require("sdk/ui")
-const {Cc, Ci, Cu} = require("chrome")
-Cu.import("resource://gre/modules/AddonManager.jsm") // Addon Manager required to know addon version
-const setTimeout = require("sdk/timers").setTimeout
-const setInterval = require("sdk/timers").setInterval
-const clearInterval = require("sdk/timers").clearInterval
-const ADDON_ID = "jid0-ziK34XHkBWB9ezxd4l9Q1yC7RP0@jetpack"
-const DEFAULT_REFRESH_RATE = 60
-const DEFAULT_FONT_SIZE = 14
+var ui = require("sdk/ui");
+const {Cc, Ci, Cu} = require("chrome");
+Cu.import("resource://gre/modules/AddonManager.jsm"); // Addon Manager required to know addon version
+const setTimeout = require("sdk/timers").setTimeout;
+const setInterval = require("sdk/timers").setInterval;
+const clearInterval = require("sdk/timers").clearInterval;
+const ADDON_ID = "jid0-ziK34XHkBWB9ezxd4l9Q1yC7RP0@jetpack";
+const DEFAULT_REFRESH_RATE = 60;
+const DEFAULT_FONT_SIZE = 14;
 
-var Preferences = require("sdk/simple-prefs")
-var prefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefService).getBranch("extensions.ADDON_ID.")
-var Request = require("sdk/request").Request
-var tabs = require("sdk/tabs")
+var Preferences = require("sdk/simple-prefs");
+var prefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefService).
+            getBranch("extensions.ADDON_ID.");
+var Request = require("sdk/request").Request;
+var tabs = require("sdk/tabs");
 
-var orderedTickers = new Array()
-var tickers = {} // Store all tickers here
+var orderedTickers = [];
+var tickers = {}; // Store all tickers here
 
 exports.main = function() {
 
   function getPreference(prefName, type) {
     if (typeof Preferences.prefs[prefName] == "undefined") {
-      if (DEBUG) console.log("bitcoin-price-ticker addon error: " + prefName + " preference is not defined")
+      if (DEBUG) {
+        console.log("bitcoin-price-ticker addon error: " + prefName + " preference is not defined");
+      }
       switch (type) {
         case "boolean":
-          return false
+          return false;
         case "integer":
-          return -1
+          return -1;
         case "string":
-          return ""
+          return "";
         default:
-          return null
+          return null;
       }
     }
-    return Preferences.prefs[prefName]
+    return Preferences.prefs[prefName];
   }
 
   function getBooleanPreference(prefName) {
-    return getPreference(prefName, "boolean")
+    return getPreference(prefName, "boolean");
   }
 
   function getIntegerPreference(prefName) {
-    return getPreference(prefName, "integer")
+    return getPreference(prefName, "integer");
   }
 
   function getStringPreference(prefName) {
-    return getPreference(prefName, "string")
+    return getPreference(prefName, "string");
   }
 
   function getBackgroundColor(id) {
-    var lowId = id.toLowerCase()
+    var lowId = id.toLowerCase();
     var otherBgCryptos = [ "dogecoin", "worldcoin", "namecoin", "auroracoin", "blackcoin", "nxt",
-      "bitshares", "ripple", "maidsafe", "bitcoindark", "monero", "dash", "burst" ]
+      "bitshares", "ripple", "maidsafe", "bitcoindark", "monero", "dash", "burst" ];
     for (var i in otherBgCryptos) {
       if (lowId.indexOf(otherBgCryptos[i]) != -1) {  // Alt-coin
         if (getBooleanPreference("other-background")) {
-          return otherBgCryptos[i]
+          return otherBgCryptos[i];
         }
       }
     }
     if (lowId.indexOf("litecoin") != -1) {
       if (getBooleanPreference("silver-background")) { // Currency is Litecoin
-        return "silver"
+        return "silver";
       }
     } else if (getBooleanPreference("gold-background")) { // Currency is Bitcoin
-      return "gold"
+      return "gold";
     }
-    return null
+    return null;
   }
 
   function getTickerConfigurationData(tickerId) {
-    var fontSize = getIntegerPreference("defaultFontSize")
+    var fontSize = getIntegerPreference("defaultFontSize");
     if (fontSize <= 0) {
-      fontSize = DEFAULT_FONT_SIZE
+      fontSize = DEFAULT_FONT_SIZE;
     }
     if (tickers[tickerId]) {
-      tickers[tickerId].enabled = getBooleanPreference("p" + tickerId)
-      tickers[tickerId].currencyPosition = getStringPreference("show-currency-label")
-      tickers[tickerId].color = getStringPreference("p" + tickerId + "Color")
-      tickers[tickerId].fontSize = fontSize
-      tickers[tickerId].background = getBackgroundColor(tickerId)
+      tickers[tickerId].enabled = getBooleanPreference("p" + tickerId);
+      tickers[tickerId].currencyPosition = getStringPreference("show-currency-label");
+      tickers[tickerId].color = getStringPreference("p" + tickerId + "Color");
+      tickers[tickerId].fontSize = fontSize;
+      tickers[tickerId].background = getBackgroundColor(tickerId);
     }
   }
 
@@ -91,148 +94,167 @@ exports.main = function() {
   function loadDefaultTickers() {
     for (var tickerId in tickers) {
       if ( getBooleanPreference("p" + tickerId) ) { // Create Ticker
-        updateTickerConfiguration(tickerId)
-        if (tickers[tickerId].enabled) orderedTickers.push(tickerId)
+        updateTickerConfiguration(tickerId);
+        if (tickers[tickerId].enabled) {
+          orderedTickers.push(tickerId);
+        }
       }
     }
     if ((orderedTickers != null) && (orderedTickers.length > 0)) {
-      storeTickersOrder()
+      storeTickersOrder();
     }
   }
 
   // Load the order of the tickers and simultaneously create them
   function loadTickersInOrder() {
-    var orderedActiveTickers = ""
+    var orderedActiveTickers = "";
     try {
-      orderedActiveTickers = prefs.getCharPref("extensions.ADDON_ID.tickers_order")
+      orderedActiveTickers = prefs.getCharPref("extensions.ADDON_ID.tickers_order");
       if (orderedActiveTickers.length < 1) { // There is no order of tickers in addon set yet
-        loadDefaultTickers()
-        return
+        loadDefaultTickers();
+        return;
       }
-      var listOrderedTickers = orderedActiveTickers.split(",")
+      var listOrderedTickers = orderedActiveTickers.split(",");
       if (listOrderedTickers.length < 1) { // There is no order of tickers in addon set yet
-        loadDefaultTickers()
-        return
+        loadDefaultTickers();
+        return;
       }
       for (var i in listOrderedTickers) {
-        loadTicker(listOrderedTickers[i])
-        if (tickers[tickerId].enabled) orderedTickers.push(tickerId)
+        loadTicker(listOrderedTickers[i]);
+        if (tickers[tickerId].enabled) {
+          orderedTickers.push(tickerId);
+        }
       }
     } catch (e) { // There is no order of tickers in addon set yet
-      loadDefaultTickers()
+      loadDefaultTickers();
     }
   }
 
   // Store the order of the active tickers
   function storeTickersOrder() {
     if ((orderedTickers == null) || (orderedTickers.length == 0)) {
-      loadDefaultTickers()
+      loadDefaultTickers();
     } else {
-      var orderedActiveTickers = ""
+      var orderedActiveTickers = "";
       if ((orderedTickers != null) && (orderedTickers.length > 0)) {
         for (var i in orderedTickers) { // Traverse skipping empty
           if (orderedActiveTickers.length > 0) {
-            orderedActiveTickers += "," + orderedTickers[i]
+            orderedActiveTickers += "," + orderedTickers[i];
           } else {
-            orderedActiveTickers = orderedTickers[i]
+            orderedActiveTickers = orderedTickers[i];
           }
         }
       }
-      if (DEBUG) console.log("Storing tickers in order:" + orderedActiveTickers)
-      prefs.setCharPref("extensions.ADDON_ID.tickers_order", orderedActiveTickers) // Update list of tickers active in order in preferences
+      if (DEBUG) {
+        console.log("Storing tickers in order:" + orderedActiveTickers);
+      }
+      prefs.setCharPref("extensions.ADDON_ID.tickers_order", orderedActiveTickers); // Update list of tickers active in order in preferences
     }
   }
 
   // Live enable/disable ticker from options checkbox
   function toggleTicker(tickerId) {
     if ( getBooleanPreference("p" + tickerId) ) { // Enable Ticker
-      updateTickerConfiguration(tickerId)
-      updateTickerRefreshIntervalForTicker(tickerId)
-      orderedTickers.push(tickerId)
-      storeTickersOrder()
+      updateTickerConfiguration(tickerId);
+      updateTickerRefreshIntervalForTicker(tickerId);
+      orderedTickers.push(tickerId);
+      storeTickersOrder();
     } else if (tickers[tickerId].enabled) { // Disable Ticker if it exists
-      tickers[tickerId].enabled = false
-      stopAutoPriceUpdate(tickerId)
-      updateTickerConfiguration(tickerId)
+      tickers[tickerId].enabled = false;
+      stopAutoPriceUpdate(tickerId);
+      updateTickerConfiguration(tickerId);
       for (var i = 0; i < orderedTickers.length; i++) {
         if (orderedTickers[i] == tickerId) {
-          orderedTickers.splice(i, 1) // Remove the ticker completely from the array with reordering
-          break
+          orderedTickers.splice(i, 1); // Remove the ticker completely from the array with reordering
+          break;
         }
       }
-      storeTickersOrder()
+      storeTickersOrder();
     }
   }
 
   function updateTickerConfiguration(tickerId) {
-    getTickerConfigurationData(tickerId)
-    if (DEBUG) console.log("Sending config JSON data to frame:" + tickerId + "-" + JSON.stringify(tickers[tickerId]))
+    getTickerConfigurationData(tickerId);
+    if (DEBUG) {
+      console.log("Sending config JSON data to frame:" + tickerId + "-" + JSON.stringify(tickers[tickerId]));
+    }
     tickersFrame.postMessage({
       "type": "updateTickerConfiguration",
       "id": tickerId,
       "data": tickers[tickerId]
-    }, tickersFrame.url)
+    }, tickersFrame.url);
   }
 
   function fetchURLData(id, url, jsonPath) {
     if (id == "undefined" || url == "undefined" || jsonPath == "undefined") {
-      return
+      return;
     }
-    if (DEBUG) console.log("Requesting JSON data from " + url)
+    if (DEBUG) {
+      console.log("Requesting JSON data from " + url);
+    }
     Request({
       url: url,
       onComplete: function (response) {
         if ((response != null) && (response.json != null)) {
-          if (DEBUG) console.log("Data received, searching in document for path:" + jsonPath)
-          var price = response.json
+          if (DEBUG) {
+            console.log("Data received, searching in document for path:" + jsonPath);
+          }
+          var price = response.json;
           for (var i = 0; i < jsonPath.length; i++) { // Parse JSON path
             if (typeof price[jsonPath[i]] == "undefined") {
-              if (DEBUG) console.log("BitcoinPriceTicker error loading ticker " + id + ". URL is not correctly responding:" + url)
-              return
+              if (DEBUG) {
+                console.log("BitcoinPriceTicker error loading ticker " + id + 
+                            ". URL is not correctly responding:" + url);
+              }
+              return;
             }
-            price = price[jsonPath[i]]
+            price = price[jsonPath[i]];
           }
-          if (DEBUG) console.log("Price received and parsed: " + price)
+          if (DEBUG) {
+            console.log("Price received and parsed: " + price);
+          }
           tickersFrame.postMessage({
             "type": "updateTickerModelPrice",
             "id": id,
             "data": {
               "price": price
             }
-          }, tickersFrame.url)
+          }, tickersFrame.url);
         }
       }
-    }).get()
+    }).get();
   }
 
   function startAutoPriceUpdate(tickerId) {
     if (tickers[tickerId].url && tickers[tickerId].jsonPath) {
       var fetchURLDataWrapper = function() {
-        fetchURLData(tickerId, tickers[tickerId].url, tickers[tickerId].jsonPath)
-      }
-      fetchURLDataWrapper()
-      tickers[tickerId].timer = setInterval(fetchURLDataWrapper, (tickers[tickerId].updateInterval * 1000))
+        fetchURLData(tickerId, tickers[tickerId].url, tickers[tickerId].jsonPath);
+      };
+      fetchURLDataWrapper();
+      tickers[tickerId].timer = setInterval(fetchURLDataWrapper, (tickers[tickerId].updateInterval * 1000));
     }
   }
 
   function stopAutoPriceUpdate(tickerId) {
     if (tickers[tickerId].timer) { // Remove previous auto-update call if any
-      clearInterval(tickers[tickerId].timer) // Stop automatic refresh
-      tickers[tickerId].timer = null
+      clearInterval(tickers[tickerId].timer); // Stop automatic refresh
+      tickers[tickerId].timer = null;
     }
   }
 
   function updateTickerRefreshIntervalForTicker(tickerId) {
-    var refreshRate = getIntegerPreference("Timer")
+    var refreshRate = getIntegerPreference("Timer");
     if (refreshRate < 1) {
-      refreshRate = DEFAULT_REFRESH_RATE
+      refreshRate = DEFAULT_REFRESH_RATE;
     }
     if (tickers[tickerId] && tickers[tickerId].enabled) {
-      if (DEBUG) console.log("updateTickerRefreshIntervalForTicker:" + tickerId)
+      if (DEBUG) {
+        console.log("updateTickerRefreshIntervalForTicker:" + tickerId);
+      }
       if (tickers[tickerId].updateInterval != refreshRate) { // Update the real interval
-        tickers[tickerId].updateInterval = refreshRate
-        stopAutoPriceUpdate(tickerId)
-        startAutoPriceUpdate(tickerId)
+        tickers[tickerId].updateInterval = refreshRate;
+        stopAutoPriceUpdate(tickerId);
+        startAutoPriceUpdate(tickerId);
       }
     }
   }
@@ -240,56 +262,64 @@ exports.main = function() {
   // Create new refresh interval for each ticker when option is changed
   function updateTickerRefreshInterval() {
     for (var tickerId in tickers) { // Update all tickers that require it
-      updateTickerRefreshIntervalForTicker(tickerId)
+      updateTickerRefreshIntervalForTicker(tickerId);
     }
   }
 
   function updateActiveTickersSharedStyle() {
     for (tickerId in tickers) {
       if (tickers[tickerId] && tickers[tickerId].enabled) {
-        updateTickerConfiguration(tickerId) // Update configuration
+        updateTickerConfiguration(tickerId); // Update configuration
       }
     }
   }
 
   function showAddonUpdateDocument() {
-    tabs.open(ADDON_UPDATE_DOCUMENT_URL)
+    tabs.open(ADDON_UPDATE_DOCUMENT_URL);
   }
 
   function showAddonUpdate(version) {
     try {
       if (( ! getBooleanPreference("show-updates")) || // Requested to not show updates
           (prefs.getCharPref("extensions.ADDON_ID.version") == version)) { // Not updated
-        return
+        return;
       }
     } catch (e) {} // There is no addon version set yet
-    if (! DEBUG) setTimeout(showAddonUpdateDocument, 5000) // Showing update webpage
-    prefs.setCharPref("extensions.ADDON_ID.version", version) // Update version number in preferences
+    if (! DEBUG) {
+      setTimeout(showAddonUpdateDocument, 5000); // Showing update webpage
+    }
+    prefs.setCharPref("extensions.ADDON_ID.version", version); // Update version number in preferences
   }
 
   function loadProvidersData() {
-    var url = DATA_PROVIDERS_URL
-    if (DEBUG) console.log("Requesting JSON data from " + DATA_PROVIDERS_URL)
+    var url = DATA_PROVIDERS_URL;
+    if (DEBUG) {
+      console.log("Requesting JSON data from " + DATA_PROVIDERS_URL);
+    }
     Request({
       url: url,
       onComplete: function (response) {
         if ((response != null) && (response.json != null)) {
-          if (DEBUG) console.log("Data received from data providers JSON configuration")
-          tickers = response.json
-          if (Object.keys(tickers).length == 0) {
-            if (DEBUG) console.log("Error: No ticker configuration found in JSON configuration received from server:"+url)
-            return
+          if (DEBUG) {
+            console.log("Data received from data providers JSON configuration");
           }
-          initAfterLoad()
+          tickers = response.json;
+          if (Object.keys(tickers).length == 0) {
+            if (DEBUG) {
+              console.log("Error: No ticker configuration found in JSON configuration received from server:"+url);
+            }
+            return;
+          }
+          initAfterLoad();
         }
       }
-    }).get()
+    }).get();
   }
 
   function initAfterLoad() {
-    loadTickersInOrder()
-    registerEvents()
-    updateTickerRefreshInterval()
+    loadTickersInOrder();
+    registerEvents();
+    updateTickerRefreshInterval();
   }
 
   // Toggle between a separate toolbar or the naviagtion bar
@@ -299,23 +329,23 @@ exports.main = function() {
         toolbar = ui.Toolbar({
           title: "Bitcoin Price Ticker",
           items: [tickersFrame]
-        })
+        });
       }
     } else if (toolbar) {
-      toolbar.destroy()
-      toolbar = null
+      toolbar.destroy();
+      toolbar = null;
     }
   }
 
   var tickersFrame = ui.Frame({
     url: "./index.html"
-  })
+  });
 
-  tickersFrame.on("ready", loadProvidersData) // When the presenter is ready load config data and tickers
+  tickersFrame.on("ready", loadProvidersData); // When the presenter is ready load config data and tickers
 
-  var toolbar = null
+  var toolbar = null;
 
-  toggleBarDisplay()
+  toggleBarDisplay();
 
 /*
   Feature disabled until refactored
@@ -394,36 +424,36 @@ exports.main = function() {
 
   function registerTickerEvents(tickerId) {
     Preferences.on("p" + tickerId, function() { // Create event to enable/disable of tickers
-      toggleTicker(tickerId)
-    })
+      toggleTicker(tickerId);
+    });
     // Create events to update ticker when a particular option is changed
     Preferences.on("p" + tickerId + "Color", function() {
       if (tickers[tickerId] != null) {
-        updateTickerConfiguration(tickerId)
+        updateTickerConfiguration(tickerId);
       }
-    })
+    });
   }
 
   function registerEvents() {
     for (tickerId in tickers) {
-      registerTickerEvents(tickerId)
+      registerTickerEvents(tickerId);
     }
   }
 
   // Register general settings events
-  Preferences.on("bar", toggleBarDisplay)
-  Preferences.on("Timer", updateTickerRefreshInterval)
-  Preferences.on("defaultFontSize", updateActiveTickersSharedStyle)
-  Preferences.on("gold-background", updateActiveTickersSharedStyle)
-  Preferences.on("silver-background", updateActiveTickersSharedStyle)
-  Preferences.on("other-background", updateActiveTickersSharedStyle)
-  // Preferences.on("show-long-trend", updateAllTickers)
-  // Preferences.on("show-short-trend", updateAllTickers)
-  Preferences.on("show-currency-label", updateActiveTickersSharedStyle)
+  Preferences.on("bar", toggleBarDisplay);
+  Preferences.on("Timer", updateTickerRefreshInterval);
+  Preferences.on("defaultFontSize", updateActiveTickersSharedStyle);
+  Preferences.on("gold-background", updateActiveTickersSharedStyle);
+  Preferences.on("silver-background", updateActiveTickersSharedStyle);
+  Preferences.on("other-background", updateActiveTickersSharedStyle);
+  // Preferences.on("show-long-trend", updateAllTickers);
+  // Preferences.on("show-short-trend", updateAllTickers);
+  Preferences.on("show-currency-label", updateActiveTickersSharedStyle);
 
-  Preferences.on("infoButton", showAddonUpdateDocument)
+  Preferences.on("infoButton", showAddonUpdateDocument);
   // Check updated version
   AddonManager.getAddonByID(ADDON_ID, function(addon) {
-    showAddonUpdate(addon.version)
-  })
-}
+    showAddonUpdate(addon.version);
+  });
+};

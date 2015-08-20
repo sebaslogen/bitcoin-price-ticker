@@ -1,17 +1,17 @@
 // Views
 
 function getTickerView(tickerId) {
-  var tickerView = $(".ticker#"+tickerId)
+  var tickerView = $(".ticker#"+tickerId);
   if (tickerView.size() == 0) {
-    tickerView = createTickerView(tickerId)
+    tickerView = createTickerView(tickerId);
   }
-  return tickerView
+  return tickerView;
 }
 
 function createTickerView(tickerId) {
-  var tickerView = newViewTicker(tickerId)
-  $('#tickers-body').append(tickerView)
-  return tickerView
+  var tickerView = newViewTicker(tickerId);
+  $('#tickers-body').append(tickerView);
+  return tickerView;
 }
 
 function newViewTicker(tickerId) {
@@ -19,84 +19,84 @@ function newViewTicker(tickerId) {
     "id": tickerId,
     "class": DEFAULT_TICKER_CSS_CLASSES,
     "text": "---"
-  })
+  });
 }
 
 // Update and style of ticker div //
 function updateStyle(tickerId, color, fontSize, background) {
-  $(".ticker#"+tickerId).css('font-size', fontSize)
-  $(".ticker#"+tickerId).css('color', color)
+  $(".ticker#"+tickerId).css('font-size', fontSize);
+  $(".ticker#"+tickerId).css('color', color);
   if (background) {
     if (background.match(/-bg$/) == null) {
-      background += "-bg" // Append background CSS to name when missing
+      background += "-bg"; // Append background CSS to name when missing
     }
-    $(".ticker#"+tickerId).removeClass().addClass(DEFAULT_TICKER_CSS_CLASSES)
-    $(".ticker#"+tickerId).addClass(background)
+    $(".ticker#"+tickerId).removeClass().addClass(DEFAULT_TICKER_CSS_CLASSES);
+    $(".ticker#"+tickerId).addClass(background);
   } else {
-    $(".ticker#"+tickerId).removeClass().addClass(DEFAULT_TICKER_CSS_CLASSES)
+    $(".ticker#"+tickerId).removeClass().addClass(DEFAULT_TICKER_CSS_CLASSES);
   }
 }
 
 function updateView(tickerId, price, exchangeName, currency, baseCurrency, currencyPosition, color, fontSize, background) {
   if (price == 0) {
-    return // Avoid empty updates of view
+    return; // Avoid empty updates of view
   }
-  var tickerView = $(".ticker#"+tickerId)
+  var tickerView = $(".ticker#"+tickerId);
   if (tickerView.size() != 1) {
-    return // Ticker was removed
+    return; // Ticker was removed
   }
-  updateStyle(tickerId, color, fontSize, background)
-  tickerView.text(formatTickerText(price, currency, currencyPosition))
-  var label = exchangeName + " " + currency + "/" + baseCurrency
-  tickerView.attr("tooltiptext", label)
-  tickerView.attr("title", label)
+  updateStyle(tickerId, color, fontSize, background);
+  tickerView.text(formatTickerText(price, currency, currencyPosition));
+  var label = exchangeName + " " + currency + "/" + baseCurrency;
+  tickerView.attr("tooltiptext", label);
+  tickerView.attr("title", label);
 }
 
 function formatTickerText(price, currency, currencyPosition) { // Allow more decimals for low price values
   if (price == parseFloat(price)) {
-    var roundedPrice = calculateRoundedPrice(price)
-    var tickerText = roundedPrice
+    var roundedPrice = calculateRoundedPrice(price);
+    var tickerText = roundedPrice;
     switch (currencyPosition) {
       case 'B':
-        tickerText = currency + roundedPrice
-        break
+        tickerText = currency + roundedPrice;
+        break;
       case 'A':
-        tickerText =  roundedPrice + currency
-        break
+        tickerText =  roundedPrice + currency;
+        break;
     }
-    return tickerText
+    return tickerText;
   } else {
-    return price // Text can not be formatted into a number
+    return price; // Text can not be formatted into a number
   }
   
 }
 
 function calculateRoundedPrice(price) { // Allow more decimals for low price values
-  var round = calculateRoundFactor(price)
-  if ((!round) || (round.factor <= 0)){
-    return price // Rounding failed
+  var round = calculateRoundFactor(price);
+  if ((!round) || (round.factor <= 0)) {
+    return price; // Rounding failed
   }
-  var roundedPrice = Math.round(price * round.factor) / round.factor
-  roundedPrice = (round.size > 1) && (roundedPrice > 0) ? roundedPrice.toFixed(round.size) : roundedPrice
+  var roundedPrice = Math.round(price * round.factor) / round.factor;
+  roundedPrice = (round.size > 1) && (roundedPrice > 0) ? roundedPrice.toFixed(round.size) : roundedPrice;
   if (roundedPrice != parseFloat(roundedPrice)) {
-    return price // Rounding failed
+    return price; // Rounding failed
   }
-  return roundedPrice
+  return roundedPrice;
 }
 
 function calculateRoundFactor(price) { // Allow more decimals for low price values
-  var roundFactor = 1
-  var sizeRoundFactor = 0
+  var roundFactor = 1;
+  var sizeRoundFactor = 0;
   if (price == 0) {
-    return roundFactor
+    return roundFactor;
   }
   while (roundFactor * price <= 100) {
-    roundFactor *= 10
+    roundFactor *= 10;
     if ((roundFactor * price) % 10 != 0) { // Amount of decimals without zeros to the right
-      sizeRoundFactor++
+      sizeRoundFactor++;
     }
   }
-  return {factor: roundFactor, size: sizeRoundFactor}
+  return {factor: roundFactor, size: sizeRoundFactor};
 }
 
 /*
