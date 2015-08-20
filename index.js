@@ -341,7 +341,7 @@ exports.main = function() {
   // Toggle between a separate toolbar or the naviagtion bar
   function toggleBarDisplay() {
     if (getBooleanPreference("bar")) {
-      if (toolbar == null) {
+      if (toolbar === null) {
         createNewTickersFrame();
         toolbar = ui.Toolbar({
           title: "Bitcoin Price Ticker",
@@ -438,7 +438,7 @@ exports.main = function() {
     });
     // Create events to update ticker when a particular option is changed
     Preferences.on("p" + tickerId + "Color", function() {
-      if (tickers[tickerId] != null) {
+      if (tickers[tickerId] !== null) {
         updateTickerConfiguration(tickerId);
       }
     });
