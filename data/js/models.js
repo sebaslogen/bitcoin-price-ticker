@@ -1,16 +1,22 @@
 // Models to store and control data
 
 const DEBUG = true
-const DATA_PROVIDERS_FILE = "data-providers.json"
+const DATA_PROVIDERS_URL = "https://raw.githubusercontent.com/neoranga55/bitcoin-price-ticker/refactor-to-use-firefox-frames/data/data-providers.json"
 const DEFAULT_TICKER_CSS_CLASSES = "ticker"
 var tickers = { "models": {}, "views": {}, "controllers": {}}
+var tickersRepository = {}
+var preLoadtickersRepository = {}
 
-function loadJSON(file) {
-  $(".ticker").text(' Reading JSON ')
-  $.getJSON("data/js/providers.json", function(json) {
-     $(".ticker").text('JSON ' + JSON.stringify(json))
+function loadJSON(url) {
+  $.getJSON(url, function(json) {
+      tickersRepository = json
+      for (var id in preLoadtickersRepository) { 
+        updateTickerConfiguration(preLoadtickersRepository[id])
+      }
   })
 }
+
+loadJSON(DATA_PROVIDERS_URL)
 
 function getTickerModel(data, observer) {
   var tickerModel = tickers["models"][data.id]
@@ -117,8 +123,6 @@ function getProvider(id) {
 }
 
 function getLatestData(id) {
-  loadJSON(DATA_PROVIDERS_FILE)
-  return
   var data = getProvider(id)
   if (data) {
     var url = data.url
@@ -131,5 +135,3 @@ function getLatestData(id) {
     }, "*");
   }
 }
-
-loadJSON(DATA_PROVIDERS_FILE)

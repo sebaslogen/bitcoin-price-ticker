@@ -11,6 +11,11 @@ function handleAddonMessages(message) {
 function updateTickerConfiguration(data) {
   var id = data.id
 
+  if (Object.keys(tickersRepository).length == 0) { // Not ready: store until ready
+    preLoadtickersRepository[id] = data
+    return
+  }
+
   // Initialize View
   tickers["views"][id] = getTickerView(id)
 
