@@ -1,3 +1,16 @@
+3.1
+- Big fix to avoid being blocked by NoScript Firefox Addon. Read:
+To use this plugin and NoScript together you need to Allow in NoScript the domain
+raw.githubusercontent.com (or add this domain to the whitelist in NoScript options)
+- Lots of bugfixes
+- Added new option to switch between placing the tickers on a separate toolbar
+or placing the tickers on the navigation bar (it doesn't look very pretty for now)
+
+3.0
+- Full port from old Firefox framework (no more widgets) to new Firefox UI (Australis)
+Notes: Unfortunately, with all the new Firefox UI, the tickers are not allowed anymore to live in the Firefox navigation bar and they have to be in a separated bar.
+Also, the trends feature has not yet been ported to this new version, but it will be restored in future versions. 
+
 2.5
 - Added Burst cryptocurrency for BTC from Poloniex
 - Refactored background color code to be simpler and shorter

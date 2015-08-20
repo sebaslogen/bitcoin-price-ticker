@@ -1,10 +1,5 @@
-- Change from Mozilla's Widget element (deprecated since Firefox 29) for UI.ActionButton (>= v29): https://developer.mozilla.org/en-US/Add-ons/SDK/High-Level_APIs/ui
-- Use ToggleButton instead of ActionButton to change settings of each ticker
-	Use the 'sdk/ui/button/action' or 'sdk/ui/button/toggle' module instead.
-https://developer.mozilla.org/en-US/Add-ons/SDK/Low-Level_APIs/ui_button_action (problem: text only on small icon counter)
-https://developer.mozilla.org/en-US/Add-ons/SDK/Low-Level_APIs/ui_button_toggle  (problem: no text possible only icon)
-https://developer.mozilla.org/en-US/Add-ons/SDK/Low-Level_APIs/ui_frame  (problem: each frame in a separate bar so it's unsusable for multiple tickers/widgets)
+- Fix order of tickers memory
 
-WARNING note: none of the new provided APIs in the SDK support something similar to the existing widget
+- Add price trends feature
 
 - Add search function to search for cryptocurrency by name or symbol

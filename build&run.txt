@@ -1,7 +1,0 @@
-# Download the Firefox Add-on SDK from Mozilla's website
-cmd
-cd C:\Users\neoranga\firefox-addon-sdk-1.17
-activate
-cd PROJECT
-cfx run
-cfx xpi

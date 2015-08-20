@@ -1,5 +1,9 @@
-// The main module of the neoranga Add-on.
+const DEBUG = false;
+const DATA_PROVIDERS_URL = "https://raw.githubusercontent.com/neoranga55/bitcoin-price-ticker/refactor-to-use-firefox-frames/data/data-providers.json";
+const ADDON_UPDATE_DOCUMENT_URL = "http://neoranga55.github.io/bitcoin-price-ticker/";
 
+// The main module of the Add-on.
+var ui = require("sdk/ui");
 const {Cc, Ci, Cu} = require("chrome");
 Cu.import("resource://gre/modules/AddonManager.jsm"); // Addon Manager required to know addon version
 const setTimeout = require("sdk/timers").setTimeout;
@@ -8,297 +12,364 @@ const clearInterval = require("sdk/timers").clearInterval;
 const ADDON_ID = "jid0-ziK34XHkBWB9ezxd4l9Q1yC7RP0@jetpack";
 const DEFAULT_REFRESH_RATE = 60;
 const DEFAULT_FONT_SIZE = 14;
-const DEFAULT_TICKER_SPACING = 2;
-var Widget = require("sdk/widget").Widget;
-var Preferences = require('sdk/simple-prefs');
-var prefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefService).getBranch("extensions.ADDON_ID.");
+
+var Preferences = require("sdk/simple-prefs");
+var prefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefService).
+            getBranch("extensions.ADDON_ID.");
 var Request = require("sdk/request").Request;
-var self = require("sdk/self");
-var data = self.data;
 var tabs = require("sdk/tabs");
 
-var tickers = new Array(); // Store all tickers here
-// Initialize tickers container
-tickers['BitStampUSD'] = null;
-tickers['BTCeUSD'] = null;
-tickers['KrakenUSD'] = null;
-tickers['CoinDeskUSD'] = null;
-tickers['CoinbaseUSD'] = null;
-tickers['CampBXUSD'] = null;
-tickers['BitPayUSD'] = null;
-tickers['TheRockTradingUSD'] = null;
-tickers['BitFinexUSD'] = null;
-tickers['BTCeEUR'] = null;
-tickers['KrakenEUR'] = null;
-tickers['CoinDeskEUR'] = null;
-tickers['BitPayEUR'] = null;
-tickers['BitonicEUR'] = null;
-tickers['Bitcoin-CentralEUR'] = null;
-tickers['TheRockTradingEUR'] = null;
-tickers['CoinDeskGBP'] = null;
-tickers['LocalbitcoinsGBP'] = null;
-tickers['BittyliciousGBP'] = null;
-tickers['BitPayGBP'] = null;
-tickers['BitcurexPLN'] = null;
-tickers['CaVirTexCAD'] = null;
-tickers['BTCChinaCNY'] = null;
-tickers['MercadoBitcoinBRL'] = null;
-tickers['BTCTurkTRY'] = null;
-tickers['BitcoinVenezuelaVEF'] = null;
-tickers['LocalbitcoinsVEF'] = null;
-tickers['CoinbaseVEF'] = null;
-tickers['BitcoinVenezuelaARS'] = null;
-tickers['LocalbitcoinsARS'] = null;
-tickers['CoinbaseARS'] = null;
-tickers['BitexARS'] = null;
-tickers['LocalbitcoinsCLP'] = null;
-tickers['BitsoMXN'] = null;
-tickers['BitXZAR'] = null;
-tickers['CoinbaseZAR'] = null;
-tickers['Bit2CILS'] = null;
-tickers['BTCeLitecoin'] = null;
-tickers['KrakenLitecoin'] = null;
-tickers['VircurexLitecoin'] = null;
-tickers['BTCeLitecoinUSD'] = null;
-tickers['BTCeLitecoinEUR'] = null;
-tickers['VircurexWorldcoin'] = null;
-tickers['CryptsyDogecoin'] = null;
-tickers['KrakenDogecoin'] = null;
-tickers['BTCeNamecoinUSD'] = null;
-tickers['CryptsyAuroracoin'] = null;
-tickers['CryptsyBlackcoin'] = null;
-tickers['CryptsyNxt'] = null;
-tickers['PoloniexNxt'] = null;
-tickers['PoloniexBitshares'] = null;
-tickers['KrakenRipple'] = null;
-tickers['PoloniexMaidsafe'] = null;
-tickers['PoloniexBitcoindark'] = null;
-tickers['PoloniexMonero'] = null;
-tickers['CryptsyDashBTC'] = null;
-tickers['CryptsyDashUSD'] = null;
-tickers['BitFinexDashBTC'] = null;
-tickers['BitFinexDashUSD'] = null;
-tickers['PoloniexBurst'] = null;
-const MAX_TICKERS = Object.keys(tickers).length;
-const DEBUG = false
-var ticker_creators = new Array(); // Store all tickers creators here
-var ordered_tickers = new Array();
-var last_ticker_position = 0;
+var orderedTickers = [];
+var tickers = {}; // Store all tickers here
+var tickersFrame = null
+var toolbar = null;
 
 exports.main = function() {
 
-  var getBackgroundColor = function(id) {
-    var low_id = id.toLowerCase();
-    var other_bg_cryptos = [ 'dogecoin', 'worldcoin', 'namecoin', 'auroracoin', 'blackcoin', 'nxt',
-      'bitshares', 'ripple', 'maidsafe', 'bitcoindark', 'monero', 'dash', 'burst' ];
-    for (var i in other_bg_cryptos) {
-      if (low_id.indexOf(other_bg_cryptos[i]) != -1) {  // Alt-coin
+  function getPreference(prefName, type) {
+    if (typeof Preferences.prefs[prefName] == "undefined") {
+      if (DEBUG) {
+        console.log("bitcoin-price-ticker addon error: " + prefName + " preference is not defined");
+      }
+      switch (type) {
+        case "boolean":
+          return false;
+        case "integer":
+          return -1;
+        case "string":
+          return "";
+        default:
+          return null;
+      }
+    }
+    return Preferences.prefs[prefName];
+  }
+
+  function getBooleanPreference(prefName) {
+    return getPreference(prefName, "boolean");
+  }
+
+  function getIntegerPreference(prefName) {
+    return getPreference(prefName, "integer");
+  }
+
+  function getStringPreference(prefName) {
+    return getPreference(prefName, "string");
+  }
+
+  function getBackgroundColor(id) {
+    var lowId = id.toLowerCase();
+    var otherBgCryptos = [ "dogecoin", "worldcoin", "namecoin", "auroracoin", "blackcoin", "nxt",
+      "bitshares", "ripple", "maidsafe", "bitcoindark", "monero", "dash", "burst" ];
+    for (var i = 0; i < otherBgCryptos.length; i++) {
+      if (lowId.indexOf(otherBgCryptos[i]) != -1) {  // Alt-coin
         if (getBooleanPreference("other-background")) {
-          return other_bg_cryptos[i];
+          return otherBgCryptos[i];
         }
       }
     }
-    if (low_id.indexOf("litecoin") != -1) {
+    if (lowId.indexOf("litecoin") != -1) {
       if (getBooleanPreference("silver-background")) { // Currency is Litecoin
         return "silver";
       }
-    } else {
-      if (getBooleanPreference("gold-background")) { // Currency is Bitcoin
-        return "gold";
-      }
+    } else if (getBooleanPreference("gold-background")) { // Currency is Bitcoin
+      return "gold";
     }
     return null;
-  };
+  }
 
-  var labelWithCurrency = function(value, currency) {
-    switch (getStringPreference("show-currency-label")) {
-    case 'B':
-      return currency + value;
-    case 'A':
-      return value + currency;
-    default:
-      return value;
+  function getTickerConfigurationData(tickerId) {
+    var fontSize = getIntegerPreference("defaultFontSize");
+    if (fontSize <= 0) {
+      fontSize = DEFAULT_FONT_SIZE;
     }
-  };
-
-  var showAddonUpdateDocument = function() {
-    tabs.open("http://neoranga55.github.io/bitcoin-price-ticker/");
-  };
-
-  var showAddonUpdate = function(version) {
-    try {
-      if ( ! getBooleanPreference("show-updates")) {
-        return;
-      } else if (prefs.getCharPref("extensions.ADDON_ID.version") == version) { // Not updated
-        return;
-      }
-    } catch (e) {} // There is no addon version set yet
-    setTimeout(showAddonUpdateDocument, 5000); // Showing update webpage
-    prefs.setCharPref("extensions.ADDON_ID.version", version); // Update version number in preferences
-  };
-
-  var getBooleanPreference = function(pref_name) {
-    if (typeof Preferences.prefs[pref_name] == "undefined") {
-       if (DEBUG) console.log("bitcoin-price-ticker addon error: " + pref_name + " preference is not defined");
-      return false;
+    if (tickers[tickerId]) {
+      tickers[tickerId].enabled = getBooleanPreference("p" + tickerId);
+      tickers[tickerId].currencyPosition = getStringPreference("show-currency-label");
+      tickers[tickerId].color = getStringPreference("p" + tickerId + "Color");
+      tickers[tickerId].fontSize = fontSize;
+      tickers[tickerId].background = getBackgroundColor(tickerId);
     }
-    else {
-      return Preferences.prefs[pref_name];
-    }
-  };
-
-  var getIntegerPreference = function(pref_name) {
-    if (typeof Preferences.prefs[pref_name] == "undefined") {
-      if (DEBUG) console.log("bitcoin-price-ticker addon error: " + pref_name + " preference is not defined");
-      return -1;
-    }
-    else {
-      return Preferences.prefs[pref_name];
-    }
-  };
-
-  var getStringPreference = function(pref_name) {
-    if (typeof Preferences.prefs[pref_name] == "undefined") {
-      if (DEBUG) console.log("bitcoin-price-ticker addon error: " + pref_name + " preference is not defined");
-      return "";
-    }
-    else {
-      return Preferences.prefs[pref_name];
-    }
-  };
+  }
 
   // Use tickers enabled in preferences to load in that order regardless of stored order
-  var loadDefaultTickers = function() {
-    for (var ticker_name in tickers) {
-      if ( getBooleanPreference('p' + ticker_name) ) {
-        tickers[ticker_name] = ticker_creators[ticker_name](); // Create Ticker
+  function loadDefaultTickers() {
+    for (var tickerId in tickers) {
+      if ( getBooleanPreference("p" + tickerId) ) { // Create Ticker
+        updateTickerConfiguration(tickerId);
+        if (tickers[tickerId].enabled) {
+          orderedTickers.push(tickerId);
+        }
       }
     }
-    if ((ordered_tickers != null) && (ordered_tickers.length > 0)) {
+    if ((orderedTickers != null) && (orderedTickers.length > 0)) {
       storeTickersOrder();
     }
-  };
+  }
 
   // Load the order of the tickers and simultaneously create them
-  var loadTickersInOrder = function() {
-    var ordered_active_tickers = "";
+  function loadTickersInOrder() {
+    var orderedActiveTickers = "";
     try {
-      ordered_active_tickers = prefs.getCharPref("extensions.ADDON_ID.tickers_order");
-      if (ordered_active_tickers.length < 1) { // There is no addon tickers_order set yet
+      orderedActiveTickers = prefs.getCharPref("extensions.ADDON_ID.tickers_order");
+      if (orderedActiveTickers.length < 1) { // There is no order of tickers in addon set yet
         loadDefaultTickers();
         return;
       }
-      var list_ordered_tickers = ordered_active_tickers.split(',');
-      if (list_ordered_tickers.length < 1) { // There is no addon tickers_order set yet
+      var listOrderedTickers = orderedActiveTickers.split(",");
+      if (listOrderedTickers.length < 1) { // There is no order of tickers in addon set yet
         loadDefaultTickers();
         return;
       }
-      for (var i in list_ordered_tickers) {
-        var ticker_name = list_ordered_tickers[i];
-        tickers[ticker_name] = ticker_creators[ticker_name](); // Create Ticker
+      for (var i in listOrderedTickers) {
+        loadTicker(listOrderedTickers[i]);
+        if (tickers[tickerId].enabled) {
+          orderedTickers.push(tickerId);
+        }
       }
-    } catch (e) { // There is no addon tickers_order set yet
+    } catch (e) { // There is no order of tickers in addon set yet
       loadDefaultTickers();
     }
-  };
+  }
 
   // Store the order of the active tickers
-  var storeTickersOrder = function() {
-    if ((ordered_tickers == null) || (ordered_tickers.length == 0)) {
+  function storeTickersOrder() {
+    if ((orderedTickers == null) || (orderedTickers.length == 0)) {
       loadDefaultTickers();
     } else {
-      var ordered_active_tickers = "";
-      if ((ordered_tickers != null) && (ordered_tickers.length > 0)) {
-        for (var i in ordered_tickers) { // Traverse skipping empty
-          if (ordered_active_tickers.length > 0) {
-            ordered_active_tickers += "," + ordered_tickers[i];
+      var orderedActiveTickers = "";
+      if ((orderedTickers != null) && (orderedTickers.length > 0)) {
+        for (var i = 0; i < orderedTickers.length; i++) { // Traverse skipping empty
+          if (orderedActiveTickers.length > 0) {
+            orderedActiveTickers += "," + orderedTickers[i];
           } else {
-            ordered_active_tickers = ordered_tickers[i];
+            orderedActiveTickers = orderedTickers[i];
           }
         }
       }
-      prefs.setCharPref("extensions.ADDON_ID.tickers_order", ordered_active_tickers); // Update list of tickers active in order in preferences
+      if (DEBUG) {
+        console.log("Storing tickers in order:" + orderedActiveTickers);
+      }
+      prefs.setCharPref("extensions.ADDON_ID.tickers_order", orderedActiveTickers); // Update list of tickers active in order in preferences
     }
-  };
+  }
 
   // Live enable/disable ticker from options checkbox
-  var toggleTicker = function(tickerName) {
-    if ( getBooleanPreference('p' + tickerName) ) { // Enable Ticker
-      if (tickers[tickerName] == null) {
-        tickers[tickerName] = ticker_creators[tickerName]();
-        storeTickersOrder();
-      }
-    } else if ( tickers[tickerName] != null ) { // Disable Ticker if it exists
-      clearInterval(tickers[tickerName][3]); // Stop automatic refresh of removed ticker
-      for (var position in ordered_tickers) {
-        if (ordered_tickers[position] == tickerName) {
-          ordered_tickers.splice(position, 1); // Remove the position completely from the array with reordering
+  function toggleTicker(tickerId) {
+    if ( getBooleanPreference("p" + tickerId) ) { // Enable Ticker
+      updateTickerConfiguration(tickerId);
+      updateTickerRefreshIntervalForTicker(tickerId);
+      orderedTickers.push(tickerId);
+      storeTickersOrder();
+    } else if (tickers[tickerId].enabled) { // Disable Ticker if it exists
+      tickers[tickerId].enabled = false;
+      stopAutoPriceUpdate(tickerId);
+      updateTickerConfiguration(tickerId);
+      for (var i = 0; i < orderedTickers.length; i++) {
+        if (orderedTickers[i] == tickerId) {
+          orderedTickers.splice(i, 1); // Remove the ticker completely from the array with reordering
           break;
         }
       }
-      tickers[tickerName][0].destroy(); // Destroy unwanted ticker widget
-      tickers[tickerName] = null;
       storeTickersOrder();
     }
-  };
+  }
 
-  // Refresh ticker when changing add-on options
-  var updateTickerCaller = function(tickerName, onlyStyle) {
-    if ( (tickers[tickerName] != null) && (tickers[tickerName].length >= 2)) {
-      if (onlyStyle) {
-        tickers[tickerName][2](); // Call update Ticker method to update only the style
-      } else {
-        tickers[tickerName][1](); // Call update Ticker method
+  function updateTickerConfiguration(tickerId) {
+    getTickerConfigurationData(tickerId);
+    if (DEBUG) {
+      console.log("Sending config JSON data to frame:" + tickerId + 
+                  "-" + JSON.stringify(tickers[tickerId]));
+    }
+    tickersFrame.postMessage({
+      "type": "updateTickerConfiguration",
+      "id": tickerId,
+      "data": tickers[tickerId]
+    }, tickersFrame.url);
+  }
+
+  function fetchURLData(id, url, jsonPath) {
+    if (id == "undefined" || url == "undefined" || jsonPath == "undefined") {
+      return;
+    }
+    if (DEBUG) {
+      console.log("Requesting JSON data from " + url);
+    }
+    Request({
+      url: url,
+      onComplete: function (response) {
+        if ((response !== null) && (response.json !== null)) {
+          if (DEBUG) {
+            console.log("Data received, searching in document for path:" + jsonPath);
+          }
+          var price = response.json;
+          for (var i = 0; i < jsonPath.length; i++) { // Parse JSON path
+            if (typeof price[jsonPath[i]] == "undefined") {
+              if (DEBUG) {
+                console.log("BitcoinPriceTicker error loading ticker " + id + 
+                            ". URL is not correctly responding:" + url);
+              }
+              return;
+            }
+            price = price[jsonPath[i]];
+          }
+          if (DEBUG) {
+            console.log("Price received and parsed: " + price);
+          }
+          tickersFrame.postMessage({
+            "type": "updateTickerModelPrice",
+            "id": id,
+            "data": {
+              "price": price
+            }
+          }, tickersFrame.url);
+        }
+      }
+    }).get();
+  }
+
+  function startAutoPriceUpdate(tickerId) {
+    if (tickers[tickerId].url && tickers[tickerId].jsonPath) {
+      var fetchURLDataWrapper = function() {
+        fetchURLData(tickerId, tickers[tickerId].url, tickers[tickerId].jsonPath);
+      };
+      fetchURLDataWrapper();
+      tickers[tickerId].timer = setInterval(fetchURLDataWrapper, 
+                                            (tickers[tickerId].updateInterval * 1000));
+    }
+  }
+
+  function stopAutoPriceUpdate(tickerId) {
+    if (tickers[tickerId].timer) { // Remove previous auto-update call if any
+      clearInterval(tickers[tickerId].timer); // Stop automatic refresh
+      tickers[tickerId].timer = null;
+    }
+  }
+
+  function updateTickerRefreshIntervalForTicker(tickerId) {
+    var refreshRate = getIntegerPreference("Timer");
+    if (refreshRate < 1) {
+      refreshRate = DEFAULT_REFRESH_RATE;
+    }
+    if (tickers[tickerId] && tickers[tickerId].enabled) {
+      if (DEBUG) {
+        console.log("updateTickerRefreshIntervalForTicker:" + tickerId);
+      }
+      if (tickers[tickerId].updateInterval != refreshRate) { // Update the real interval
+        tickers[tickerId].updateInterval = refreshRate;
+        stopAutoPriceUpdate(tickerId);
+        startAutoPriceUpdate(tickerId);
       }
     }
-  };
+  }
 
   // Create new refresh interval for each ticker when option is changed
-  var updateTickerRefreshInterval = function() {
-    var refresh_rate = getIntegerPreference("Timer");
-    if (refresh_rate < 1) {
-      refresh_rate = DEFAULT_REFRESH_RATE;
-    }
-    for (var i in tickers) {
-      if ( (tickers[i] != null) && (tickers[i].length >= 4)) {
-        clearInterval(tickers[i][3]); // Stop automatic refresh of removed ticker
-        tickers[i][3] = setInterval(tickers[i][1], (refresh_rate * 1000));
+  function updateTickerRefreshInterval() {
+    for (var tickerId in tickers) { // Update all tickers that require it
+      if (tickers.hasOwnProperty(tickerId)) {
+        updateTickerRefreshIntervalForTicker(tickerId);
       }
     }
-  };
+  }
 
-  var updateAllTickers = function() {
-    for (var i in tickers) {
-      if ( (tickers[i] != null) && (tickers[i].length >= 3)) {
-        tickers[i][1](); // Call update Ticker method
+  function updateActiveTickersSharedStyle() {
+    for (var tickerId in tickers) {
+      if (tickers.hasOwnProperty(tickerId) &&
+          tickers[tickerId] && tickers[tickerId].enabled) {
+        updateTickerConfiguration(tickerId); // Update configuration
       }
     }
-  };
+  }
 
-  var updateStyleAllTickers = function() {
-    for (var i in tickers) {
-      if ( (tickers[i] != null) && (tickers[i].length >= 3)) {
-        tickers[i][2](); // Call update Ticker style method
+  function showAddonUpdateDocument() {
+    tabs.open(ADDON_UPDATE_DOCUMENT_URL);
+  }
+
+  function showAddonUpdate(version) {
+    try {
+      if (( ! getBooleanPreference("show-updates")) || // Requested to not show updates
+          (prefs.getCharPref("extensions.ADDON_ID.version") == version)) { // Not updated
+        return;
       }
+    } catch (e) {} // There is no addon version set yet
+    if (! DEBUG) {
+      setTimeout(showAddonUpdateDocument, 5000); // Showing update webpage
     }
-  };
+    prefs.setCharPref("extensions.ADDON_ID.version", version); // Update version number in preferences
+  }
 
-  var registerEvents = function(tickerName) {
-    Preferences.on('p' + tickerName, function() { toggleTicker(tickerName); }); // Create event to enable/disable of tickers
-    // Create events to update ticker when a particular option is changed
-    Preferences.on('p' + tickerName + 'Color', function() { updateTickerCaller(tickerName, true); });
-  };
+  function loadProvidersData() {
+    var url = DATA_PROVIDERS_URL;
+    if (DEBUG) {
+      console.log("Requesting JSON data from " + DATA_PROVIDERS_URL);
+    }
+    Request({
+      url: url,
+      onComplete: function (response) {
+        if ((response !== null) && (response.json !== null)) {
+          if (DEBUG) {
+            console.log("Data received from data providers JSON configuration");
+          }
+          tickers = response.json;
+          if (Object.keys(tickers).length === 0) {
+            if (DEBUG) {
+              console.log("Error: No ticker configuration found in JSON configuration received from server:"+url);
+            }
+            return;
+          }
+          initAfterLoad();
+        }
+      }
+    }).get();
+  }
+
+  function initAfterLoad() {
+    loadTickersInOrder();
+    registerEvents();
+    updateTickerRefreshInterval();
+  }
+
+  function createNewTickersFrame() {
+    if (tickersFrame !== null) {
+      tickersFrame.destroy();
+    }
+    tickersFrame = ui.Frame({
+      url: "./index.html"
+    }).on("ready", loadProvidersData); // When the presenter is ready load config data and tickers
+  }
+
+  // Toggle between a separate toolbar or the naviagtion bar
+  function toggleBarDisplay() {
+    if (getBooleanPreference("bar")) {
+      if (toolbar === null) {
+        createNewTickersFrame();
+        toolbar = ui.Toolbar({
+          title: "Bitcoin Price Ticker",
+          items: [tickersFrame]
+        });
+      }
+    } else if (toolbar) {
+      toolbar.destroy();
+      toolbar = null;
+      createNewTickersFrame();
+    }
+  }
+
+  toggleBarDisplay();
+
+/*
+  Feature disabled until refactored
 
   var calculateSlopeAndTrend = function(last_price, price, trend) {
     var slope = (last_price>0) ? price/last_price - 1 : 0;
-    var label_slope = '\u2194';
+    var label_slope = "\u2194";
     var st = price;
     var bt = 0;
     if (slope>=0.001) {
-      label_slope = (slope>=0.01) ? '\u219f' : '\u2191';
+      label_slope = (slope>=0.01) ? "\u219f" : "\u2191";
     }
     else if (slope<=-0.001) {
-      label_slope = (slope<=-0.01) ? '\u21a1' : '\u2193';
+      label_slope = (slope<=-0.01) ? "\u21a1" : "\u2193";
     }
     // Double Exponential Smoothing
     // http://en.wikipedia.org/wiki/Exponential_smoothing
@@ -314,333 +385,85 @@ exports.main = function() {
         bt = .1 * (st - trend[0]) + .9 * trend[1];
       }
     }
-    var label_trend = '\u21d4'; // ⇔
+    var label_trend = "\u21d4"; // ⇔
     var change = 10000*bt/st;
     if (change>=2.5) {
-      label_trend = '\u21d1'; // ⇑
+      label_trend = "\u21d1"; // ⇑
     }
     else if (change>=1.0) {
-      label_trend = '\u21d7'; // ⇗
+      label_trend = "\u21d7"; // ⇗
     }
     else if (change<=-2.5) { // ⇓
-      label_trend = '\u21d3';
+      label_trend = "\u21d3";
     }
     else if (change<=-1.0) { // ⇘
-      label_trend = '\u21d8';
+      label_trend = "\u21d8";
     }
     return {
         trend: [st, bt],
         label_trend: label_trend,
         label_slope: label_slope
     };
-  };
+  }
 
-  var calculateRoundFactor = function(price) { // Allow more decimals for low price values
-    var round_factor = 1;
-    var size_round_factor = 0;
-    if (price == 0) {
-      return round_factor;
+    price = price[ticker.json_path[i]];
+    var trends = calculateSlopeAndTrend(ticker.last, price, ticker.trend);
+    ticker.trend = trends.trend;
+    label_trend = trends.label_trend;
+    label_slope = trends.label_slope;
+    var round = calculateRoundFactor(price);
+    var change = Math.round(1000000*ticker.trend[1]/ticker.trend[0])/100;
+    var last_ticker_price = Math.round(ticker.last * round.factor) / round.factor;
+    last_ticker_price = (round.size > 1) && (last_ticker_price > 0) ? last_ticker_price.toFixed(round.size) : last_ticker_price;
+    ticker.tooltip = ticker.label + " -- previous: "
+        + labelWithCurrency(last_ticker_price, currency)
+        + " -- trend: " + ((change>0) ? "+" : "") + change;
+    ticker.last = price;
+    price = Math.round(price * round.factor) / round.factor;
+    price = (round.size > 1) && (price > 0) ? price.toFixed(round.size) : price;
+    latest_content = labelWithCurrency(price, currency);
+    if (getBooleanPreference("show-short-trend")) {
+      latest_content = label_slope + latest_content;
     }
-    while (round_factor * price <= 100) {
-      round_factor *= 10;
-      if ((round_factor * price) % 10 != 0) // Amount of decimals without zeros to the right
-        size_round_factor++;
+    if (getBooleanPreference("show-long-trend")) {
+      latest_content = label_trend + latest_content;
     }
-    return {factor: round_factor, size: size_round_factor};
-  };
+  ticker.port.emit("updateContent", latest_content);
+  updateTickerStyle();
+  */
 
-  var setupTicker = function(id, label, currency, base_currency, color, ticker_url, json_path) {
-    ticker_creators[id] = function() { return createTicker(id, label, currency, base_currency, color, ticker_url, json_path); };
-    registerEvents(id);
-  };
-
-  /**
-   * This creates the ticker for a pair of currencies and automatically triggers auto updates
-   * @param  id             Unique identified on the application for this ticker
-   * @param  label          The name of the exchange that will appear when the user hovers the mouse over the ticker
-   * @param  currency       The symbol of the currency to which the base currency is converted to (e.g. $ for Bitcoin->US Dollar)
-   * @param  base_currency  The symbol of the base currency that is converted to another currency (Bitcoin symbol by default '\u0243')
-   * @param  color          Color of the text and numbers displayed on the ticker
-   * @param  ticker_url     Full URL of the exchange that returns a JSON response with the information price of the currency pair
-   * @param  json_path      Path inside the JSON document to find the price number, the path is an array and each item is a sub-item in the JSON path
-   * @return                The ticker object (a Mozilla's Widget), the function to update the ticker, 
-   *                        the function to update only the ticker's style, and the ID to stop the interval auto-update
-   */
-  var createTicker = function(id, label, currency, base_currency, color, ticker_url, json_path) {
-    var pref_name = "p" + id; // Construct preference name from ID
-
-    if ( ! getBooleanPreference(pref_name)) {
-      return null; // Tikcer is disabled
-    }
-
-    // Construct default ticker widget with preferences information
-    var refresh_rate = getIntegerPreference("Timer");
-    if (refresh_rate < 1) {
-      refresh_rate = DEFAULT_REFRESH_RATE;
-    }
-    var font_size = getIntegerPreference("defaultFontSize");
-    if (font_size <= 0) {
-      font_size = DEFAULT_FONT_SIZE; // Default value
-    }
-    var color = getStringPreference("p" + id + "Color");
-    var label_currency = currency + '/' + base_currency;
-    var latest_content = labelWithCurrency("---", currency);
-
-    // Default ticker widget //
-    /*  Important: Widgets are ordered in the status bar based on creation sequence
-        and the id of the Widget when it was created for the first time
-        (even if Widget is destroyed, the order of id persists) */
-    var ticker = new Widget({
-      id: "Bitoin-Price-Ticker_" + last_ticker_position,
-      label: label + " " + label_currency,
-      contentURL: data.url("index.html"),
-      contentScriptFile: [
-        data.url("js/jquery-2.0.3.min.js"),
-        data.url("js/utils.js")
-      ],
-      width: DEFAULT_TICKER_SPACING,
-      onClick: function(event) {
-        updateTicker();
+  function registerTickerEvents(tickerId) {
+    Preferences.on("p" + tickerId, function() { // Create event to enable/disable of tickers
+      toggleTicker(tickerId);
+    });
+    // Create events to update ticker when a particular option is changed
+    Preferences.on("p" + tickerId + "Color", function() {
+      if (tickers[tickerId] !== null) {
+        updateTickerConfiguration(tickerId);
       }
     });
-    ticker.port.on("increaseWidth", function(value) {
-      ticker.width = value;
-      if (typeof ticker.default_width === 'undefined') {
-        ticker.default_width = value;
-      } else {
-        ticker.default_width += value;
+  }
+
+  function registerEvents() {
+    for (var tickerId in tickers) {
+      if (tickers.hasOwnProperty(tickerId)) {
+        registerTickerEvents(tickerId);
       }
-      updateTickerStyle();
-    });
-    ordered_tickers.push(id);
-    last_ticker_position = (Number.MAX_VALUE == last_ticker_position)? 0 : last_ticker_position + 1 ;
-    ticker.last = 0;
-    ticker.trend = [0,0];
-    ticker.json_path = json_path;
-    ticker.port.emit("updateStyle", color, font_size, getBackgroundColor(id));
-    ticker.port.emit("updateContent", latest_content);
-    // Default ticker created //
-
-    var updateTickerStyle = function() {
-      if ( ! getBooleanPreference(pref_name)) {
-        return null; // Tikcer is disabled
-      }
-      var color = getStringPreference("p" + id + "Color");
-      var font_size = getIntegerPreference("defaultFontSize");
-      if (font_size <= 0) {
-        font_size = DEFAULT_FONT_SIZE; // Default value
-      }
-      var ticker_width = getIntegerPreference("defaultTickerSpacing");
-      if (ticker_width <= 0) {
-        ticker_width = DEFAULT_TICKER_SPACING;
-      }
-      var text_size = latest_content.toString().length;
-      ticker_width += (text_size * font_size * 9 / 14); // Aproximately 8 pixels per character (except dots)
-      if (currency == "\u5143") { // Yuan character needs extra pixels to be painted
-        ticker_width += 10;
-      } else if (currency.length > 2) { // Calculate currency name size and extend text width accordingly
-        ticker_width += ((currency.length - 3) * font_size * 9 / 14);
-      }
-      if (typeof ticker.default_width !== 'undefined') { // Enlarge width with calculated extra width required to show it
-        ticker.width = ticker_width + ticker.default_width;
-      } else {
-        ticker.width = ticker_width;
-      }
-      ticker.port.emit("updateStyle", color, font_size, getBackgroundColor(id));
-    };
-
-    var updateTicker = function() {
-      if ( ! getBooleanPreference(pref_name)) {
-        return null; // Tikcer is disabled
-      }
-      Request({
-        url: ticker_url,
-        onComplete: function (response) {
-          // Update ticker content
-          latest_content = labelWithCurrency("???", currency);
-          if ((response != null) && (response.json != null)) {
-            var price = response.json;
-            for (var i = 0; i < ticker.json_path.length; i++) { // Parse JSON path
-              if (typeof price[ticker.json_path[i]] == "undefined") {
-                if (DEBUG) console.log("BitcoinPriceTicker error loading ticker " + id + ", URL not responding:" + ticker_url);
-                return;
-              }
-              price = price[ticker.json_path[i]];
-            }
-            var trends = calculateSlopeAndTrend(ticker.last, price, ticker.trend);
-            ticker.trend = trends.trend;
-            label_trend = trends.label_trend;
-            label_slope = trends.label_slope;
-            var round = calculateRoundFactor(price);
-            var change = Math.round(1000000*ticker.trend[1]/ticker.trend[0])/100;
-            var last_ticker_price = Math.round(ticker.last * round.factor) / round.factor;
-            last_ticker_price = (round.size > 1) && (last_ticker_price > 0) ? last_ticker_price.toFixed(round.size) : last_ticker_price;
-            ticker.tooltip = ticker.label + " -- previous: "
-                + labelWithCurrency(last_ticker_price, currency)
-                + " -- trend: " + ((change>0) ? "+" : "") + change;
-            ticker.last = price;
-            price = Math.round(price * round.factor) / round.factor;
-            price = (round.size > 1) && (price > 0) ? price.toFixed(round.size) : price;
-            latest_content = labelWithCurrency(price, currency);
-            if (getBooleanPreference("show-short-trend")) {
-              latest_content = label_slope + latest_content;
-            }
-            if (getBooleanPreference("show-long-trend")) {
-              latest_content = label_trend + latest_content;
-            }
-          }
-          ticker.port.emit("updateContent", latest_content);
-          updateTickerStyle();
-        }
-      }).get();
-    };
-
-    updateTicker();
-    var intervalID = setInterval(updateTicker, (refresh_rate * 1000));
-    return [ticker, updateTicker, updateTickerStyle, intervalID];
-  };
-
-
-
-  // Configure all available tickers //
-
-  // USD prices //
-  setupTicker('BitStampUSD', 'BitStamp', '$', '\u0243', '#FF0000', "https://www.bitstamp.net/api/ticker/", ['last']);
-  setupTicker('BTCeUSD', 'BTCe', '$', '\u0243', '#FE642E', "https://btc-e.com/api/2/btc_usd/ticker", ['ticker','last']);
-  setupTicker('KrakenUSD', 'Kraken', '$', '\u0243', '#FF9966', "https://api.kraken.com/0/public/Ticker?pair=XBTUSD", ['result','XXBTZUSD','c',0]);
-  setupTicker('CoinDeskUSD', 'CoinDesk', '$', '\u0243', '#DBA901', "http://api.coindesk.com/v1/bpi/currentprice.json", ['bpi','USD','rate_float']);
-  setupTicker('CoinbaseUSD', 'Coinbase', '$', '\u0243', '#000066', "https://coinbase.com/api/v1/currencies/exchange_rates", ['btc_to_usd']);
-  setupTicker('CampBXUSD', 'CampBX', '$', '\u0243', '#000066', "http://campbx.com/api/xticker.php", ['Last Trade']);
-  setupTicker('BitPayUSD', 'BitPay', '$', '\u0243', '#FF0000', "https://bitpay.com/api/rates", [1,'rate']);
-  setupTicker('TheRockTradingUSD', 'TheRockTrading', '$', '\u0243', '#6E307C', "https://www.therocktrading.com/api/ticker/BTCUSD", ['result',0,'last']);
-  setupTicker('BitFinexUSD', 'BitFinex', '$', '\u0243', '#FF2200', "https://api.bitfinex.com/v1/ticker/btcusd", ['last_price']);
-
-  // Euro prices //
-  setupTicker('BTCeEUR', 'BTCe', '\u20ac', '\u0243', '#013ADF', "https://btc-e.com/api/2/btc_eur/ticker", ['ticker','last']);
-  setupTicker('KrakenEUR', 'Kraken', '\u20ac', '\u0243', '#3366FF', "https://api.kraken.com/0/public/Ticker?pair=XBTEUR", ['result','XXBTZEUR','c',0]);
-  setupTicker('CoinDeskEUR', 'CoinDesk', '\u20ac', '\u0243', '#000066', "http://api.coindesk.com/v1/bpi/currentprice.json", ['bpi','EUR','rate_float']);
-  setupTicker('BitPayEUR', 'BitPay', '\u20ac', '\u0243', '#B43104', "https://bitpay.com/api/rates", [2,'rate']);
-  setupTicker('BitonicEUR', 'Bitonic', '\u20ac', '\u0243', '#B43104', "https://bitonic.nl/api/price", ['price']);
-  setupTicker('Bitcoin-CentralEUR', 'Bitcoin-Central', '\u20ac', '\u0243', '#B43104', "https://bitcoin-central.net/api/v1/data/eur/ticker", ['price']);
-  setupTicker('TheRockTradingEUR', 'TheRockTrading', '\u20ac', '\u0243', '#B43104', "https://www.therocktrading.com/api/ticker/BTCEUR", ['result',0,'last']);
-
-  // Pound prices //
-  setupTicker('CoinDeskGBP', 'CoinDesk', '\u00a3', '\u0243', '#088A08', "http://api.coindesk.com/v1/bpi/currentprice.json", ['bpi','GBP','rate_float']);
-  setupTicker('LocalbitcoinsGBP', 'Localbitcoins', '\u00a3', '\u0243', '#088A08', "https://localbitcoins.com/bitcoinaverage/ticker-all-currencies/", ['GBP','rates','last']);
-  setupTicker('BittyliciousGBP', 'Bittylicious', '\u00a3', '\u0243', '#088A08', "https://bittylicious.com/api/v1/quote/BTC/GB/GBP/BANK/1", ['totalPrice']);
-  setupTicker('BitPayGBP', 'BitPay', '\u00a3', '\u0243', '#FF0000', "https://bitpay.com/api/rates", [3,'rate']);
-
-  // Polish zloty //
-  setupTicker('BitcurexPLN', 'Bitcurex', 'z\u0141', '\u0243', '#B43104', "https://bitcurex.com/api/pln/ticker.json", ['last_tx_price']);
-  
-  // Canadian dollar prices //
-  setupTicker('CaVirTexCAD', 'CaVirTex', 'C$', '\u0243', '#B43104', "https://www.cavirtex.com/api/CAD/ticker.json", ['last']);
-
-  // Yuan prices //
-  setupTicker('BTCChinaCNY', 'BTCChina', '\u5143', '\u0243', '#DF01D7', "https://data.btcchina.com/data/ticker", ['ticker','last']);
-
-  // Ruble prices //
-  setupTicker('BTCeRUR', 'BTCe', 'RUR', '\u0243', '#4F3107', "https://btc-e.com/api/2/btc_rur/ticker", ['ticker','last']);
-
-  // Brazilian Real prices //
-  setupTicker('MercadoBitcoinBRL', 'MercadoBitcoin', 'R$', '\u0243', '#2F4F15', "https://www.mercadobitcoin.com.br/api/ticker/", ['ticker','last']);
-
-  // Turkish Lira //
-  setupTicker('BTCTurkTRY', 'BTCTurk', '\u20ba', '\u0243', '#5B5B2F', "https://www.btcturk.com/api/ticker", ['last']);
-
-  // Venezuelan Bolivar //
-  setupTicker('BitcoinVenezuelaVEF', 'BitcoinVenezuela', 'Bs', '\u0243', '#672F7F', "http://bitcoinvenezuela.com/api/btcven.json", ['BTC','VEF']);
-  setupTicker('LocalbitcoinsVEF', 'Localbitcoins', 'Bs', '\u0243', '#088A08', "https://localbitcoins.com/bitcoinaverage/ticker-all-currencies/", ['VEF','rates','last']);
-  setupTicker('CoinbaseVEF', 'Coinbase', 'Bs', '\u0243', '#4C285B', "https://coinbase.com/api/v1/currencies/exchange_rates", ['btc_to_vef']);
-
-  // Argentinian Peso //
-  setupTicker('BitcoinVenezuelaARS', 'BitcoinVenezuela', 'ARS$', '\u0243', '#783489', "http://bitcoinvenezuela.com/api/btcven.json", ['BTC','ARS']);
-  setupTicker('LocalbitcoinsARS', 'Localbitcoins', 'ARS$', '\u0243', '#088A08', "https://localbitcoins.com/bitcoinaverage/ticker-all-currencies/", ['ARS','rates','last']);
-  setupTicker('CoinbaseARS', 'Coinbase', 'ARS$', '\u0243', '#582266', "https://coinbase.com/api/v1/currencies/exchange_rates", ['btc_to_ars']);
-  setupTicker('BitexARS', 'Bitex', 'ARS$', '\u0243', '#783489', "https://bitex.la/api-v1/rest/btc/market/ticker", ['last']);
-
-  // Chilean Peso
-  setupTicker('LocalbitcoinsCLP', 'Localbitcoins', '$', '\u0243', '#088A08', "https://localbitcoins.com/bitcoinaverage/ticker-all-currencies/", ['CLP','rates','last']);
-
-  // Mexican Peso
-  setupTicker('BitsoMXN', 'Bitso', '$', '\u0243', '#088A08', "https://api.bitso.com/public/info", ['btc_mxn','rate']);
-
-  // South African Rand //
-  setupTicker('BitXZAR', 'BitX', 'R', '\u0243', '#4A1F54', "https://bitx.co.za/api/1/BTCZAR/ticker", ['last_trade']);
-  setupTicker('CoinbaseZAR', 'Coinbase', 'R', '\u0243', '#4A1F54', "https://coinbase.com/api/v1/currencies/exchange_rates", ['btc_to_zar']);
-
-  // Shekel (Israel) //
-  setupTicker('Bit2CILS', 'Bit2C', '\u20AA', '\u0243', '#4A1F54', "https://www.bit2c.co.il/Exchanges/BtcNis/Ticker.json", ['ll']);
-
-  // Litecoin prices //
-  setupTicker('BTCeLitecoin', 'BTCe', '\u0243', '\u0141', '#013ADF', "https://btc-e.com/api/2/ltc_btc/ticker", ['ticker','last']);
-  setupTicker('VircurexLitecoin', 'Vircurex', '\u0243', '\u0141', '#0B0B3B', "https://api.vircurex.com/api/get_last_trade.json?base=LTC&alt=BTC", ['value']);
-  setupTicker('KrakenLitecoin', 'Kraken', '\u0141', '\u0243', '#000066', "https://api.kraken.com/0/public/Ticker?pair=XBTLTC", ['result','XXBTXLTC','c',0]);
-
-  // Litecoin USD prices //
-  setupTicker('BTCeLitecoinUSD', 'BTCe', '$', '\u0141', '#413ADF', "https://btc-e.com/api/2/ltc_usd/ticker", ['ticker','last']);
-
-  // Litecoin EUR prices //
-  setupTicker('BTCeLitecoinEUR', 'BTCe', '\u20ac', '\u0141', '#413ADF', "https://btc-e.com/api/2/ltc_eur/ticker", ['ticker','last']);
-
-  // WorldCoin prices //
-  setupTicker('VircurexWorldcoin', 'Vircurex', '\u0243', 'WDC', '#0B0B3B', "https://api.vircurex.com/api/get_last_trade.json?base=WDC&alt=BTC", ['value']);
-
-  // Dogecoin prices //
-  setupTicker('CryptsyDogecoin', 'Cryptsy', '\u0243', 'DOGE', '#413ADF', "http://pubapi.cryptsy.com/api.php?method=singlemarketdata&marketid=132", ['return','markets','DOGE','lasttradeprice']);
-  setupTicker('KrakenDogecoin', 'Kraken', 'DOGE', '\u0243', '#000066', "https://api.kraken.com/0/public/Ticker?pair=XBTXDG", ['result','XXBTXXDG','c',0]);
-
-  // Namecoin prices //
-  setupTicker('BTCeNamecoinUSD', 'BTCe', '$', 'NMC', '#413ADF', "https://btc-e.com/api/2/nmc_usd/ticker", ['ticker','last']);
-
-  // Auroracoin prices //
-  setupTicker('CryptsyAuroracoin', 'Cryptsy', '\u0243', 'AUR', '#413ADF', "http://pubapi.cryptsy.com/api.php?method=singlemarketdata&marketid=160", ['return','markets','AUR','lasttradeprice']);
-
-  // Blackcoin prices //
-  setupTicker('CryptsyBlackcoin', 'Cryptsy', '\u0243', 'BC', '#000', "http://pubapi.cryptsy.com/api.php?method=singlemarketdata&marketid=179", ['return','markets','BC','lasttradeprice']);
-
-  // Nxt prices //
-  setupTicker('CryptsyNxt', 'Cryptsy', '\u0243', 'NXT', '#000', "http://pubapi.cryptsy.com/api.php?method=singlemarketdata&marketid=159", ['return','markets','NXT','lasttradeprice']);
-  setupTicker('PoloniexNxt', 'Poloniex', '\u0243', 'NXT', '#000', "https://poloniex.com/public?command=returnTicker", ['BTC_NXT', 'last']);
-
-  // Bitshares prices //
-  setupTicker('PoloniexBitshares', 'Poloniex', '\u0243', 'BTS', '#000', "https://poloniex.com/public?command=returnTicker", ['BTC_BTS', 'last']);
-
-  // Ripple prices //
-  setupTicker('KrakenRipple', 'Kraken', 'XRP', '\u0243', '#000066', "https://api.kraken.com/0/public/Ticker?pair=XBTXRP", ['result','XXBTXXRP','c',0]);
-
-  // Maidsafe prices //
-  setupTicker('PoloniexMaidsafe', 'Poloniex', '\u0243', 'MAID', '#000', "https://poloniex.com/public?command=returnTicker", ['BTC_MAID', 'last']);
-
-  // BitcoinDark prices //
-  setupTicker('PoloniexBitcoindark', 'Poloniex', '\u0243', 'BTCD', '#000', "https://poloniex.com/public?command=returnTicker", ['BTC_BTCD', 'last']);
-
-  // Monero prices //
-  setupTicker('PoloniexMonero', 'Poloniex', '\u0243', 'XMR', '#000', "https://poloniex.com/public?command=returnTicker", ['BTC_XMR', 'last']);
-
-  // Dash prices //
-  setupTicker('CryptsyDashBTC', 'Cryptsy', '\u0243', 'DASH', '#000', "http://pubapi.cryptsy.com/api.php?method=singlemarketdata&marketid=155", ['return','markets','DRK','lasttradeprice']);
-  setupTicker('BitFinexDashBTC', 'BitFinex', '\u0243', 'DASH', '#000', "https://api.bitfinex.com/v1/ticker/drkbtc", ['last_price']);
-  setupTicker('CryptsyDashUSD', 'Cryptsy', '$', 'DASH', '#000', "http://pubapi.cryptsy.com/api.php?method=singlemarketdata&marketid=213", ['return','markets','DRK','lasttradeprice']);
-  setupTicker('BitFinexDashUSD', 'BitFinex', '$', 'DASH', '#000', "https://api.bitfinex.com/v1/ticker/drkusd", ['last_price']);
-
-  // Burst prices //
-  setupTicker('PoloniexBurst', 'Poloniex', '\u0243', 'BURST', '#fff', "https://poloniex.com/public?command=returnTicker", ['BTC_BURST', 'last']);
-
-
-  loadTickersInOrder(); // Load and create all selected tickers
+    }
+  }
 
   // Register general settings events
-  Preferences.on('defaultFontSize', updateStyleAllTickers);
-  Preferences.on('defaultTickerSpacing', updateStyleAllTickers);
-  Preferences.on('infoButton', showAddonUpdateDocument);
-  Preferences.on('Timer', updateTickerRefreshInterval);
-  Preferences.on('gold-background', updateStyleAllTickers);
-  Preferences.on('silver-background', updateStyleAllTickers);
-  Preferences.on('other-background', updateStyleAllTickers);
-  Preferences.on('show-long-trend', updateAllTickers);
-  Preferences.on('show-short-trend', updateAllTickers);
-  Preferences.on('show-currency-label', updateAllTickers);
+  Preferences.on("bar", toggleBarDisplay);
+  Preferences.on("Timer", updateTickerRefreshInterval);
+  Preferences.on("defaultFontSize", updateActiveTickersSharedStyle);
+  Preferences.on("gold-background", updateActiveTickersSharedStyle);
+  Preferences.on("silver-background", updateActiveTickersSharedStyle);
+  Preferences.on("other-background", updateActiveTickersSharedStyle);
+  // Preferences.on("show-long-trend", updateAllTickers);
+  // Preferences.on("show-short-trend", updateAllTickers);
+  Preferences.on("show-currency-label", updateActiveTickersSharedStyle);
+
+  Preferences.on("infoButton", showAddonUpdateDocument);
   // Check updated version
   AddonManager.getAddonByID(ADDON_ID, function(addon) {
     showAddonUpdate(addon.version);
