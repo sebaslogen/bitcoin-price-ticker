@@ -11,8 +11,10 @@ var preLoadtickersRepository = {};
 function loadJSON(url) {
   $.getJSON(url, function(json) {
       tickersRepository = json;
-      for (var id in preLoadtickersRepository) { 
-        updateTickerConfiguration(id, preLoadtickersRepository[id]);
+      for (var id in preLoadtickersRepository) {
+        if (preLoadtickersRepository.hasOwnProperty(id)) {
+          updateTickerConfiguration(id, preLoadtickersRepository[id]);
+        }
       }
   })
 }
