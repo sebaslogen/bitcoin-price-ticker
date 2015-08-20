@@ -1,4 +1,5 @@
 const DEBUG = true
+const DATA_PROVIDERS_URL = "https://raw.githubusercontent.com/neoranga55/bitcoin-price-ticker/refactor-to-use-firefox-frames/data/data-providers.json"
 
 // The main module of the Add-on.
 var ui = require('sdk/ui')
@@ -16,8 +17,8 @@ var tabs = require("sdk/tabs");
 
 var orderedTickers = new Array()
 // Ids of all tickers available. Ticker configuration for each ID is in file data/js/providers.js
-var tickers = { // Store all tickers here
-  'BitStampUSD':null,
+var tickers = {} // Store all tickers here
+  /*'BitStampUSD':null,
   'BTCeUSD':null,
   'KrakenUSD':null,
   'CoinDeskUSD':null,
@@ -77,7 +78,7 @@ var tickers = { // Store all tickers here
   'BitFinexDashBTC':null,
   'BitFinexDashUSD':null,
   'PoloniexBurst':null
-}
+}*/
 
 exports.main = function() {
 
@@ -258,7 +259,7 @@ exports.main = function() {
       url: url,
       onComplete: function (response) {
         if ((response != null) && (response.json != null)) {
-          if (DEBUG) console.log("Data received, searching in document for path:" + jsonPath) // DEBUG line TODO remove
+          if (DEBUG) console.log("Data received, searching in document for path:" + jsonPath)
           var price = response.json
           for (var i = 0; i < jsonPath.length; i++) { // Parse JSON path
             if (typeof price[jsonPath[i]] == "undefined") {
@@ -267,7 +268,7 @@ exports.main = function() {
             }
             price = price[jsonPath[i]]
           }
-          if (DEBUG) console.log("Price received and parsed: " + price) // DEBUG line TODO remove
+          if (DEBUG) console.log("Price received and parsed: " + price)
           e.source.postMessage({
             "type": "updateTickerModelPrice",
             "data": {
@@ -313,8 +314,26 @@ exports.main = function() {
     items: [tickers_frame]
   })
 
-  tickers_frame.on("ready", loadTickersInOrder)
+  function loadProvidersData() {
+    var url = DATA_PROVIDERS_URL
+    if (DEBUG) console.log("Requesting JSON data from " + DATA_PROVIDERS_URL)
+    Request({
+      url: url,
+      onComplete: function (response) {
+        if ((response != null) && (response.json != null)) {
+          if (DEBUG) console.log("Data received from data providers JSON configuration")
+          tickers = response.json
+          if (Object.keys(tickers).length == 0) {
+            if (DEBUG) console.log("Error: No ticker configuration found in JSON configuration received from server:"+url)
+            return
+          }
+          loadTickersInOrder()
+        }
+      }
+    }).get()
+  }
 
+  tickers_frame.on("ready", loadProvidersData) // When the presenter is ready load config data and tickers
 /*
   Feature disabled until refactored
 

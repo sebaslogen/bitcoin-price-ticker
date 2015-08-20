@@ -1,3 +1,6 @@
+3.1
+- Bugfixes
+
 3.0
 - Full port from old Firefox framework (no more widgets) to new Firefox UI (Australis)
 Notes: Unfortunately, with all the new Firefox UI, the tickers are not allowed anymore to live in the Firefox navigation bar and they have to be in a separated bar.
