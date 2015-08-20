@@ -95,7 +95,6 @@ exports.main = function() {
 
   function loadTicker(tickerId) {
     var tickerData = getTickerConfigurationData(tickerId)
-    if (DEBUG) console.log(JSON.stringify(tickerData))
     tickers[tickerId] = tickerData
     updateTickerConfiguration(tickerData)
     return tickerData
@@ -152,6 +151,7 @@ exports.main = function() {
           }
         }
       }
+      if (DEBUG) console.log("Storing tickers in order:" + orderedActiveTickers)
       prefs.setCharPref("extensions.ADDON_ID.tickers_order", orderedActiveTickers) // Update list of tickers active in order in preferences
     }
   }
@@ -159,17 +159,15 @@ exports.main = function() {
   // Live enable/disable ticker from options checkbox
   function toggleTicker(tickerId) {
     if ( getBooleanPreference('p' + tickerId) ) { // Enable Ticker
-      if (tickers[tickerId] == null) {
-        var tickerData = loadTicker(tickerId)
-        if (tickerData.enabled) orderedTickers.push(tickerId)
-        storeTickersOrder()
-      }
+      var tickerData = loadTicker(tickerId)
+      if (tickerData.enabled) orderedTickers.push(tickerId)
+      storeTickersOrder()
     } else if ( (tickers[tickerId] != null) && (tickers[tickerId].enabled)) { // Disable Ticker if it exists
       tickers[tickerId].enabled = false
       updateTickerConfiguration(tickers[tickerId])
       for (var position in orderedTickers) {
         if (orderedTickers[position] == tickerId) {
-          orderedTickers.splice(position, 1) // Remove the position completely from the array with reordering
+          orderedTickers.splice(position, 1) // Remove the ticker completely from the array with reordering
           break
         }
       }
