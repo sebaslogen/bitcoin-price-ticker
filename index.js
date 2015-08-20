@@ -21,6 +21,8 @@ var tabs = require("sdk/tabs");
 
 var orderedTickers = [];
 var tickers = {}; // Store all tickers here
+var tickersFrame = null
+var toolbar = null;
 
 exports.main = function() {
 
@@ -327,10 +329,20 @@ exports.main = function() {
     updateTickerRefreshInterval();
   }
 
+  function createNewTickersFrame() {
+    if (tickersFrame !== null) {
+      tickersFrame.destroy();
+    }
+    tickersFrame = ui.Frame({
+      url: "./index.html"
+    }).on("ready", loadProvidersData); // When the presenter is ready load config data and tickers
+  }
+
   // Toggle between a separate toolbar or the naviagtion bar
   function toggleBarDisplay() {
     if (getBooleanPreference("bar")) {
       if (toolbar == null) {
+        createNewTickersFrame();
         toolbar = ui.Toolbar({
           title: "Bitcoin Price Ticker",
           items: [tickersFrame]
@@ -339,16 +351,9 @@ exports.main = function() {
     } else if (toolbar) {
       toolbar.destroy();
       toolbar = null;
+      createNewTickersFrame();
     }
   }
-
-  var tickersFrame = ui.Frame({
-    url: "./index.html"
-  });
-
-  tickersFrame.on("ready", loadProvidersData); // When the presenter is ready load config data and tickers
-
-  var toolbar = null;
 
   toggleBarDisplay();
 
