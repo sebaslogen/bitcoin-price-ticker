@@ -7,6 +7,8 @@ var ui = require('sdk/ui')
 const {Cc, Ci, Cu} = require("chrome")
 Cu.import("resource://gre/modules/AddonManager.jsm") // Addon Manager required to know addon version
 const setTimeout = require("sdk/timers").setTimeout
+const setInterval = require("sdk/timers").setInterval
+const clearInterval = require("sdk/timers").clearInterval
 const ADDON_ID = "jid0-ziK34XHkBWB9ezxd4l9Q1yC7RP0@jetpack"
 const DEFAULT_REFRESH_RATE = 60
 const DEFAULT_FONT_SIZE = 14
@@ -77,35 +79,21 @@ exports.main = function() {
     if (fontSize <= 0) {
       fontSize = DEFAULT_FONT_SIZE
     }
-    var refreshRate = getIntegerPreference("Timer");
-    if (refreshRate < 1) {
-      refreshRate = DEFAULT_REFRESH_RATE;
+    if (tickers[tickerId]) {
+      tickers[tickerId].enabled = getBooleanPreference("p" + tickerId)
+      tickers[tickerId].currencyPosition = getStringPreference("show-currency-label")
+      tickers[tickerId].color = getStringPreference("p" + tickerId + "Color")
+      tickers[tickerId].fontSize = fontSize
+      tickers[tickerId].background = getBackgroundColor(tickerId)
     }
-    var tickerData = {
-      id: tickerId,
-      enabled: getBooleanPreference("p" + tickerId),
-      currencyPosition: getStringPreference("show-currency-label"),
-      color: getStringPreference("p" + tickerId + "Color"),
-      fontSize: fontSize,
-      background: getBackgroundColor(tickerId),
-      updateInterval: refreshRate
-    }
-    return tickerData
-  }
-
-  function loadTicker(tickerId) {
-    var tickerData = getTickerConfigurationData(tickerId)
-    tickers[tickerId] = tickerData
-    updateTickerConfiguration(tickerData)
-    return tickerData
   }
 
   // Use tickers enabled in preferences to load in that order regardless of stored order
   function loadDefaultTickers() {
     for (var tickerId in tickers) {
       if ( getBooleanPreference('p' + tickerId) ) { // Create Ticker
-        var tickerData = loadTicker(tickerId)
-        if (tickerData.enabled) orderedTickers.push(tickerId)
+        updateTickerConfiguration(tickerId)
+        if (tickers[tickerId].enabled) orderedTickers.push(tickerId)
       }
     }
     if ((orderedTickers != null) && (orderedTickers.length > 0)) {
@@ -128,8 +116,8 @@ exports.main = function() {
         return
       }
       for (var i in listOrderedTickers) {
-        var tickerData = loadTicker(listOrderedTickers[i])
-        if (tickerData.enabled) orderedTickers.push(tickerId)
+        loadTicker(listOrderedTickers[i])
+        if (tickers[tickerId].enabled) orderedTickers.push(tickerId)
       }
     } catch (e) { // There is no order of tickers in addon set yet
       loadDefaultTickers()
@@ -159,39 +147,40 @@ exports.main = function() {
   // Live enable/disable ticker from options checkbox
   function toggleTicker(tickerId) {
     if ( getBooleanPreference('p' + tickerId) ) { // Enable Ticker
-      var tickerData = loadTicker(tickerId)
-      if (tickerData.enabled) orderedTickers.push(tickerId)
+      if (DEBUG) console.log("Enabling:" + tickerId)
+      updateTickerConfiguration(tickerId)
+      updateTickerRefreshIntervalForTicker(tickerId)
+      orderedTickers.push(tickerId)
       storeTickersOrder()
-    } else if ( (tickers[tickerId] != null) && (tickers[tickerId].enabled)) { // Disable Ticker if it exists
+    } else if (tickers[tickerId].enabled) { // Disable Ticker if it exists
+      if (DEBUG) console.log("Disabling:" + tickerId)
       tickers[tickerId].enabled = false
-      updateTickerConfiguration(tickers[tickerId])
-      for (var position in orderedTickers) {
-        if (orderedTickers[position] == tickerId) {
-          orderedTickers.splice(position, 1) // Remove the ticker completely from the array with reordering
+      stopAutoPriceUpdate(tickerId)
+      updateTickerConfiguration(tickerId)
+      for (var i = 0; i < orderedTickers.length; i++) {
+        if (orderedTickers[i] == tickerId) {
+          orderedTickers.splice(i, 1) // Remove the ticker completely from the array with reordering
           break
         }
       }
-      tickers[tickerId] = null
       storeTickersOrder()
     }
   }
 
-  function updateTickerConfiguration(tickerData) {
+  function updateTickerConfiguration(tickerId) {
+    getTickerConfigurationData(tickerId)
+    if (DEBUG) console.log("Sending config JSON data to frame:" + tickerId + "-" + JSON.stringify(tickers[tickerId]))
     tickersFrame.postMessage({
       "type": "updateTickerConfiguration",
-      "data": tickerData
+      "id": tickerId,
+      "data": tickers[tickerId]
     }, tickersFrame.url);
   }
 
-  function fetchURLData(e) {
-    if (DEBUG) console.log("Request received from frame:" + JSON.stringify(e))
-    if (e.data == "undefined" || e.data.id == "undefined" ||
-        e.data.url == "undefined" || e.data.jsonPath == "undefined") {
+  function fetchURLData(id, url, jsonPath) {
+    if (id == "undefined" || url == "undefined" || jsonPath == "undefined") {
       return
     }
-    var id = e.data.id
-    var url = e.data.url
-    var jsonPath = JSON.parse(e.data.jsonPath)
     if (DEBUG) console.log("Requesting JSON data from " + url)
     Request({
       url: url,
@@ -207,22 +196,61 @@ exports.main = function() {
             price = price[jsonPath[i]]
           }
           if (DEBUG) console.log("Price received and parsed: " + price)
-          e.source.postMessage({
+          tickersFrame.postMessage({
             "type": "updateTickerModelPrice",
+            "id": id,
             "data": {
-              "id": id,
               "price": price
             }
-          }, e.origin)
+          }, tickersFrame.url)
         }
       }
     }).get()
   }
 
+  function startAutoPriceUpdate(tickerId) {
+    if (tickers[tickerId].url && tickers[tickerId].jsonPath) {
+      var fetchURLDataWrapper = function() {
+        fetchURLData(tickerId, tickers[tickerId].url, tickers[tickerId].jsonPath)
+      }
+      fetchURLDataWrapper()
+      tickers[tickerId].timer = setInterval(fetchURLDataWrapper, (tickers[tickerId].updateInterval * 1000))
+    }
+  }
+
+  function stopAutoPriceUpdate(tickerId) {
+    if (tickers[tickerId].timer) { // Remove previous auto-update call if any
+      clearInterval(tickers[tickerId].timer) // Stop automatic refresh
+      tickers[tickerId].timer = null
+    }
+  }
+
+  function updateTickerRefreshIntervalForTicker(tickerId) {
+    var refreshRate = getIntegerPreference("Timer")
+    if (refreshRate < 1) {
+      refreshRate = DEFAULT_REFRESH_RATE
+    }
+    if (tickers[tickerId] && tickers[tickerId].enabled) {
+      if (DEBUG) console.log("updateTickerRefreshIntervalForTicker:" + tickerId)
+      if (tickers[tickerId].updateInterval != refreshRate) { // Update the real interval
+        tickers[tickerId].updateInterval = refreshRate
+        stopAutoPriceUpdate(tickerId)
+        startAutoPriceUpdate(tickerId)
+      }
+    }
+  }
+
+  // Create new refresh interval for each ticker when option is changed
+  function updateTickerRefreshInterval() {
+    for (var tickerId in tickers) { // Update all tickers that require it
+      updateTickerRefreshIntervalForTicker(tickerId)
+    }
+  }
+
   function updateActiveTickersSharedStyle() {
     for (tickerId in tickers) {
       if (tickers[tickerId] && tickers[tickerId].enabled) {
-        loadTicker(tickerId) // Update configuration
+        updateTickerConfiguration(tickerId) // Update configuration
       }
     }
   }
@@ -264,11 +292,11 @@ exports.main = function() {
   function initAfterLoad() {
     loadTickersInOrder()
     registerEvents()
+    updateTickerRefreshInterval()
   }
 
   var tickersFrame = ui.Frame({
-    url: './index.html',
-    onMessage: fetchURLData
+    url: './index.html'
   })
 
   tickersFrame.on("ready", loadProvidersData) // When the presenter is ready load config data and tickers
@@ -353,14 +381,14 @@ exports.main = function() {
   */
 
   // Register general settings events
-  Preferences.on('defaultFontSize', updateActiveTickersSharedStyle);
-  Preferences.on('Timer', updateActiveTickersSharedStyle);
-  Preferences.on('gold-background', updateActiveTickersSharedStyle);
-  Preferences.on('silver-background', updateActiveTickersSharedStyle);
-  Preferences.on('other-background', updateActiveTickersSharedStyle);
+  Preferences.on('defaultFontSize', updateActiveTickersSharedStyle)
+  Preferences.on('Timer', updateTickerRefreshInterval)
+  Preferences.on('gold-background', updateActiveTickersSharedStyle)
+  Preferences.on('silver-background', updateActiveTickersSharedStyle)
+  Preferences.on('other-background', updateActiveTickersSharedStyle)
   // Preferences.on('show-long-trend', updateAllTickers);
   // Preferences.on('show-short-trend', updateAllTickers);
-  Preferences.on('show-currency-label', updateActiveTickersSharedStyle);
+  Preferences.on('show-currency-label', updateActiveTickersSharedStyle)
 
   function registerTickerEvents(tickerId) {
     Preferences.on('p' + tickerId, function() { // Create event to enable/disable of tickers
@@ -369,8 +397,7 @@ exports.main = function() {
     // Create events to update ticker when a particular option is changed
     Preferences.on('p' + tickerId + 'Color', function() {
       if (tickers[tickerId] != null) {
-        tickers[tickerId].color = getStringPreference("p" + tickerId + "Color")
-        updateTickerConfiguration(tickers[tickerId])
+        updateTickerConfiguration(tickerId)
       }
     })
   }

@@ -18,7 +18,7 @@ function newViewTicker(tickerId) {
   return $( "<div></div>", {
     "id": tickerId,
     "class": DEFAULT_TICKER_CSS_CLASSES,
-    "text": '---'
+    "text": "---"
   })
 }
 
@@ -38,31 +38,49 @@ function updateStyle(tickerId, color, fontSize, background) {
 }
 
 function updateView(tickerId, price, exchangeName, currency, baseCurrency, currencyPosition, color, fontSize, background) {
+  if (price == 0) {
+    return // Avoid empty updates of view
+  }
   var tickerView = $(".ticker#"+tickerId)
   if (tickerView.size() != 1) {
     return // Ticker was removed
   }
   updateStyle(tickerId, color, fontSize, background)
-  var roundedPrice = calculateRoundedPrice(price)
-  var tickerText = roundedPrice
-  switch (currencyPosition) {
-    case 'B':
-      tickerText = currency + roundedPrice
-      break
-    case 'A':
-      tickerText =  roundedPrice + currency
-      break
-  }
-  tickerView.text(tickerText)
+  tickerView.text(formatTickerText(price, currency, currencyPosition))
   var label = exchangeName + " " + currency + "/" + baseCurrency
   tickerView.attr("tooltiptext", label)
   tickerView.attr("title", label)
 }
 
+function formatTickerText(price, currency, currencyPosition) { // Allow more decimals for low price values
+  if (price == parseFloat(price)) {
+    var roundedPrice = calculateRoundedPrice(price)
+    var tickerText = roundedPrice
+    switch (currencyPosition) {
+      case 'B':
+        tickerText = currency + roundedPrice
+        break
+      case 'A':
+        tickerText =  roundedPrice + currency
+        break
+    }
+    return tickerText
+  } else {
+    return price // Text can not be formatted into a number
+  }
+  
+}
+
 function calculateRoundedPrice(price) { // Allow more decimals for low price values
   var round = calculateRoundFactor(price)
+  if ((!round) || (round.factor <= 0)){
+    return price // Rounding failed
+  }
   var roundedPrice = Math.round(price * round.factor) / round.factor
   roundedPrice = (round.size > 1) && (roundedPrice > 0) ? roundedPrice.toFixed(round.size) : roundedPrice
+  if (roundedPrice != parseFloat(roundedPrice)) {
+    return price // Rounding failed
+  }
   return roundedPrice
 }
 

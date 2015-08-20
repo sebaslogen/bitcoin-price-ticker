@@ -7,29 +7,32 @@ var tickers = { "models": {}, "views": {}, "controllers": {}}
 var tickersRepository = {}
 var preLoadtickersRepository = {}
 
+// Load configuration of data providers from JSON
+
 function loadJSON(url) {
   $.getJSON(url, function(json) {
       tickersRepository = json
+        $(".ticker").text("LOAD")
       for (var id in preLoadtickersRepository) { 
-        updateTickerConfiguration(preLoadtickersRepository[id])
+        updateTickerConfiguration(id, preLoadtickersRepository[id])
       }
   })
 }
 
 loadJSON(DATA_PROVIDERS_URL)
 
-function getTickerModel(data, observer) {
-  var tickerModel = tickers["models"][data.id]
+function getTickerModel(id, data, observer) {
+  var tickerModel = tickers["models"][id]
   if (tickerModel) {
     updateTickerModelConfiguration(tickerModel, data)
   } else {
-    tickerModel = createAndConfigureTickerModel(data, observer)
+    tickerModel = createAndConfigureTickerModel(id, data, observer)
   }
   return tickerModel;
 }
 
-function createAndConfigureTickerModel(data, observer) {
-  var tickerModel = createTickerModel(data.id)
+function createAndConfigureTickerModel(id, data, observer) {
+  var tickerModel = createTickerModel(id)
   tickerModel.initialize(observer)
   updateTickerModelConfiguration(tickerModel, data)
   return tickerModel
@@ -47,7 +50,6 @@ function createTickerModel(id) {
     fontSize: null,
     background: null,
     price: 0,
-    updateInterval: 0,
     observers: [],
     // Retrieve tickers provider and configuration data from repository
     initialize: function(observer) {
@@ -107,12 +109,6 @@ function updateTickerModelConfiguration(tickerModel, data) {
     notifyObservers = true
   }
   tickerModel.background = data.background
-  if (data.updateInterval) {
-    if (data.updateInterval != tickerModel.updateInterval) {
-      notifyObservers = true
-    }
-    tickerModel.updateInterval = data.updateInterval
-  }
   if (notifyObservers) {
     tickerModel.notifyObservers()
   }
@@ -120,18 +116,4 @@ function updateTickerModelConfiguration(tickerModel, data) {
 
 function getProvider(id) {
   return tickersRepository[id]
-}
-
-function getLatestData(id) {
-  var data = getProvider(id)
-  if (data) {
-    var url = data.url
-    var jsonPath = data.jsonPath
-    if (DEBUG) $(".ticker#"+id).text(' Getting ' + url + '-' + JSON.stringify(jsonPath))
-    window.parent.postMessage({
-      "id" : id,
-      "url" : url,
-      "jsonPath" : JSON.stringify(jsonPath)
-    }, "*");
-  }
 }
