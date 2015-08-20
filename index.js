@@ -22,9 +22,9 @@ var tickers = {} // Store all tickers here
 
 exports.main = function() {
 
-  function getPreference(pref_name, type) {
-    if (typeof Preferences.prefs[pref_name] == "undefined") {
-      if (DEBUG) console.log("bitcoin-price-ticker addon error: " + pref_name + " preference is not defined")
+  function getPreference(prefName, type) {
+    if (typeof Preferences.prefs[prefName] == "undefined") {
+      if (DEBUG) console.log("bitcoin-price-ticker addon error: " + prefName + " preference is not defined")
       switch (type) {
         case "boolean":
           return false
@@ -36,33 +36,33 @@ exports.main = function() {
           return null
       }
     }
-    return Preferences.prefs[pref_name]
+    return Preferences.prefs[prefName]
   }
 
-  function getBooleanPreference(pref_name) {
-    return getPreference(pref_name, "boolean")
+  function getBooleanPreference(prefName) {
+    return getPreference(prefName, "boolean")
   }
 
-  function getIntegerPreference(pref_name) {
-    return getPreference(pref_name, "integer")
+  function getIntegerPreference(prefName) {
+    return getPreference(prefName, "integer")
   }
 
-  function getStringPreference(pref_name) {
-    return getPreference(pref_name, "string")
+  function getStringPreference(prefName) {
+    return getPreference(prefName, "string")
   }
 
   function getBackgroundColor(id) {
-    var low_id = id.toLowerCase()
-    var other_bg_cryptos = [ 'dogecoin', 'worldcoin', 'namecoin', 'auroracoin', 'blackcoin', 'nxt',
+    var lowId = id.toLowerCase()
+    var otherBgCryptos = [ 'dogecoin', 'worldcoin', 'namecoin', 'auroracoin', 'blackcoin', 'nxt',
       'bitshares', 'ripple', 'maidsafe', 'bitcoindark', 'monero', 'dash', 'burst' ]
-    for (var i in other_bg_cryptos) {
-      if (low_id.indexOf(other_bg_cryptos[i]) != -1) {  // Alt-coin
+    for (var i in otherBgCryptos) {
+      if (lowId.indexOf(otherBgCryptos[i]) != -1) {  // Alt-coin
         if (getBooleanPreference("other-background")) {
-          return other_bg_cryptos[i]
+          return otherBgCryptos[i]
         }
       }
     }
-    if (low_id.indexOf("litecoin") != -1) {
+    if (lowId.indexOf("litecoin") != -1) {
       if (getBooleanPreference("silver-background")) { // Currency is Litecoin
         return "silver"
       }
@@ -77,9 +77,9 @@ exports.main = function() {
     if (fontSize <= 0) {
       fontSize = DEFAULT_FONT_SIZE
     }
-    var refresh_rate = getIntegerPreference("Timer");
-    if (refresh_rate < 1) {
-      refresh_rate = DEFAULT_REFRESH_RATE;
+    var refreshRate = getIntegerPreference("Timer");
+    if (refreshRate < 1) {
+      refreshRate = DEFAULT_REFRESH_RATE;
     }
     var tickerData = {
       id: tickerId,
@@ -88,7 +88,7 @@ exports.main = function() {
       color: getStringPreference("p" + tickerId + "Color"),
       fontSize: fontSize,
       background: getBackgroundColor(tickerId),
-      updateInterval: refresh_rate
+      updateInterval: refreshRate
     }
     return tickerData
   }
@@ -179,10 +179,10 @@ exports.main = function() {
   }
 
   function updateTickerConfiguration(tickerData) {
-    tickers_frame.postMessage({
+    tickersFrame.postMessage({
       "type": "updateTickerConfiguration",
       "data": tickerData
-    }, tickers_frame.url);
+    }, tickersFrame.url);
   }
 
   function fetchURLData(e) {
@@ -244,16 +244,6 @@ exports.main = function() {
     prefs.setCharPref("extensions.ADDON_ID.version", version) // Update version number in preferences
   }
 
-  var tickers_frame = ui.Frame({
-    url: './index.html',
-    onMessage: fetchURLData
-  })
-
-  var toolbar = ui.Toolbar({
-    title: 'Bitcoin Price Ticker',
-    items: [tickers_frame]
-  })
-
   function loadProvidersData() {
     var url = DATA_PROVIDERS_URL
     if (DEBUG) console.log("Requesting JSON data from " + DATA_PROVIDERS_URL)
@@ -267,13 +257,28 @@ exports.main = function() {
             if (DEBUG) console.log("Error: No ticker configuration found in JSON configuration received from server:"+url)
             return
           }
-          loadTickersInOrder()
+          initAfterLoad()
         }
       }
     }).get()
   }
 
-  tickers_frame.on("ready", loadProvidersData) // When the presenter is ready load config data and tickers
+  function initAfterLoad() {
+    loadTickersInOrder()
+    registerEvents()
+  }
+
+  var tickersFrame = ui.Frame({
+    url: './index.html',
+    onMessage: fetchURLData
+  })
+
+  tickersFrame.on("ready", loadProvidersData) // When the presenter is ready load config data and tickers
+
+  var toolbar = ui.Toolbar({
+    title: 'Bitcoin Price Ticker',
+    items: [tickersFrame]
+  })
 /*
   Feature disabled until refactored
 
@@ -377,7 +382,6 @@ exports.main = function() {
       registerTickerEvents(tickerId)
     }
   }
-  registerEvents()
   Preferences.on('infoButton', showAddonUpdateDocument)
   // Check updated version
   AddonManager.getAddonByID(ADDON_ID, function(addon) {
