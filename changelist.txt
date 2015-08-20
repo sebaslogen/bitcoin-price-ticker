@@ -1,5 +1,8 @@
 3.1
-- Bugfixes
+- Big fix to avoid being blocked by NoScript Firefox Addon. Read:
+To use this plugin and NoScript together you need to Allow in NoScript the domain
+raw.githubusercontent.com (or add this domain to the whitelist in NoScript options)
+- Lots of bugfixes
 
 3.0
 - Full port from old Firefox framework (no more widgets) to new Firefox UI (Australis)
