@@ -1,4 +1,4 @@
-const DEBUG = true
+const DEBUG = false
 const DATA_PROVIDERS_URL = "https://raw.githubusercontent.com/neoranga55/bitcoin-price-ticker/refactor-to-use-firefox-frames/data/data-providers.json"
 const ADDON_UPDATE_DOCUMENT_URL = "http://neoranga55.github.io/bitcoin-price-ticker/"
 
@@ -13,13 +13,12 @@ const ADDON_ID = "jid0-ziK34XHkBWB9ezxd4l9Q1yC7RP0@jetpack"
 const DEFAULT_REFRESH_RATE = 60
 const DEFAULT_FONT_SIZE = 14
 
-var Preferences = require('sdk/simple-prefs');
-var prefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefService).getBranch("extensions.ADDON_ID.");
-var Request = require("sdk/request").Request;
-var tabs = require("sdk/tabs");
+var Preferences = require('sdk/simple-prefs')
+var prefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefService).getBranch("extensions.ADDON_ID.")
+var Request = require("sdk/request").Request
+var tabs = require("sdk/tabs")
 
 var orderedTickers = new Array()
-// Ids of all tickers available. Ticker configuration for each ID is in file data/js/providers.js
 var tickers = {} // Store all tickers here
 
 exports.main = function() {
@@ -75,7 +74,7 @@ exports.main = function() {
   }
 
   function getTickerConfigurationData(tickerId) {
-    var fontSize = getIntegerPreference("defaultFontSize");
+    var fontSize = getIntegerPreference("defaultFontSize")
     if (fontSize <= 0) {
       fontSize = DEFAULT_FONT_SIZE
     }
@@ -147,13 +146,11 @@ exports.main = function() {
   // Live enable/disable ticker from options checkbox
   function toggleTicker(tickerId) {
     if ( getBooleanPreference('p' + tickerId) ) { // Enable Ticker
-      if (DEBUG) console.log("Enabling:" + tickerId)
       updateTickerConfiguration(tickerId)
       updateTickerRefreshIntervalForTicker(tickerId)
       orderedTickers.push(tickerId)
       storeTickersOrder()
     } else if (tickers[tickerId].enabled) { // Disable Ticker if it exists
-      if (DEBUG) console.log("Disabling:" + tickerId)
       tickers[tickerId].enabled = false
       stopAutoPriceUpdate(tickerId)
       updateTickerConfiguration(tickerId)
@@ -174,7 +171,7 @@ exports.main = function() {
       "type": "updateTickerConfiguration",
       "id": tickerId,
       "data": tickers[tickerId]
-    }, tickersFrame.url);
+    }, tickersFrame.url)
   }
 
   function fetchURLData(id, url, jsonPath) {
@@ -295,16 +292,31 @@ exports.main = function() {
     updateTickerRefreshInterval()
   }
 
+  // Toggle between a separate toolbar or the naviagtion bar
+  function toggleBarDisplay() {
+    if (getBooleanPreference("bar")) {
+      if (toolbar == null) {
+        toolbar = ui.Toolbar({
+          title: 'Bitcoin Price Ticker',
+          items: [tickersFrame]
+        })
+      }
+    } else if (toolbar) {
+      toolbar.destroy()
+      toolbar = null
+    }
+  }
+
   var tickersFrame = ui.Frame({
     url: './index.html'
   })
 
   tickersFrame.on("ready", loadProvidersData) // When the presenter is ready load config data and tickers
 
-  var toolbar = ui.Toolbar({
-    title: 'Bitcoin Price Ticker',
-    items: [tickersFrame]
-  })
+  var toolbar = null
+
+  toggleBarDisplay()
+
 /*
   Feature disabled until refactored
 
@@ -380,16 +392,6 @@ exports.main = function() {
   updateTickerStyle();
   */
 
-  // Register general settings events
-  Preferences.on('defaultFontSize', updateActiveTickersSharedStyle)
-  Preferences.on('Timer', updateTickerRefreshInterval)
-  Preferences.on('gold-background', updateActiveTickersSharedStyle)
-  Preferences.on('silver-background', updateActiveTickersSharedStyle)
-  Preferences.on('other-background', updateActiveTickersSharedStyle)
-  // Preferences.on('show-long-trend', updateAllTickers);
-  // Preferences.on('show-short-trend', updateAllTickers);
-  Preferences.on('show-currency-label', updateActiveTickersSharedStyle)
-
   function registerTickerEvents(tickerId) {
     Preferences.on('p' + tickerId, function() { // Create event to enable/disable of tickers
       toggleTicker(tickerId)
@@ -407,9 +409,21 @@ exports.main = function() {
       registerTickerEvents(tickerId)
     }
   }
+
+  // Register general settings events
+  Preferences.on('bar', toggleBarDisplay)
+  Preferences.on('Timer', updateTickerRefreshInterval)
+  Preferences.on('defaultFontSize', updateActiveTickersSharedStyle)
+  Preferences.on('gold-background', updateActiveTickersSharedStyle)
+  Preferences.on('silver-background', updateActiveTickersSharedStyle)
+  Preferences.on('other-background', updateActiveTickersSharedStyle)
+  // Preferences.on('show-long-trend', updateAllTickers)
+  // Preferences.on('show-short-trend', updateAllTickers)
+  Preferences.on('show-currency-label', updateActiveTickersSharedStyle)
+
   Preferences.on('infoButton', showAddonUpdateDocument)
   // Check updated version
   AddonManager.getAddonByID(ADDON_ID, function(addon) {
-    showAddonUpdate(addon.version);
+    showAddonUpdate(addon.version)
   })
-};
+}

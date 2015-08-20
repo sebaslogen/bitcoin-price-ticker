@@ -5,13 +5,20 @@
   "description": "Bitcoin Price Ticker with multiple sources and configurable",
   "author": "neoranga (neoranga55 AT yahoo DOT es)",
   "license": "MPL 2.0",
-  "version": "3.0.1",
+  "version": "3.1",
   "permissions": {"private-browsing": true},
   "preferences": [{
     "name": "infoButton",
     "title": "List of changes and information of the Add-on",
     "label": "Show news and information",
     "type": "control"
+  },
+  {
+    "name": "bar",
+    "title": "Show tickers in a separate bar",
+    "description": "From Firefox v40 the tickers don't fit well in the navigation bar, if you disable this go to Firefox's Customize button to drag&drop the tickers into the navigation bar",
+    "type": "bool",
+    "value": true
   },
   {
     "name": "Timer",

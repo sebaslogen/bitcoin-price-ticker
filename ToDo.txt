@@ -1,6 +1,4 @@
-- Refactor to not use window.parent.postMessage from iFrame to avoid being blocked by NoScript
-
-- Disbale toolbar in options with explanation of how to add to naviagtion bar
+- Fix order of tickers memory
 
 - Add price trends feature
 

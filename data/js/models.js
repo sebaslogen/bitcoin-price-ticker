@@ -1,6 +1,6 @@
 // Models to store and control data
 
-const DEBUG = true
+const DEBUG = false
 const DATA_PROVIDERS_URL = "https://raw.githubusercontent.com/neoranga55/bitcoin-price-ticker/refactor-to-use-firefox-frames/data/data-providers.json"
 const DEFAULT_TICKER_CSS_CLASSES = "ticker"
 var tickers = { "models": {}, "views": {}, "controllers": {}}
