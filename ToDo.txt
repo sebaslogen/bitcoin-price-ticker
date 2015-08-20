@@ -1,8 +1,6 @@
-- Move providers.js to JSON file and load data in both sides
+- Refactor to not use window.parent.postMessage from iFrame to avoid being blocked by NoScript
 
 - Disbale toolbar in options with explanation of how to add to naviagtion bar
-
-- Refactor to not use window.parent.postMessage from iFrame to avoid being blocked by NoScript
 
 - Add price trends feature
 
