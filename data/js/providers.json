@@ -1,0 +1,5 @@
+// Configuration data for each possible ticker ID. These IDs are declared in file index.js
+{
+  // US Dollar prices
+  "BitStampUSD": "hola"
+}

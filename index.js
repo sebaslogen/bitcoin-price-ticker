@@ -1,4 +1,4 @@
-const DEBUG = false
+const DEBUG = true
 
 // The main module of the Add-on.
 var ui = require('sdk/ui')

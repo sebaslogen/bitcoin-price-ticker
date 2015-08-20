@@ -1,8 +1,16 @@
 // Models to store and control data
 
-const DEBUG = false
+const DEBUG = true
+const DATA_PROVIDERS_FILE = "data-providers.json"
 const DEFAULT_TICKER_CSS_CLASSES = "ticker"
 var tickers = { "models": {}, "views": {}, "controllers": {}}
+
+function loadJSON(file) {
+  $(".ticker").text(' Reading JSON ')
+  $.getJSON("data/js/providers.json", function(json) {
+     $(".ticker").text('JSON ' + JSON.stringify(json))
+  })
+}
 
 function getTickerModel(data, observer) {
   var tickerModel = tickers["models"][data.id]
@@ -109,6 +117,8 @@ function getProvider(id) {
 }
 
 function getLatestData(id) {
+  loadJSON(DATA_PROVIDERS_FILE)
+  return
   var data = getProvider(id)
   if (data) {
     var url = data.url
@@ -121,3 +131,5 @@ function getLatestData(id) {
     }, "*");
   }
 }
+
+loadJSON(DATA_PROVIDERS_FILE)
