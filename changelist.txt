@@ -3,6 +3,8 @@
 To use this plugin and NoScript together you need to Allow in NoScript the domain
 raw.githubusercontent.com (or add this domain to the whitelist in NoScript options)
 - Lots of bugfixes
+- Added new option to switch between placing the tickers on a separate toolbar
+or placing the tickers on the navigation bar (it doesn't look very pretty for now)
 
 3.0
 - Full port from old Firefox framework (no more widgets) to new Firefox UI (Australis)
