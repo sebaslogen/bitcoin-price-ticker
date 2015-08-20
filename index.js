@@ -61,7 +61,7 @@ exports.main = function() {
     var lowId = id.toLowerCase();
     var otherBgCryptos = [ "dogecoin", "worldcoin", "namecoin", "auroracoin", "blackcoin", "nxt",
       "bitshares", "ripple", "maidsafe", "bitcoindark", "monero", "dash", "burst" ];
-    for (var i in otherBgCryptos) {
+    for (var i = 0; i < otherBgCryptos.length; i++) {
       if (lowId.indexOf(otherBgCryptos[i]) != -1) {  // Alt-coin
         if (getBooleanPreference("other-background")) {
           return otherBgCryptos[i];
@@ -139,7 +139,7 @@ exports.main = function() {
     } else {
       var orderedActiveTickers = "";
       if ((orderedTickers != null) && (orderedTickers.length > 0)) {
-        for (var i in orderedTickers) { // Traverse skipping empty
+        for (var i = 0; i < orderedTickers.length; i++) { // Traverse skipping empty
           if (orderedActiveTickers.length > 0) {
             orderedActiveTickers += "," + orderedTickers[i];
           } else {
@@ -445,8 +445,10 @@ exports.main = function() {
   }
 
   function registerEvents() {
-    for (tickerId in tickers) {
-      registerTickerEvents(tickerId);
+    for (var tickerId in tickers) {
+      if (tickers.hasOwnProperty(tickerId)) {
+        registerTickerEvents(tickerId);
+      }
     }
   }
 
