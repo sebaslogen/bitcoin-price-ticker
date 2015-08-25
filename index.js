@@ -1,4 +1,5 @@
 const DEBUG = false;
+const TAG = "bitcoin-price-ticker";
 const DATA_PROVIDERS_URL = "https://raw.githubusercontent.com/neoranga55/bitcoin-price-ticker/refactor-to-use-firefox-frames/data/data-providers.json";
 const ADDON_UPDATE_DOCUMENT_URL = "http://neoranga55.github.io/bitcoin-price-ticker/";
 
@@ -29,7 +30,7 @@ exports.main = function() {
   function getPreference(prefName, type) {
     if (typeof Preferences.prefs[prefName] == "undefined") {
       if (DEBUG) {
-        console.log("bitcoin-price-ticker addon error: " + prefName + " preference is not defined");
+        console.log(TAG + " addon error: " + prefName + " preference is not defined");
       }
       switch (type) {
         case "boolean":
@@ -148,7 +149,7 @@ exports.main = function() {
         }
       }
       if (DEBUG) {
-        console.log("Storing tickers in order:" + orderedActiveTickers);
+        console.log(TAG + " Storing tickers in order:" + orderedActiveTickers);
       }
       prefs.setCharPref("extensions.ADDON_ID.tickers_order", orderedActiveTickers); // Update list of tickers active in order in preferences
     }
@@ -178,7 +179,7 @@ exports.main = function() {
   function updateTickerConfiguration(tickerId) {
     getTickerConfigurationData(tickerId);
     if (DEBUG) {
-      console.log("Sending config JSON data to frame:" + tickerId + 
+      console.log(TAG + " Sending config JSON data to frame:" + tickerId + 
                   "-" + JSON.stringify(tickers[tickerId]));
     }
     tickersFrame.postMessage({
@@ -193,20 +194,20 @@ exports.main = function() {
       return;
     }
     if (DEBUG) {
-      console.log("Requesting JSON data from " + url);
+      console.log(TAG + " Requesting JSON data from " + url);
     }
     Request({
       url: url,
       onComplete: function (response) {
         if ((response !== null) && (response.json !== null)) {
           if (DEBUG) {
-            console.log("Data received, searching in document for path:" + jsonPath);
+            console.log(TAG + " Data received, searching in document for path:" + jsonPath);
           }
           var price = response.json;
           for (var i = 0; i < jsonPath.length; i++) { // Parse JSON path
             if (typeof price[jsonPath[i]] == "undefined") {
               if (DEBUG) {
-                console.log("BitcoinPriceTicker error loading ticker " + id + 
+                console.log(TAG + " error loading ticker " + id + 
                             ". URL is not correctly responding:" + url);
               }
               return;
@@ -214,7 +215,7 @@ exports.main = function() {
             price = price[jsonPath[i]];
           }
           if (DEBUG) {
-            console.log("Price received and parsed: " + price);
+            console.log(TAG + " Price received and parsed: " + price);
           }
           tickersFrame.postMessage({
             "type": "updateTickerModelPrice",
@@ -253,7 +254,7 @@ exports.main = function() {
     }
     if (tickers[tickerId] && tickers[tickerId].enabled) {
       if (DEBUG) {
-        console.log("updateTickerRefreshIntervalForTicker:" + tickerId);
+        console.log(TAG + " updateTickerRefreshIntervalForTicker:" + tickerId);
       }
       if (tickers[tickerId].updateInterval != refreshRate) { // Update the real interval
         tickers[tickerId].updateInterval = refreshRate;
@@ -301,19 +302,19 @@ exports.main = function() {
   function loadProvidersData() {
     var url = DATA_PROVIDERS_URL;
     if (DEBUG) {
-      console.log("Requesting JSON data from " + DATA_PROVIDERS_URL);
+      console.log(TAG + " Requesting JSON data from " + DATA_PROVIDERS_URL);
     }
     Request({
       url: url,
       onComplete: function (response) {
         if ((response !== null) && (response.json !== null)) {
           if (DEBUG) {
-            console.log("Data received from data providers JSON configuration");
+            console.log(TAG + " Data received from data providers JSON configuration");
           }
           tickers = response.json;
           if (Object.keys(tickers).length === 0) {
             if (DEBUG) {
-              console.log("Error: No ticker configuration found in JSON configuration received from server:"+url);
+              console.log(TAG + " Error: No ticker configuration found in JSON configuration received from server:"+url);
             }
             return;
           }
