@@ -380,9 +380,20 @@ exports.main = function() {
     }
   }
 
+function temporalMessageSender(aDocument, id) {
+  var doc = aDocument.getElementById(id).contentDocument;
+
+  var win = aDocument.getElementById(id).contentWindow;
+
+  win.postMessage(
+    "Mensaje",
+    "*" 
+  );
+}
   // toggleBarDisplay();
+  var tickerId = "BPTTextbox-XXX";
   CustomizableUI.createWidget({
-    id: 'myCUITextbox',
+    id: tickerId + "-widget",
     type: 'custom',
     removable: true,
     defaultArea: CustomizableUI.AREA_NAVBAR,
@@ -392,6 +403,8 @@ exports.main = function() {
       var props = {
         title: 'bitcoin Price Ticker XXX',
         align: 'center',
+        label: true,
+        tooltiptext: "custom tooltip text",
         height: 10,
         class: 'chromeclass-toolbar-additional panel-wide-item'
       };
@@ -400,12 +413,15 @@ exports.main = function() {
       }
 
       var iframe = aDocument.createElement("iframe");
+      var iFrameId = tickerId + "-iframe";
 
-      iframe.setAttribute("id", "myCUITextbox-iframe");
+      iframe.setAttribute("id", iFrameId);
       iframe.setAttribute("type", "content");
       iframe.setAttribute("src", "chrome://bitcoin-price-ticker/content/index.html");
 
       node.appendChild(iframe);
+
+      setTimeout(function () {temporalMessageSender(aDocument, iFrameId)}, 5000); // Update data
       return node;
     }
   });

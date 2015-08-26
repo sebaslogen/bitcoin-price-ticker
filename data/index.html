@@ -12,4 +12,18 @@
 <body id="tickers-body">
 
 </body>
+
+<script>
+
+function listener(event){
+  $( "div" ).text( event.data );
+}
+
+if (window.addEventListener){
+  addEventListener("message", listener, false)
+} else {
+  attachEvent("onmessage", listener)
+}
+</script>
+
 </html>
