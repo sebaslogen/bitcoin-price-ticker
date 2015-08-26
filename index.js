@@ -356,6 +356,48 @@ exports.main = function() {
     prefs.setCharPref("extensions.ADDON_ID.version", version); // Update version number in preferences
   }
 
+  function createNewTickersWidget(tickerId) {
+    CustomizableUI.createWidget({
+      id: tickerId + "-widget",
+      type: "custom",
+      removable: true,
+      defaultArea: CustomizableUI.AREA_NAVBAR,
+      doc: null,
+      onBuild: function(aDocument) {
+        tickerWidgetDocuments[tickerId] = aDocument;
+        var node = aDocument.createElement("toolbaritem");
+        node.setAttribute("id", this.id);
+        var props = {
+          title: "Bitcoin Price Ticker " + tickerId,
+          align: "center",
+          label: true,
+          height: 10,
+          tooltiptext: "tooltip " + tickerId,
+          class: "chromeclass-toolbar-additional panel-wide-item"
+        };
+        for (var p in props) {
+          node.setAttribute(p, props[p])
+        }
+
+        var iframe = aDocument.createElement("iframe");
+        var iFrameId = tickerId + IFRAME_SUFFIX;
+
+        iframe.setAttribute("id", iFrameId);
+        iframe.setAttribute("type", "content");
+        iframe.setAttribute("src", IFRAME_URL);
+
+        node.appendChild(iframe);
+        
+        return node;
+      }
+    });
+
+
+    loadProvidersData();
+    updateTickerRefreshIntervalForTicker(tickerId);
+    setTimeout(function () {updateTickerConfiguration(tickerId)}, 3000); // Update data
+  }
+
   function loadProvidersData() {
     var url = DATA_PROVIDERS_URL;
     if (DEBUG) {
@@ -387,74 +429,44 @@ exports.main = function() {
     updateTickerRefreshInterval();*/
   }
 
-  function createNewTickersFrame() {
-    if (tickersFrame !== null) {
-      tickersFrame.destroy();
-    }
+  function createNewTickersToolbar() {
     tickersFrame = ui.Frame({
       url: "./index.html"
     }).on("ready", loadProvidersData); // When the presenter is ready load config data and tickers
+    toolbar = ui.Toolbar({
+      title: "Bitcoin Price Ticker",
+      items: [tickersFrame]
+    });
+  }
+
+  function destroyTickersToolbar() {
+    if (toolbar !== null) {
+      toolbar.destroy();
+      toolbar = null;
+    }
+    if (tickersFrame !== null) {
+      tickersFrame.destroy();
+      tickersFrame = null;
+    }
   }
 
   // Toggle between a separate toolbar or the naviagtion bar
   function toggleBarDisplay() {
     if (getBooleanPreference("bar")) {
       if (toolbar === null) {
-        createNewTickersFrame();
-        toolbar = ui.Toolbar({
-          title: "Bitcoin Price Ticker",
-          items: [tickersFrame]
-        });
+        createNewTickersToolbar();
       }
-    } else if (toolbar) {
-      toolbar.destroy();
-      toolbar = null;
-      createNewTickersFrame();
+    } else {
+      if (toolbar) {
+        destroyTickersToolbar();
+      }
+      loadProvidersData(); // This will take care of widgets creation
     }
   }
 
   // toggleBarDisplay();
-
-  var tickerId = "BitStampUSD";
-  CustomizableUI.createWidget({
-    id: tickerId + "-widget",
-    type: 'custom',
-    removable: true,
-    defaultArea: CustomizableUI.AREA_NAVBAR,
-    doc: null,
-    onBuild: function(aDocument) {
-      tickerWidgetDocuments[tickerId] = aDocument;
-      var node = aDocument.createElement('toolbaritem');
-      node.setAttribute('id', this.id);
-      var props = {
-        title: 'bitcoin Price Ticker XXX',
-        align: 'center',
-        label: true,
-        tooltiptext: "custom tooltip text",
-        height: 10,
-        class: 'chromeclass-toolbar-additional panel-wide-item'
-      };
-      for (var p in props) {
-        node.setAttribute(p, props[p])
-      }
-
-      var iframe = aDocument.createElement("iframe");
-      var iFrameId = tickerId + IFRAME_SUFFIX;
-
-      iframe.setAttribute("id", iFrameId);
-      iframe.setAttribute("type", "content");
-      iframe.setAttribute("src", IFRAME_URL);
-
-      node.appendChild(iframe);
-      
-      return node;
-    }
-  });
-
-
-  loadProvidersData();
-  updateTickerRefreshIntervalForTicker(tickerId);
-  setTimeout(function () {updateTickerConfiguration(tickerId)}, 3000); // Update data
+  createNewTickersWidget("BitStampUSD");
+  
 
 /*
   Feature disabled until refactored
