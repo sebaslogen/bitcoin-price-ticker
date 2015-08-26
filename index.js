@@ -228,21 +228,21 @@ exports.main = function() {
       destroyTickersWidget(tickerId);
     }
     if (DEBUG) {
-      console.log(TAG + " Sending config JSON data to frame:" + tickerId + 
+      console.log(TAG + " Updating configuration for ticker:" + tickerId + 
                   "-" + JSON.stringify(tickers[tickerId]));
     }
-    if (usingWidgets && (tickersFrame !== null)) { // For Toolbar
+    if (( ! usingWidgets) && (tickersFrame !== null)) { // For Toolbar
       sendUpdatedTickerConfiguration(tickerId);
     }
   }
 
   function sendUpdatedTickerConfiguration(tickerId) {
-    if (usingWidgets && (tickerWidgetDocuments[tickerId] !== undefined)) { // For Widgets
+    if (DEBUG) {
+      console.log(TAG + " Sending JSON data to " + tickerId);
+    }
+    if (usingWidgets && (tickerWidgetDocuments[tickerId] !== undefined) &&
+          (tickerWidgetDocuments[tickerId] !== null)) { // For Widgets
       if (tickers[tickerId].enabled) {
-
-          if (DEBUG) {
-            console.log(TAG + " Sending data to " + tickerId);
-          }
         getWidgetWindow(tickerId).postMessage({
           "type": "updateTickerConfiguration",
           "id": tickerId,
@@ -399,8 +399,9 @@ exports.main = function() {
           title: "Bitcoin Price Ticker " + tickerId,
           align: "center",
           label: true,
+          width: 10,
           height: 10,
-          tooltiptext: "tooltip " + tickerId,
+          tooltiptext: tickerId,
           class: "chromeclass-toolbar-additional panel-wide-item"
         };
         for (var p in props) {
@@ -498,11 +499,8 @@ exports.main = function() {
   }
 
   // toggleBarDisplay();
-  //createNewTickersWidget("BitStampUSD");
   usingWidgets = true;
   loadProvidersData();
-  // updateTickerRefreshIntervalForTicker(tickerId);
-  // setTimeout(function () {updateTickerConfiguration(tickerId)}, 3000); // Update data
 
 /*
   Feature disabled until refactored
