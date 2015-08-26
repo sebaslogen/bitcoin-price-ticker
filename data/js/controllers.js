@@ -1,6 +1,7 @@
 window.addEventListener("message", handleAddonMessages, false);
 
 function handleAddonMessages(message) {
+  $( "div" ).text( message.data );
   if (message.data.type == "updateTickerConfiguration" && (message.data.data !== undefined) ) {
     updateTickerConfiguration(message.data.id, message.data.data);
   } else if (message.data.type == "updateTickerModelPrice") {

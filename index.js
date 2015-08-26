@@ -37,6 +37,8 @@ const clearInterval = require("sdk/timers").clearInterval;
 const ADDON_ID = "jid0-ziK34XHkBWB9ezxd4l9Q1yC7RP0@jetpack";
 const DEFAULT_REFRESH_RATE = 60;
 const DEFAULT_FONT_SIZE = 14;
+const IFRAME_SUFFIX = "-iframe";
+const IFRAME_URL = "chrome://bitcoin-price-ticker/content/index.html";
 
 var Preferences = require("sdk/simple-prefs");
 var prefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefService).
@@ -201,32 +203,26 @@ exports.main = function() {
     }
   }
 
-
-function temporalMessageSender(aDocument, id) {
-  var doc = aDocument.getElementById(id).contentDocument;
-
-  var win = aDocument.getElementById(id).contentWindow;
-
-  win.postMessage(
-    "Mensaje",
-    "*" 
-  );
-}
-
-  function updateTickerConfiguration(tickerId, document) {
+  function updateTickerConfiguration(tickerId, aDocument) {
     getTickerConfigurationData(tickerId);
     if (DEBUG) {
       console.log(TAG + " Sending config JSON data to frame:" + tickerId + 
                   "-" + JSON.stringify(tickers[tickerId]));
     }
-    if (document !== null) {
-      
+    if (aDocument !== null) { // Widgets
+      var win = aDocument.getElementById(tickerId + IFRAME_SUFFIX).contentWindow;
+      win.postMessage({
+        "type": "updateTickerConfiguration",
+        "id": tickerId,
+        "data": tickers[tickerId]
+      }, "*");
+    } else { // Toolbar
+      tickersFrame.postMessage({
+        "type": "updateTickerConfiguration",
+        "id": tickerId,
+        "data": tickers[tickerId]
+      }, tickersFrame.url);
     }
-    tickersFrame.postMessage({
-      "type": "updateTickerConfiguration",
-      "id": tickerId,
-      "data": tickers[tickerId]
-    }, tickersFrame.url);
   }
 
   function fetchURLData(id, url, jsonPath) {
@@ -398,7 +394,7 @@ function temporalMessageSender(aDocument, id) {
 
   // toggleBarDisplay();
   var tickerId = "BitStampUSD";
-  CustomizableUI.createWidget({
+  var widget = CustomizableUI.createWidget({
     id: tickerId + "-widget",
     type: 'custom',
     removable: true,
@@ -419,16 +415,15 @@ function temporalMessageSender(aDocument, id) {
       }
 
       var iframe = aDocument.createElement("iframe");
-      var iFrameId = tickerId + "-iframe";
+      var iFrameId = tickerId + IFRAME_SUFFIX;
 
       iframe.setAttribute("id", iFrameId);
       iframe.setAttribute("type", "content");
-      iframe.setAttribute("src", "chrome://bitcoin-price-ticker/content/index.html");
+      iframe.setAttribute("src", IFRAME_URL);
 
       node.appendChild(iframe);
 
-      // setTimeout(function () {temporalMessageSender(aDocument, iFrameId)}, 5000); // Update data
-      setTimeout(function () {updateTickerConfiguration(tickerId, aDocument)}, 5000); // Update data
+      setTimeout(function () {updateTickerConfiguration(tickerId, aDocument)}, 3000); // Update data
       return node;
     }
   });
