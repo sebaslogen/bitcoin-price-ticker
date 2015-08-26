@@ -416,7 +416,7 @@ exports.main = function() {
         iframe.setAttribute("src", IFRAME_URL);
 
         node.appendChild(iframe);
-        setTimeout(function () {sendUpdatedTickerConfiguration(tickerId)}, 100); // Update data
+        setTimeout(function () {sendUpdatedTickerConfiguration(tickerId)}, 500); // Update data
         return node;
       }
     });
@@ -427,7 +427,7 @@ exports.main = function() {
       console.log(TAG + " Destroying widget for " + tickerId);
     }
     CustomizableUI.destroyWidget(tickerId + WIDGET_SUFFIX);
-    tickerWidgetDocuments[tickerId] = null;
+    tickerWidgetDocuments[tickerId] = {};
   }
 
   function loadProvidersData() {
