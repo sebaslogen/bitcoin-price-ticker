@@ -1,3 +1,26 @@
+/**
+ * Copyright (c) 2015 neoranga55@yahoo.es
+ * 
+ * The MIT License (MIT)
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ **/
 const DEBUG = false;
 const TAG = "bitcoin-price-ticker";
 const DATA_PROVIDERS_URL = "https://raw.githubusercontent.com/neoranga55/bitcoin-price-ticker/refactor-to-use-firefox-frames/data/data-providers.json";
@@ -7,6 +30,7 @@ const ADDON_UPDATE_DOCUMENT_URL = "http://neoranga55.github.io/bitcoin-price-tic
 var ui = require("sdk/ui");
 const {Cc, Ci, Cu} = require("chrome");
 Cu.import("resource://gre/modules/AddonManager.jsm"); // Addon Manager required to know addon version
+Cu.import('resource:///modules/CustomizableUI.jsm');
 const setTimeout = require("sdk/timers").setTimeout;
 const setInterval = require("sdk/timers").setInterval;
 const clearInterval = require("sdk/timers").clearInterval;
@@ -356,7 +380,35 @@ exports.main = function() {
     }
   }
 
-  toggleBarDisplay();
+  // toggleBarDisplay();
+  CustomizableUI.createWidget({
+    id: 'myCUITextbox',
+    type: 'custom',
+    removable: true,
+    defaultArea: CustomizableUI.AREA_NAVBAR,
+    onBuild: function(aDocument) {
+      var node = aDocument.createElement('toolbaritem');
+      node.setAttribute('id', this.id);
+      var props = {
+        title: 'bitcoin Price Ticker XXX',
+        align: 'center',
+        height: 10,
+        class: 'chromeclass-toolbar-additional panel-wide-item'
+      };
+      for (var p in props) {
+        node.setAttribute(p, props[p])
+      }
+
+      var iframe = aDocument.createElement("iframe");
+
+      iframe.setAttribute("id", "myCUITextbox-iframe");
+      iframe.setAttribute("type", "content");
+      iframe.setAttribute("src", "chrome://bitcoin-price-ticker/content/index.html");
+
+      node.appendChild(iframe);
+      return node;
+    }
+  });
 
 /*
   Feature disabled until refactored
