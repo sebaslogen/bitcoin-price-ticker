@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  **/
-const DEBUG = false;
+const DEBUG = true;
 const TAG = "bitcoin-price-ticker";
 const DATA_PROVIDERS_URL = "https://raw.githubusercontent.com/neoranga55/bitcoin-price-ticker/refactor-to-use-firefox-frames/data/data-providers.json";
 const ADDON_UPDATE_DOCUMENT_URL = "http://neoranga55.github.io/bitcoin-price-ticker/";
@@ -393,6 +393,8 @@ exports.main = function() {
   }
 
   // toggleBarDisplay();
+  
+  loadProvidersData();
   var tickerId = "BitStampUSD";
   var widget = CustomizableUI.createWidget({
     id: tickerId + "-widget",
