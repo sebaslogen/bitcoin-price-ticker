@@ -415,7 +415,7 @@ exports.main = function() {
         iframe.setAttribute("src", IFRAME_URL);
 
         node.appendChild(iframe);
-        setTimeout(function () {sendUpdatedTickerConfiguration(tickerId)}, 10); // Update data
+        setTimeout(function () {sendUpdatedTickerConfiguration(tickerId)}, 100); // Update data
         return node;
       }
     });
