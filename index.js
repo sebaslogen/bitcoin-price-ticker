@@ -399,6 +399,7 @@ exports.main = function() {
     CustomizableUI.createWidget({
       id: tickerId + WIDGET_SUFFIX,
       type: "custom",
+      label: tickerId,
       removable: true,
       defaultArea: CustomizableUI.AREA_NAVBAR,
       onBuild: function(aDocument) {
