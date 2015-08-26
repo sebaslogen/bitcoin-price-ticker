@@ -37,6 +37,7 @@ const clearInterval = require("sdk/timers").clearInterval;
 const ADDON_ID = "jid0-ziK34XHkBWB9ezxd4l9Q1yC7RP0@jetpack";
 const DEFAULT_REFRESH_RATE = 60;
 const DEFAULT_FONT_SIZE = 14;
+const WIDGET_SUFFIX = "-widget";
 const IFRAME_SUFFIX = "-iframe";
 const IFRAME_URL = "chrome://bitcoin-price-ticker/content/index.html";
 
@@ -51,6 +52,7 @@ var tickers = {}; // Store all tickers here
 var tickerWidgetDocuments = {};
 var tickersFrame = null;
 var toolbar = null;
+var usingWidgets = false;
 
 exports.main = function() {
 
@@ -124,6 +126,10 @@ exports.main = function() {
   function loadDefaultTickers() {
     for (var tickerId in tickers) {
       if ( getBooleanPreference("p" + tickerId) ) { // Create Ticker
+        if (DEBUG) {
+          console.log(TAG + " Creating ticker for " + tickerId);
+        }
+        getTickerConfigurationData(tickerId);
         updateTickerConfiguration(tickerId);
         if (tickers[tickerId].enabled) {
           orderedTickers.push(tickerId);
@@ -205,24 +211,44 @@ exports.main = function() {
   }
 
   function getWidgetWindow(tickerId) {
-    if (tickerWidgetDocuments[tickerId] !== undefined) { // Widgets
+    if ((tickerWidgetDocuments[tickerId] !== undefined) &&
+          (tickerWidgetDocuments[tickerId] !== null)) { // Widgets
       return tickerWidgetDocuments[tickerId].getElementById(tickerId + IFRAME_SUFFIX).contentWindow;
     } else {
       return null;
     }
   }
+
   function updateTickerConfiguration(tickerId) {
     getTickerConfigurationData(tickerId);
+    console.log(TAG + "---------getWidget:" + CustomizableUI.getWidget(tickerId + WIDGET_SUFFIX));
+    if (tickers[tickerId].enabled) {
+      createNewTickersWidget(tickerId);
+    } else {
+      destroyTickersWidget(tickerId);
+    }
     if (DEBUG) {
       console.log(TAG + " Sending config JSON data to frame:" + tickerId + 
                   "-" + JSON.stringify(tickers[tickerId]));
     }
-    if (tickerWidgetDocuments[tickerId] !== undefined) { // For Widgets
-      getWidgetWindow(tickerId).postMessage({
-        "type": "updateTickerConfiguration",
-        "id": tickerId,
-        "data": tickers[tickerId]
-      }, "*");
+    if (usingWidgets && (tickersFrame !== null)) { // For Toolbar
+      sendUpdatedTickerConfiguration(tickerId);
+    }
+  }
+
+  function sendUpdatedTickerConfiguration(tickerId) {
+    if (usingWidgets && (tickerWidgetDocuments[tickerId] !== undefined)) { // For Widgets
+      if (tickers[tickerId].enabled) {
+
+          if (DEBUG) {
+            console.log(TAG + " Sending data to " + tickerId);
+          }
+        getWidgetWindow(tickerId).postMessage({
+          "type": "updateTickerConfiguration",
+          "id": tickerId,
+          "data": tickers[tickerId]
+        }, "*");
+      }
     } else if (tickersFrame !== null) { // For Toolbar
       tickersFrame.postMessage({
         "type": "updateTickerConfiguration",
@@ -262,7 +288,7 @@ exports.main = function() {
           if (DEBUG) {
             console.log(TAG + " Price received and parsed: " + price);
           }
-          if (tickerWidgetDocuments[tickerId] !== undefined) { // For Widgets
+          if (usingWidgets && (tickerWidgetDocuments[tickerId] !== undefined)) { // For Widgets
             getWidgetWindow(tickerId).postMessage({
               "type": "updateTickerModelPrice",
               "id": tickerId,
@@ -357,12 +383,14 @@ exports.main = function() {
   }
 
   function createNewTickersWidget(tickerId) {
+    if (DEBUG) {
+      console.log(TAG + " Creating widget for " + tickerId);
+    }
     CustomizableUI.createWidget({
-      id: tickerId + "-widget",
+      id: tickerId + WIDGET_SUFFIX,
       type: "custom",
       removable: true,
       defaultArea: CustomizableUI.AREA_NAVBAR,
-      doc: null,
       onBuild: function(aDocument) {
         tickerWidgetDocuments[tickerId] = aDocument;
         var node = aDocument.createElement("toolbaritem");
@@ -387,15 +415,18 @@ exports.main = function() {
         iframe.setAttribute("src", IFRAME_URL);
 
         node.appendChild(iframe);
-        
+        setTimeout(function () {sendUpdatedTickerConfiguration(tickerId)}, 10); // Update data
         return node;
       }
     });
+  }
 
-
-    loadProvidersData();
-    updateTickerRefreshIntervalForTicker(tickerId);
-    setTimeout(function () {updateTickerConfiguration(tickerId)}, 3000); // Update data
+  function destroyTickersWidget(tickerId) {
+    if (DEBUG) {
+      console.log(TAG + " Destroying widget for " + tickerId);
+    }
+    CustomizableUI.destroyWidget(tickerId + WIDGET_SUFFIX);
+    tickerWidgetDocuments[tickerId] = null;
   }
 
   function loadProvidersData() {
@@ -424,9 +455,9 @@ exports.main = function() {
   }
 
   function initAfterLoad() {
-    /*loadTickersInOrder();
+    loadTickersInOrder();
     registerEvents();
-    updateTickerRefreshInterval();*/
+    updateTickerRefreshInterval();
   }
 
   function createNewTickersToolbar() {
@@ -453,10 +484,12 @@ exports.main = function() {
   // Toggle between a separate toolbar or the naviagtion bar
   function toggleBarDisplay() {
     if (getBooleanPreference("bar")) {
+      usingWidgets = false;
       if (toolbar === null) {
         createNewTickersToolbar();
       }
     } else {
+      usingWidgets = true;
       if (toolbar) {
         destroyTickersToolbar();
       }
@@ -465,8 +498,11 @@ exports.main = function() {
   }
 
   // toggleBarDisplay();
-  createNewTickersWidget("BitStampUSD");
-  
+  //createNewTickersWidget("BitStampUSD");
+  usingWidgets = true;
+  loadProvidersData();
+  // updateTickerRefreshIntervalForTicker(tickerId);
+  // setTimeout(function () {updateTickerConfiguration(tickerId)}, 3000); // Update data
 
 /*
   Feature disabled until refactored
