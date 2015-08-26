@@ -48,7 +48,8 @@ var tabs = require("sdk/tabs");
 
 var orderedTickers = [];
 var tickers = {}; // Store all tickers here
-var tickersFrame = null
+var tickerWidgetDocuments = {};
+var tickersFrame = null;
 var toolbar = null;
 
 exports.main = function() {
@@ -203,30 +204,38 @@ exports.main = function() {
     }
   }
 
-  function updateTickerConfiguration(tickerId, aDocument) {
+  function getWidgetWindow(tickerId) {
+    if (tickerWidgetDocuments[tickerId] !== undefined) { // Widgets
+      return tickerWidgetDocuments[tickerId].getElementById(tickerId + IFRAME_SUFFIX).contentWindow;
+    } else {
+      return null;
+    }
+  }
+  function updateTickerConfiguration(tickerId) {
     getTickerConfigurationData(tickerId);
     if (DEBUG) {
       console.log(TAG + " Sending config JSON data to frame:" + tickerId + 
                   "-" + JSON.stringify(tickers[tickerId]));
     }
-    if (aDocument !== null) { // Widgets
-      var win = aDocument.getElementById(tickerId + IFRAME_SUFFIX).contentWindow;
-      win.postMessage({
+    if (tickerWidgetDocuments[tickerId] !== undefined) { // For Widgets
+      getWidgetWindow(tickerId).postMessage({
         "type": "updateTickerConfiguration",
         "id": tickerId,
         "data": tickers[tickerId]
       }, "*");
-    } else { // Toolbar
+    } else if (tickersFrame !== null) { // For Toolbar
       tickersFrame.postMessage({
         "type": "updateTickerConfiguration",
         "id": tickerId,
         "data": tickers[tickerId]
       }, tickersFrame.url);
+    } else if (DEBUG) {
+      console.log(TAG + " Frame and Widget document are both empty for " + tickerId);
     }
   }
 
-  function fetchURLData(id, url, jsonPath) {
-    if (id === undefined || url === undefined || jsonPath === undefined) {
+  function fetchURLData(tickerId, url, jsonPath) {
+    if (tickerId === undefined || url === undefined || jsonPath === undefined) {
       return;
     }
     if (DEBUG) {
@@ -243,7 +252,7 @@ exports.main = function() {
           for (var i = 0; i < jsonPath.length; i++) { // Parse JSON path
             if (typeof price[jsonPath[i]] === undefined) {
               if (DEBUG) {
-                console.log(TAG + " error loading ticker " + id + 
+                console.log(TAG + " error loading ticker " + tickerId + 
                             ". URL is not correctly responding:" + url);
               }
               return;
@@ -253,13 +262,25 @@ exports.main = function() {
           if (DEBUG) {
             console.log(TAG + " Price received and parsed: " + price);
           }
-          tickersFrame.postMessage({
-            "type": "updateTickerModelPrice",
-            "id": id,
-            "data": {
-              "price": price
-            }
-          }, tickersFrame.url);
+          if (tickerWidgetDocuments[tickerId] !== undefined) { // For Widgets
+            getWidgetWindow(tickerId).postMessage({
+              "type": "updateTickerModelPrice",
+              "id": tickerId,
+              "data": {
+                "price": price
+              }
+            }, "*");
+          } else if (tickersFrame !== null) { // For Toolbar
+            tickersFrame.postMessage({
+              "type": "updateTickerModelPrice",
+              "id": tickerId,
+              "data": {
+                "price": price
+              }
+            }, tickersFrame.url);
+          } else if (DEBUG) {
+            console.log(TAG + " Frame and Widget document are both empty for " + tickerId);
+          }
         }
       }
     }).get();
@@ -361,9 +382,9 @@ exports.main = function() {
   }
 
   function initAfterLoad() {
-    loadTickersInOrder();
+    /*loadTickersInOrder();
     registerEvents();
-    updateTickerRefreshInterval();
+    updateTickerRefreshInterval();*/
   }
 
   function createNewTickersFrame() {
@@ -393,15 +414,16 @@ exports.main = function() {
   }
 
   // toggleBarDisplay();
-  
-  loadProvidersData();
+
   var tickerId = "BitStampUSD";
-  var widget = CustomizableUI.createWidget({
+  CustomizableUI.createWidget({
     id: tickerId + "-widget",
     type: 'custom',
     removable: true,
     defaultArea: CustomizableUI.AREA_NAVBAR,
+    doc: null,
     onBuild: function(aDocument) {
+      tickerWidgetDocuments[tickerId] = aDocument;
       var node = aDocument.createElement('toolbaritem');
       node.setAttribute('id', this.id);
       var props = {
@@ -424,11 +446,15 @@ exports.main = function() {
       iframe.setAttribute("src", IFRAME_URL);
 
       node.appendChild(iframe);
-
-      setTimeout(function () {updateTickerConfiguration(tickerId, aDocument)}, 3000); // Update data
+      
       return node;
     }
   });
+
+
+  loadProvidersData();
+  updateTickerRefreshIntervalForTicker(tickerId);
+  setTimeout(function () {updateTickerConfiguration(tickerId)}, 3000); // Update data
 
 /*
   Feature disabled until refactored
