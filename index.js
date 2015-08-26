@@ -52,7 +52,7 @@ var toolbar = null;
 exports.main = function() {
 
   function getPreference(prefName, type) {
-    if (typeof Preferences.prefs[prefName] == "undefined") {
+    if (typeof Preferences.prefs[prefName] === undefined) {
       if (DEBUG) {
         console.log(TAG + " addon error: " + prefName + " preference is not defined");
       }
@@ -201,11 +201,26 @@ exports.main = function() {
     }
   }
 
-  function updateTickerConfiguration(tickerId) {
+
+function temporalMessageSender(aDocument, id) {
+  var doc = aDocument.getElementById(id).contentDocument;
+
+  var win = aDocument.getElementById(id).contentWindow;
+
+  win.postMessage(
+    "Mensaje",
+    "*" 
+  );
+}
+
+  function updateTickerConfiguration(tickerId, document) {
     getTickerConfigurationData(tickerId);
     if (DEBUG) {
       console.log(TAG + " Sending config JSON data to frame:" + tickerId + 
                   "-" + JSON.stringify(tickers[tickerId]));
+    }
+    if (document !== null) {
+      
     }
     tickersFrame.postMessage({
       "type": "updateTickerConfiguration",
@@ -215,7 +230,7 @@ exports.main = function() {
   }
 
   function fetchURLData(id, url, jsonPath) {
-    if (id == "undefined" || url == "undefined" || jsonPath == "undefined") {
+    if (id === undefined || url === undefined || jsonPath === undefined) {
       return;
     }
     if (DEBUG) {
@@ -230,7 +245,7 @@ exports.main = function() {
           }
           var price = response.json;
           for (var i = 0; i < jsonPath.length; i++) { // Parse JSON path
-            if (typeof price[jsonPath[i]] == "undefined") {
+            if (typeof price[jsonPath[i]] === undefined) {
               if (DEBUG) {
                 console.log(TAG + " error loading ticker " + id + 
                             ". URL is not correctly responding:" + url);
@@ -381,18 +396,8 @@ exports.main = function() {
     }
   }
 
-function temporalMessageSender(aDocument, id) {
-  var doc = aDocument.getElementById(id).contentDocument;
-
-  var win = aDocument.getElementById(id).contentWindow;
-
-  win.postMessage(
-    "Mensaje",
-    "*" 
-  );
-}
   // toggleBarDisplay();
-  var tickerId = "BPTTextbox-XXX";
+  var tickerId = "BitStampUSD";
   CustomizableUI.createWidget({
     id: tickerId + "-widget",
     type: 'custom',
@@ -422,7 +427,8 @@ function temporalMessageSender(aDocument, id) {
 
       node.appendChild(iframe);
 
-      setTimeout(function () {temporalMessageSender(aDocument, iFrameId)}, 5000); // Update data
+      // setTimeout(function () {temporalMessageSender(aDocument, iFrameId)}, 5000); // Update data
+      setTimeout(function () {updateTickerConfiguration(tickerId, aDocument)}, 5000); // Update data
       return node;
     }
   });

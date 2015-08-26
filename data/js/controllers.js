@@ -1,7 +1,7 @@
 window.addEventListener("message", handleAddonMessages, false);
 
 function handleAddonMessages(message) {
-  if (message.data.type == "updateTickerConfiguration" && (typeof message.data.data != "undefined") ) {
+  if (message.data.type == "updateTickerConfiguration" && (message.data.data !== undefined) ) {
     updateTickerConfiguration(message.data.id, message.data.data);
   } else if (message.data.type == "updateTickerModelPrice") {
     updateTickerModelPrice(message.data.id, message.data.data);
@@ -24,7 +24,7 @@ function updateTickerConfiguration(id, data) {
 }
 
 function updateTickerModelPrice(id, data) {
-  if ((typeof id != "undefined") && (typeof data.price != "undefined")) {
+  if ((id !== undefined) && (data.price !== undefined)) {
     if (tickers["models"][id]) {
       tickers["models"][id].updatePrice(data.price);
     }

@@ -81,7 +81,7 @@ function createTickerModel(id) {
 
 function updateTickerModelConfiguration(tickerModel, data) {
   var notifyObservers = false;
-  if (typeof data.enabled != "undefined") {
+  if (data.enabled !== undefined) {
     if (data.enabled != tickerModel.enabled) {
       notifyObservers = true;
       tickerModel.enabled = data.enabled ? true : false;
