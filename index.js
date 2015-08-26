@@ -147,7 +147,8 @@ exports.main = function() {
         return;
       }
       for (var i in listOrderedTickers) {
-        loadTicker(listOrderedTickers[i]);
+        var tickerId = listOrderedTickers[i];
+        updateTickerConfiguration(tickerId);
         if (tickers[tickerId].enabled) {
           orderedTickers.push(tickerId);
         }
