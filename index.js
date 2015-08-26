@@ -131,6 +131,9 @@ exports.main = function() {
         }
         getTickerConfigurationData(tickerId);
         updateTickerConfiguration(tickerId);
+        if (usingWidgets) {
+          createNewTickersWidget(tickerId);
+        }
         if (tickers[tickerId].enabled) {
           orderedTickers.push(tickerId);
         }
@@ -158,6 +161,9 @@ exports.main = function() {
       for (var i in listOrderedTickers) {
         var tickerId = listOrderedTickers[i];
         updateTickerConfiguration(tickerId);
+        if (usingWidgets) {
+          createNewTickersWidget(tickerId);
+        }
         if (tickers[tickerId].enabled) {
           orderedTickers.push(tickerId);
         }
@@ -193,6 +199,9 @@ exports.main = function() {
   function toggleTicker(tickerId) {
     if ( getBooleanPreference("p" + tickerId) ) { // Enable Ticker
       updateTickerConfiguration(tickerId);
+      if (usingWidgets) {
+        createNewTickersWidget(tickerId);
+      }
       updateTickerRefreshIntervalForTicker(tickerId);
       orderedTickers.push(tickerId);
       storeTickersOrder();
@@ -200,6 +209,9 @@ exports.main = function() {
       tickers[tickerId].enabled = false;
       stopAutoPriceUpdate(tickerId);
       updateTickerConfiguration(tickerId);
+      if (usingWidgets) {
+        destroyTickersWidget(tickerId);
+      }
       for (var i = 0; i < orderedTickers.length; i++) {
         if (orderedTickers[i] == tickerId) {
           orderedTickers.splice(i, 1); // Remove the ticker completely from the array with reordering
@@ -211,12 +223,12 @@ exports.main = function() {
   }
 
   function getWidgetWindow(tickerId) {
-    if (DEBUG) {
-      console.log(TAG + " getWidgetWindow() for ticker " + tickerId + " - has doc contentWindow:" +
-        tickerWidgetDocuments[tickerId].getElementById(tickerId + IFRAME_SUFFIX).contentWindow);
-    }
     if ((tickerWidgetDocuments[tickerId] !== undefined) &&
           (tickerWidgetDocuments[tickerId] !== null)) { // Widgets
+      if (DEBUG) {
+        console.log(TAG + " getWidgetWindow() for ticker " + tickerId + " - has doc contentWindow:" +
+          tickerWidgetDocuments[tickerId].getElementById(tickerId + IFRAME_SUFFIX).contentWindow);
+      }
       return tickerWidgetDocuments[tickerId].getElementById(tickerId + IFRAME_SUFFIX).contentWindow;
     } else {
       return null;
@@ -225,19 +237,11 @@ exports.main = function() {
 
   function updateTickerConfiguration(tickerId) {
     getTickerConfigurationData(tickerId);
-    console.log(TAG + "---------getWidget:" + CustomizableUI.getWidget(tickerId + WIDGET_SUFFIX));
-    if (tickers[tickerId].enabled) {
-      createNewTickersWidget(tickerId);
-    } else {
-      destroyTickersWidget(tickerId);
-    }
     if (DEBUG) {
       console.log(TAG + " Updating configuration for ticker:" + tickerId + 
                   "-" + JSON.stringify(tickers[tickerId]));
     }
-    if (( ! usingWidgets) && (tickersFrame !== null)) { // For Toolbar
-      sendUpdatedTickerConfiguration(tickerId);
-    }
+    sendUpdatedTickerConfiguration(tickerId);
   }
 
   function sendUpdatedTickerConfiguration(tickerId) {
