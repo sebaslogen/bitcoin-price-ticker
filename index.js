@@ -211,6 +211,10 @@ exports.main = function() {
   }
 
   function getWidgetWindow(tickerId) {
+    if (DEBUG) {
+      console.log(TAG + " getWidgetWindow() for ticker " + tickerId + " - has doc contentWindow:" +
+        tickerWidgetDocuments[tickerId].getElementById(tickerId + IFRAME_SUFFIX).contentWindow);
+    }
     if ((tickerWidgetDocuments[tickerId] !== undefined) &&
           (tickerWidgetDocuments[tickerId] !== null)) { // Widgets
       return tickerWidgetDocuments[tickerId].getElementById(tickerId + IFRAME_SUFFIX).contentWindow;
@@ -242,7 +246,7 @@ exports.main = function() {
     }
     if (usingWidgets && (tickerWidgetDocuments[tickerId] !== undefined) &&
           (tickerWidgetDocuments[tickerId] !== null)) { // For Widgets
-      if (tickers[tickerId].enabled) {
+      if ((tickers[tickerId].enabled) && (getWidgetWindow(tickerId))) {
         getWidgetWindow(tickerId).postMessage({
           "type": "updateTickerConfiguration",
           "id": tickerId,
@@ -288,7 +292,9 @@ exports.main = function() {
           if (DEBUG) {
             console.log(TAG + " Price received and parsed: " + price);
           }
-          if (usingWidgets && (tickerWidgetDocuments[tickerId] !== undefined)) { // For Widgets
+          if (usingWidgets && (tickerWidgetDocuments[tickerId] !== undefined) && 
+              (tickerWidgetDocuments[tickerId] !== null) &&
+              (getWidgetWindow(tickerId))) { // For Widgets
             getWidgetWindow(tickerId).postMessage({
               "type": "updateTickerModelPrice",
               "id": tickerId,
@@ -416,7 +422,7 @@ exports.main = function() {
         iframe.setAttribute("src", IFRAME_URL);
 
         node.appendChild(iframe);
-        setTimeout(function () {sendUpdatedTickerConfiguration(tickerId)}, 500); // Update data
+        setTimeout(function () {sendUpdatedTickerConfiguration(tickerId)}, 100); // Update data
         return node;
       }
     });
@@ -427,7 +433,7 @@ exports.main = function() {
       console.log(TAG + " Destroying widget for " + tickerId);
     }
     CustomizableUI.destroyWidget(tickerId + WIDGET_SUFFIX);
-    tickerWidgetDocuments[tickerId] = {};
+    tickerWidgetDocuments[tickerId] = null;
   }
 
   function loadProvidersData() {
@@ -458,7 +464,11 @@ exports.main = function() {
   function initAfterLoad() {
     loadTickersInOrder();
     registerEvents();
-    updateTickerRefreshInterval();
+    if (usingWidgets) {
+      setTimeout(updateTickerRefreshInterval, 500); // Start updating data
+    } else {
+      updateTickerRefreshInterval();
+    }
   }
 
   function createNewTickersToolbar() {
