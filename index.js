@@ -23,7 +23,7 @@
  **/
 const DEBUG = true;
 const TAG = "bitcoin-price-ticker";
-const DATA_PROVIDERS_URL = "https://raw.githubusercontent.com/neoranga55/bitcoin-price-ticker/refactor-to-use-firefox-frames/data/data-providers.json";
+const DATA_PROVIDERS_URL = "https://raw.githubusercontent.com/neoranga55/bitcoin-price-ticker/master/data/data-providers.json";
 const ADDON_UPDATE_DOCUMENT_URL = "http://neoranga55.github.io/bitcoin-price-ticker/";
 
 // The main module of the Add-on.
