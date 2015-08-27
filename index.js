@@ -271,6 +271,7 @@ exports.main = function() {
           "id": tickerId,
           "data": tickers[tickerId]
         }, "*");
+        adjustWidgetSize(tickerId);
       }
     } else if (tickersFrame !== null) { // For Toolbar
       tickersFrame.postMessage({
