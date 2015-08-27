@@ -61,7 +61,7 @@
 
   "VircurexWorldcoin": { "exchangeName":"Vircurex", "currency":"\u0243",  "baseCurrency":"WDC", "url":"https://api.vircurex.com/api/get_last_trade.json?base=WDC&alt=BTC", "jsonPath":["value"]},
 
-  "CryptsyDogecoin": { "exchangeName":"Cryptsy", "currency":"\u0243",  "baseCurrency":"DOGE", "url":"http://pubapi.cryptsy.com/api.php?method=singlemarketdata&marketid=132", "jsonPath":["return","markets","DOGE","lasttradeprice"]},
+  "CryptsyDogecoin": { "exchangeName":"Cryptsy", "currency":"\u0243",  "baseCurrency":"DOGE", "url":"https://www.cryptsy.com/api/v2/currencies/DOGE/markets", "jsonPath":["data","markets",0,"last_trade","price"]},
   "KrakenDogecoin": { "exchangeName":"Kraken", "currency":"DOGE",  "baseCurrency":"\u0243", "url":"https://api.kraken.com/0/public/Ticker?pair=XBTXDG", "jsonPath":["result","XXBTXXDG","c",0]},
 
   "BTCeNamecoinUSD": { "exchangeName":"BTCe", "currency":"$",  "baseCurrency":"NMC", "url":"https://btc-e.com/api/2/nmc_usd/ticker", "jsonPath":["ticker","last"]},
