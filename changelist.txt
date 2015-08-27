@@ -1,3 +1,8 @@
+4
+- Created custom UI to show tickers in Firefox's navigation bar
+- Toggle between tickers in navbar or a dedicated tool bar
+- Fixed Cryptsy URLs for new API
+
 3.1
 - Big fix to avoid being blocked by NoScript Firefox Addon. Read:
 To use this plugin and NoScript together you need to Allow in NoScript the domain
