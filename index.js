@@ -21,19 +21,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  **/
-const DEBUG = true;
-const TAG = "bitcoin-price-ticker";
-const DATA_PROVIDERS_URL = "https://raw.githubusercontent.com/neoranga55/bitcoin-price-ticker/master/data/data-providers.json";
-const ADDON_UPDATE_DOCUMENT_URL = "http://neoranga55.github.io/bitcoin-price-ticker/";
 
-// The main module of the Add-on.
-var ui = require("sdk/ui");
+const ui = require("sdk/ui");
 const {Cc, Ci, Cu} = require("chrome");
 Cu.import("resource://gre/modules/AddonManager.jsm"); // Addon Manager required to know addon version
 Cu.import('resource:///modules/CustomizableUI.jsm');
 const setTimeout = require("sdk/timers").setTimeout;
 const setInterval = require("sdk/timers").setInterval;
 const clearInterval = require("sdk/timers").clearInterval;
+
+var Preferences = require("sdk/simple-prefs");
+var prefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefService).
+            getBranch("extensions.ADDON_ID.");
+var Request = require("sdk/request").Request;
+var tabs = require("sdk/tabs");
+
+const DEBUG = true;
+const TAG = "bitcoin-price-ticker";
+const DATA_PROVIDERS_URL = "https://raw.githubusercontent.com/neoranga55/bitcoin-price-ticker/master/data/data-providers.json";
+const ADDON_UPDATE_DOCUMENT_URL = "http://neoranga55.github.io/bitcoin-price-ticker/";
 const ADDON_ID = "jid0-ziK34XHkBWB9ezxd4l9Q1yC7RP0@jetpack";
 const DEFAULT_REFRESH_RATE = 60;
 const DEFAULT_FONT_SIZE = 14;
@@ -41,12 +47,6 @@ const WIDGET_SUFFIX = "-widget";
 const IFRAME_SUFFIX = "-iframe";
 const IFRAME_URL = "chrome://bitcoin-price-ticker/content/index.html";
 const EXTRA_FRAME_SPACING = 9;
-
-var Preferences = require("sdk/simple-prefs");
-var prefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefService).
-            getBranch("extensions.ADDON_ID.");
-var Request = require("sdk/request").Request;
-var tabs = require("sdk/tabs");
 
 var orderedTickers = [];
 var tickers = {}; // Store all tickers here
@@ -517,8 +517,13 @@ exports.main = function() {
 
   // Toggle between a separate toolbar or the naviagtion bar
   function toggleBarDisplay() {
-    if (getBooleanPreference("bar")) {
+    if (getBooleanPreference("toolbar")) {
       usingWidgets = false;
+      for (var tickerId in tickers) {
+        if (tickers.hasOwnProperty(tickerId)) {
+          destroyTickersWidget(tickerId);
+        }
+      }
       if (toolbar === null) {
         createNewTickersToolbar();
       }
@@ -531,9 +536,7 @@ exports.main = function() {
     }
   }
 
-  // toggleBarDisplay();
-  usingWidgets = true;
-  loadProvidersData();
+  toggleBarDisplay();
 
 /*
   Feature disabled until refactored
