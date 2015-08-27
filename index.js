@@ -40,6 +40,7 @@ const DEFAULT_FONT_SIZE = 14;
 const WIDGET_SUFFIX = "-widget";
 const IFRAME_SUFFIX = "-iframe";
 const IFRAME_URL = "chrome://bitcoin-price-ticker/content/index.html";
+const EXTRA_FRAME_SPACING = 9;
 
 var Preferences = require("sdk/simple-prefs");
 var prefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefService).
@@ -235,6 +236,20 @@ exports.main = function() {
     }
   }
 
+  function adjustWidgetSize(tickerId) {
+    setTimeout(function () {
+      var win = getWidgetWindow(tickerId);
+      if (win) {
+        var newWidth = win.document.body.scrollWidth;
+        tickerWidgetDocuments[tickerId].getElementById(tickerId + IFRAME_SUFFIX).width = (newWidth + EXTRA_FRAME_SPACING) + "px";
+        tickerWidgetDocuments[tickerId].getElementById(tickerId + WIDGET_SUFFIX).width = (newWidth + EXTRA_FRAME_SPACING) + "px";
+        if (DEBUG) {
+          console.log(TAG + " Resizing " + tickerId + " to " + newWidth);
+        }
+      }
+    }, 50); // Update size some time after HTML content is updated
+  }
+
   function updateTickerConfiguration(tickerId) {
     getTickerConfigurationData(tickerId);
     if (DEBUG) {
@@ -299,13 +314,15 @@ exports.main = function() {
           if (usingWidgets && (tickerWidgetDocuments[tickerId] !== undefined) && 
               (tickerWidgetDocuments[tickerId] !== null) &&
               (getWidgetWindow(tickerId))) { // For Widgets
-            getWidgetWindow(tickerId).postMessage({
+            var win = getWidgetWindow(tickerId);
+            win.postMessage({
               "type": "updateTickerModelPrice",
               "id": tickerId,
               "data": {
                 "price": price
               }
             }, "*");
+            adjustWidgetSize(tickerId);
           } else if (tickersFrame !== null) { // For Toolbar
             tickersFrame.postMessage({
               "type": "updateTickerModelPrice",
@@ -410,7 +427,7 @@ exports.main = function() {
           title: "Bitcoin Price Ticker " + tickerId,
           align: "center",
           label: true,
-          width: 10,
+          width: "15px",
           height: 10,
           tooltiptext: tickerId,
           class: "chromeclass-toolbar-additional panel-wide-item"
