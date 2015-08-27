@@ -66,11 +66,11 @@
 
   "BTCeNamecoinUSD": { "exchangeName":"BTCe", "currency":"$",  "baseCurrency":"NMC", "url":"https://btc-e.com/api/2/nmc_usd/ticker", "jsonPath":["ticker","last"]},
 
-  "CryptsyAuroracoin": { "exchangeName":"Cryptsy", "currency":"\u0243",  "baseCurrency":"AUR", "url":"http://pubapi.cryptsy.com/api.php?method=singlemarketdata&marketid=160", "jsonPath":["return","markets","AUR","lasttradeprice"]},
+  "CryptsyAuroracoin": { "exchangeName":"Cryptsy", "currency":"\u0243",  "baseCurrency":"AUR", "url":"https://www.cryptsy.com/api/v2/currencies/AUR/markets", "jsonPath":["data","markets",0,"last_trade","price"]},
 
-  "CryptsyBlackcoin": { "exchangeName":"Cryptsy", "currency":"\u0243",  "baseCurrency":"BC", "url":"http://pubapi.cryptsy.com/api.php?method=singlemarketdata&marketid=179", "jsonPath":["return","markets","BC","lasttradeprice"]},
+  "CryptsyBlackcoin": { "exchangeName":"Cryptsy", "currency":"\u0243",  "baseCurrency":"BC", "url":"https://www.cryptsy.com/api/v2/currencies/BLK/markets", "jsonPath":["data","markets",0,"last_trade","price"]},
 
-  "CryptsyNxt": { "exchangeName":"Cryptsy", "currency":"\u0243",  "baseCurrency":"NXT", "url":"http://pubapi.cryptsy.com/api.php?method=singlemarketdata&marketid=159", "jsonPath":["return","markets","NXT","lasttradeprice"]},
+  "CryptsyNxt": { "exchangeName":"Cryptsy", "currency":"\u0243",  "baseCurrency":"NXT", "url":"https://www.cryptsy.com/api/v2/currencies/NXT/markets", "jsonPath":["data","markets",0,"last_trade","price"]},
   "PoloniexNxt": { "exchangeName":"Poloniex", "currency":"\u0243",  "baseCurrency":"NXT", "url":"https://poloniex.com/public?command=returnTicker", "jsonPath":["BTC_NXT", "last"]},
 
   "PoloniexBitshares": { "exchangeName":"Poloniex", "currency":"\u0243",  "baseCurrency":"BTS", "url":"https://poloniex.com/public?command=returnTicker", "jsonPath":["BTC_BTS", "last"]},
@@ -83,9 +83,9 @@
 
   "PoloniexMonero": { "exchangeName":"Poloniex", "currency":"\u0243",  "baseCurrency":"XMR", "url":"https://poloniex.com/public?command=returnTicker", "jsonPath":["BTC_XMR", "last"]},
 
-  "CryptsyDashBTC": { "exchangeName":"Cryptsy", "currency":"\u0243",  "baseCurrency":"DASH", "url":"http://pubapi.cryptsy.com/api.php?method=singlemarketdata&marketid=155", "jsonPath":["return","markets","DRK","lasttradeprice"]},
-  "CryptsyDashUSD": { "exchangeName":"BitFinex", "currency":"\u0243",  "baseCurrency":"DASH", "url":"https://api.bitfinex.com/v1/ticker/drkbtc", "jsonPath":["last_price"]},
-  "BitFinexDashBTC": { "exchangeName":"Cryptsy", "currency":"$",  "baseCurrency":"DASH", "url":"http://pubapi.cryptsy.com/api.php?method=singlemarketdata&marketid=213", "jsonPath":["return","markets","DRK","lasttradeprice"]},
+  "CryptsyDashBTC": { "exchangeName":"Cryptsy", "currency":"\u0243",  "baseCurrency":"DASH", "url":"https://www.cryptsy.com/api/v2/currencies/DASH/markets", "jsonPath":["data","markets",0,"last_trade","price"]},
+  "BitFinexDashBTC": { "exchangeName":"BitFinex", "currency":"\u0243",  "baseCurrency":"DASH", "url":"https://api.bitfinex.com/v1/ticker/drkbtc", "jsonPath":["last_price"]},
+  "CryptsyDashUSD": { "exchangeName":"Cryptsy", "currency":"$",  "baseCurrency":"DASH", "url":"https://www.cryptsy.com/api/v2/currencies/DASH/markets", "jsonPath":["data","markets",3,"last_trade","price"]},
   "BitFinexDashUSD": { "exchangeName":"BitFinex", "currency":"$",  "baseCurrency":"DASH", "url":"https://api.bitfinex.com/v1/ticker/drkusd", "jsonPath":["last_price"]},
 
   "PoloniexBurst": { "exchangeName":"Poloniex", "currency":"\u0243",  "baseCurrency":"BURST", "url":"https://poloniex.com/public?command=returnTicker", "jsonPath":["BTC_BURST", "last"]}
