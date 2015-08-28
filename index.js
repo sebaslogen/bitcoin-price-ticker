@@ -239,7 +239,7 @@ exports.main = function() {
   function adjustWidgetSize(tickerId) {
     setTimeout(function () {
       var win = getWidgetWindow(tickerId);
-      if (win) {
+      if (win && win.document.body) {
         var newWidth = win.document.body.scrollWidth;
         tickerWidgetDocuments[tickerId].getElementById(tickerId + IFRAME_SUFFIX).width = (newWidth + EXTRA_FRAME_SPACING) + "px";
         tickerWidgetDocuments[tickerId].getElementById(tickerId + WIDGET_SUFFIX).width = (newWidth + EXTRA_FRAME_SPACING) + "px";
@@ -287,6 +287,9 @@ exports.main = function() {
   function fetchURLData(tickerId, url, jsonPath) {
     if (tickerId === undefined || url === undefined || jsonPath === undefined) {
       return;
+    }
+    if (usingWidgets) { // This update is required becuase the ticker iframe is sometimes destroyed by Firefox
+      updateTickerConfiguration(tickerId);
     }
     if (DEBUG) {
       console.log(TAG + " Requesting JSON data from " + url);
