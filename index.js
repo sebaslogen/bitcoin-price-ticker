@@ -54,6 +54,7 @@ var tickerWidgetDocuments = {};
 var tickersFrame = null;
 var toolbar = null;
 var usingWidgets = false;
+var forceRefresh = false;
 
 exports.main = function() {
 
@@ -264,9 +265,10 @@ exports.main = function() {
       console.log(TAG + " Sending JSON data to " + tickerId);
     }
     if (usingWidgets && (tickerWidgetDocuments[tickerId] !== undefined) &&
-          (tickerWidgetDocuments[tickerId] !== null)) { // For Widgets
-      if ((tickers[tickerId].enabled) && (getWidgetWindow(tickerId))) {
-        getWidgetWindow(tickerId).postMessage({
+        (tickerWidgetDocuments[tickerId] !== null)) { // For Widgets
+      var win = getWidgetWindow(tickerId);
+      if ((tickers[tickerId].enabled) && (win)) {
+        win.postMessage({
           "type": "updateTickerConfiguration",
           "id": tickerId,
           "data": tickers[tickerId]
@@ -316,17 +318,18 @@ exports.main = function() {
             console.log(TAG + " Price received and parsed: " + price);
           }
           if (usingWidgets && (tickerWidgetDocuments[tickerId] !== undefined) && 
-              (tickerWidgetDocuments[tickerId] !== null) &&
-              (getWidgetWindow(tickerId))) { // For Widgets
+              (tickerWidgetDocuments[tickerId] !== null)) { // For Widgets
             var win = getWidgetWindow(tickerId);
-            win.postMessage({
-              "type": "updateTickerModelPrice",
-              "id": tickerId,
-              "data": {
-                "price": price
-              }
-            }, "*");
-            adjustWidgetSize(tickerId);
+            if (win) {
+              win.postMessage({
+                "type": "updateTickerModelPrice",
+                "id": tickerId,
+                "data": {
+                  "price": price
+                }
+              }, "*");
+              adjustWidgetSize(tickerId);
+            }
           } else if (tickersFrame !== null) { // For Toolbar
             tickersFrame.postMessage({
               "type": "updateTickerModelPrice",
@@ -370,7 +373,7 @@ exports.main = function() {
       if (DEBUG) {
         console.log(TAG + " updateTickerRefreshIntervalForTicker:" + tickerId);
       }
-      if (tickers[tickerId].updateInterval != refreshRate) { // Update the real interval
+      if (forceRefresh || (tickers[tickerId].updateInterval != refreshRate)) { // Update the real interval
         tickers[tickerId].updateInterval = refreshRate;
         stopAutoPriceUpdate(tickerId);
         startAutoPriceUpdate(tickerId);
@@ -448,7 +451,25 @@ exports.main = function() {
         iframe.setAttribute("src", IFRAME_URL);
 
         node.appendChild(iframe);
-        setTimeout(function () {sendUpdatedTickerConfiguration(tickerId)}, 100); // Update data
+
+        var listener = {
+          onWidgetAdded: function(aWidgetId, aArea, aPosition) {
+            if (aWidgetId != this.id) {
+              return;
+            }
+            console.log(TAG + " onWidgetAdded for " + tickerId);
+            sendUpdatedTickerConfiguration(tickerId);
+          }.bind(this),
+          onWidgetRemoved: function(aWidgetId, aPrevArea) {
+            if (aWidgetId != this.id) {
+              return;
+            }
+            // This happens when a widget is demoted to the palette ('removed')
+            console.log(TAG + " onWidgetRemoved for " + tickerId);
+          }.bind(this)
+        };
+        CustomizableUI.addListener(listener);
+
         return node;
       }
     });
@@ -615,6 +636,28 @@ exports.main = function() {
   ticker.port.emit("updateContent", latest_content);
   updateTickerStyle();
   */
+
+  function tabReloader(tab) {
+    if (tab.url == "about:customizing") {
+      console.log(tab.url + " CUSTOMIZE TAB OPENED !!!!!!!!!!!!!!! ");
+      setTimeout(function () { // Wait for Customize tab to load
+        forceRefresh = true;
+        updateTickerRefreshInterval();
+        forceRefresh = false;
+      }, 1000);
+    }
+  }
+
+  function handleCustomizeTab(tab) {
+    if (tab.url == "about:customizing") {
+      tab.on("deactivate", function() {tabReloader(tab);});
+      tab.on("close", function() {tabReloader(tab);});
+      tabReloader(tab);
+    }
+  }
+
+  tabs.on('open', handleCustomizeTab);
+  tabs.on('ready', handleCustomizeTab);
 
   function registerTickerEvents(tickerId) {
     Preferences.on("p" + tickerId, function() { // Create event to enable/disable of tickers
