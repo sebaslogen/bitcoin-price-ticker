@@ -301,6 +301,38 @@ function toggleTicker(tickerId) {
 
 
 /**
+ * This method send all the configuration about
+ * the data providers when a tickers are created
+ **/
+function sendUpdatedProvidersData() {
+  dlog("Sending Providers JSON data to tickers");
+  var filteredTickersData = JSON.stringify(getFilteredTickersData());
+  if (usingWidgets) { // For Widgets
+    for (var tickerId in tickers) {
+      if (tickers.hasOwnProperty(tickerId)) {
+        var doc = tickers[tickerId].doc;
+        if ((doc !== undefined) && (doc !== null)) {
+          var win = getWidgetWindow(tickerId);
+          if ((tickers[tickerId].enabled) && (win)) {
+            win.postMessage({
+              "type": "updateProvidersData",
+              "data": filteredTickersData
+            }, "*");
+          }
+        }
+      }
+    }
+  } else if (tickersFrame !== null) { // For Toolbar
+    tickersFrame.postMessage({
+      "type": "updateProvidersData",
+      "data": filteredTickersData
+    }, tickersFrame.url);
+  } else if (DEBUG) {
+    dlog("Error: There is no ticker ready to receive Providers JSON data");
+  }
+}
+
+/**
  * This method loads and updates the configuration of a ticker
  * then sends this configuration to client (i)Frame that updates
  * the configuration of the ticker or creates it if it didn't exist
@@ -317,6 +349,16 @@ function updateTickerConfiguration(tickerId) {
 function getFilteredTickerData(tickerId) {
   var data = JSON.parse(JSON.stringify(tickers[tickerId]));
   data.doc = null;
+  return data;
+}
+
+function getFilteredTickersData() {
+  var data = {};
+  for (var tickerId in tickers) { // Update all tickers that require it
+    if (tickers.hasOwnProperty(tickerId)) {
+      data[tickerId] = getFilteredTickerData(tickerId);
+    }
+  }
   return data;
 }
 
@@ -458,6 +500,7 @@ function createNewTickersWidget(tickerId) {
           if (aWidgetId == this.id) {
             dlog("onWidgetAdded for " + tickerId);
             setTimeout(function() { // Allow the ticker's iFrame to be created
+              sendUpdatedProvidersData();
               updateTickerRefreshIntervalForTicker(tickerId, true);
             }, 500);
           }
@@ -465,6 +508,7 @@ function createNewTickersWidget(tickerId) {
         onCustomizeStart: function(aWindow) {
           dlog("onCustomizeStart for " + tickerId);
           setTimeout(function() { // Allow the ticker's iFrame to be created
+            sendUpdatedProvidersData();
             updateTickerRefreshIntervalForTicker(tickerId, true);
           }, 1000);
         }.bind(this),
@@ -472,6 +516,7 @@ function createNewTickersWidget(tickerId) {
           if (aWidgetId == this.id) {
             dlog("onWidgetMoved for " + tickerId);
             setTimeout(function () { // Wait for Customize tab to load
+              sendUpdatedProvidersData();
               updateTickerRefreshInterval(true);
             }, 500);
           }
@@ -496,6 +541,7 @@ function createNewTickersWidget(tickerId) {
         onCustomizeEnd: function(aWindow) {
           dlog("onCustomizeEnd for " + tickerId);
           setTimeout(function() { // Allow the ticker's iFrame to be created
+            sendUpdatedProvidersData();
             updateTickerRefreshIntervalForTicker(tickerId, true);
           }, 500);
         }.bind(this),
@@ -509,6 +555,7 @@ function createNewTickersWidget(tickerId) {
           if (aWidgetId == this.id) {
             dlog("onWidgetRemoved for " + tickerId);
             setTimeout(function() { // Allow the ticker's iFrame to be created
+              sendUpdatedProvidersData();
               updateTickerRefreshIntervalForTicker(tickerId, true);
             }, 500);
           }
@@ -643,6 +690,9 @@ function loadProvidersData() {
 }
 
 function initAfterLoad() {
+  if (! usingWidgets) { // Widget tickers will do this on load
+    sendUpdatedProvidersData();
+  }  
   loadTickersInOrder();
   registerEvents();
   if (! usingWidgets) { // Widget tickers will do this on event onWidgetAdded

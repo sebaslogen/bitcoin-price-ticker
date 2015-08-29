@@ -22,10 +22,12 @@
  * THE SOFTWARE.
  **/
 
- window.addEventListener("message", handleAddonMessages, false);
+window.addEventListener("message", handleAddonMessages, false);
 
 function handleAddonMessages(message) {
-  if (message.data.type == "updateTickerConfiguration" && (message.data.data !== undefined) ) {
+  if (message.data.type == "updateProvidersData" && (message.data.data !== undefined) ) {
+    processProvidersDataJSON(message.data.data);
+  } else if (message.data.type == "updateTickerConfiguration" && (message.data.data !== undefined) ) {
     updateTickerConfiguration(message.data.id, message.data.data);
   } else if (message.data.type == "updateTickerModelPrice") {
     updateTickerModelPrice(message.data.id, message.data.data);
@@ -34,8 +36,7 @@ function handleAddonMessages(message) {
 
 function updateTickerConfiguration(id, data) {
 
-  if (Object.keys(tickersRepository).length == 0) { // Not ready: store until ready
-    preLoadtickersRepository[id] = data;
+  if (Object.keys(tickersRepository).length == 0) {
     return;
   }
 
