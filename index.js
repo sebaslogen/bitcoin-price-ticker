@@ -201,8 +201,9 @@ exports.main = function() {
       updateTickerConfiguration(tickerId);
       if (usingWidgets) {
         createNewTickersWidget(tickerId);
+      } else {
+        updateTickerRefreshIntervalForTicker(tickerId);
       }
-      updateTickerRefreshIntervalForTicker(tickerId);
       orderedTickers.push(tickerId);
       storeTickersOrder();
     } else if (tickers[tickerId].enabled) { // Disable Ticker if it exists
