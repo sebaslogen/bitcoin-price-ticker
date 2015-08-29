@@ -2,6 +2,8 @@
 - Created custom UI to show tickers in Firefox's navigation bar
 - Toggle between tickers in navbar or a dedicated tool bar
 - Fixed Cryptsy URLs for new API
+- Fixed Kraken Litecoin API URL
+- Add Ether cryptocurrency for BTC from Kraken
 
 3.1
 - Big fix to avoid being blocked by NoScript Firefox Addon. Read:
