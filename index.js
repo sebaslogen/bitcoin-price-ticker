@@ -467,6 +467,15 @@ exports.main = function() {
               updateTickerRefreshIntervalForTicker(tickerId, true);
             }, 500); // Start updating data
           }.bind(this),
+          onWidgetDestroyed: function(aWidgetId) {
+            if (aWidgetId != this.id) {
+              return;
+            }
+            if (DEBUG) {
+              console.log(TAG + " onWidgetDestroyed for " + tickerId);
+            }
+            CustomizableUI.removeListener(listener);
+          }.bind(this),
           onWidgetRemoved: function(aWidgetId, aPrevArea) {
             if (aWidgetId != this.id) {
               return;
