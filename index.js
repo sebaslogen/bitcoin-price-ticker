@@ -22,6 +22,8 @@
  * THE SOFTWARE.
  **/
 
+/*jshint esnext: true */
+
 const ui = require("sdk/ui");
 const {Cc, Ci, Cu} = require("chrome");
 Cu.import("resource://gre/modules/AddonManager.jsm"); // Addon Manager required to know addon version
@@ -47,11 +49,11 @@ const WIDGET_SUFFIX = "-widget";
 const IFRAME_SUFFIX = "-iframe";
 const IFRAME_URL = "chrome://bitcoin-price-ticker/content/index.html";
 const EXTRA_FRAME_SPACING = 8;
-const log = console.log.bind(console);
+const LOG = console.log.bind(console);
 
 function dlog(message) {
   if (DEBUG) {
-    log(TAG + " " + message);
+    LOG(TAG + " " + message);
   }
 }
 
