@@ -46,6 +46,7 @@ const TAG = "bitcoin-price-ticker";
 const DATA_PROVIDERS_URL = "https://raw.githubusercontent.com/neoranga55/bitcoin-price-ticker/master/data/data-providers.json";
 const ADDON_UPDATE_DOCUMENT_URL = "http://neoranga55.github.io/bitcoin-price-ticker/";
 const ADDON_ID = "jid0-ziK34XHkBWB9ezxd4l9Q1yC7RP0@jetpack";
+const TICKERS_ORDER_PREF_ID = "extensions.ADDON_ID.tickers_order";
 const DEFAULT_REFRESH_RATE = 60;
 const DEFAULT_FONT_SIZE = 14;
 const WIDGET_SUFFIX = "-widget";
@@ -258,7 +259,7 @@ function storeTickersOrder() {
       dlog("Storing tickers in order:" + orderedActiveTickers);
     }
     // Update ordered list of active tickers in Firefox's profile
-    prefs.setCharPref("extensions.ADDON_ID.tickers_order", orderedActiveTickers);
+    prefs.setCharPref(TICKERS_ORDER_PREF_ID, orderedActiveTickers);
   }
 }
 
