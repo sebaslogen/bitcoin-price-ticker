@@ -1,4 +1,5 @@
-4.2
+4.3
+- Bug fixes for slow Firefox
 - Improves to data loading
 
 4

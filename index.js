@@ -394,6 +394,7 @@ function fetchURLData(tickerId, url, jsonPath) {
   if (usingWidgets) {
     // This update is required becuase the ticker's iframe 
     // is sometimes destroyed by Firefox's UI updates
+    sendUpdatedProvidersData();
     updateTickerConfiguration(tickerId);
   }
   dlog("Requesting JSON price data from " + url);
@@ -499,18 +500,12 @@ function createNewTickersWidget(tickerId) {
         onWidgetAdded: function(aWidgetId, aArea, aPosition) {
           if (aWidgetId == this.id) {
             dlog("onWidgetAdded for " + tickerId);
-            setTimeout(function() { // Allow the ticker's iFrame to be created
-              sendUpdatedProvidersData();
-              updateTickerRefreshIntervalForTicker(tickerId, true);
-            }, 500);
+            activateWidgetWithDelay(tickerId, 500);
           }
         }.bind(this),
         onCustomizeStart: function(aWindow) {
           dlog("onCustomizeStart for " + tickerId);
-          setTimeout(function() { // Allow the ticker's iFrame to be created
-            sendUpdatedProvidersData();
-            updateTickerRefreshIntervalForTicker(tickerId, true);
-          }, 1000);
+          activateWidgetWithDelay(tickerId, 2000);
         }.bind(this),
         onWidgetMoved: function(aWidgetId, aArea, aOldPosition, aNewPosition) {
           if (aWidgetId == this.id) {
@@ -540,10 +535,7 @@ function createNewTickersWidget(tickerId) {
         }.bind(this),
         onCustomizeEnd: function(aWindow) {
           dlog("onCustomizeEnd for " + tickerId);
-          setTimeout(function() { // Allow the ticker's iFrame to be created
-            sendUpdatedProvidersData();
-            updateTickerRefreshIntervalForTicker(tickerId, true);
-          }, 500);
+          activateWidgetWithDelay(tickerId, 500);
         }.bind(this),
         onWidgetDestroyed: function(aWidgetId) {
           if (aWidgetId == this.id) {
@@ -554,10 +546,7 @@ function createNewTickersWidget(tickerId) {
         onWidgetRemoved: function(aWidgetId, aPrevArea) {
           if (aWidgetId == this.id) {
             dlog("onWidgetRemoved for " + tickerId);
-            setTimeout(function() { // Allow the ticker's iFrame to be created
-              sendUpdatedProvidersData();
-              updateTickerRefreshIntervalForTicker(tickerId, true);
-            }, 500);
+            activateWidgetWithDelay(tickerId, 500);
           }
         }.bind(this)
       };
@@ -572,6 +561,13 @@ function destroyTickersWidget(tickerId) {
   dlog("Destroying widget for " + tickerId);
   CustomizableUI.destroyWidget(tickerId + WIDGET_SUFFIX);
   tickers[tickerId].doc = null;
+}
+
+function activateWidgetWithDelay(tickerId, delay) {
+  setTimeout(function() { // Allow the ticker's iFrame to be created
+    sendUpdatedProvidersData();
+    updateTickerRefreshIntervalForTicker(tickerId, true);
+  }, delay);
 }
 
 function startAutoPriceUpdate(tickerId) {
