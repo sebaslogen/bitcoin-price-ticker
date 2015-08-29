@@ -49,6 +49,15 @@
 <p>Latest changes included in the add-on:</p>
 
 <pre><code>
+4
+- New Widgets better than the old ones!
+Added a new custom UI to show tickers in Firefox's navigation bar
+- Toggle between tickers in navbar or a dedicated tool bar with tickers
+- Tickers can be arranged in navigation bar just by drag&drop
+- Fixed Cryptsy URLs for new API
+- Fixed Kraken Litecoin API URL
+- Added Ether cryptocurrency for BTC from Kraken and Poloniex
+
 3.1
 - Big fix to avoid being blocked by NoScript Firefox Addon. Read:
 To use this plugin and NoScript together you need to Allow in NoScript
@@ -220,16 +229,17 @@ nevertheless, it will be restored in future versions.
     <li>Monero (XMR)</li>
     <li>Dash (DASH)</li>
     <li>Burst (BURST)</li>
+	<li>Ether</li>
   </ul>
 <p>Configuration options:</p>
   <ul>
-	<li>Select between placing the tickers on a separate toolbar or placing the tickers on the navigation bar (disable the toolbar option in this Addon and then in Firefox->Customize, drag&drop the tickers to the navigation bar)  If you want to move back from navigation bar to separate toolbar, you need to press 'Reset to defaults' in Firefox->Customize</li>
+	<li>Select displaying the tickers as individual Widgets in the navigation bar (that you can drag&drop with Firefox->Open Menu->Customize) or display all tickers in a separate tool bar</li>
     <li>Select exchange price update interval</li>
     <li>Select exchanges and currencies</li>
     <li>Select ticker colors and backgrounds</li>
     <li>Show short and long trend indicators</li>
     <li>Customize font size</li>
-    <li>Select order of tickers displayed (HOW: disable all tickers and enable in order)</li>
+    <li>Select order of tickers displayed (in navigation bar use Firefox->Open Menu->Customize and drag&drop. In separate toolbar disable all tickers and enable in order from Addon options)</li>
   </ul>
 </p>
 
@@ -240,13 +250,14 @@ nevertheless, it will be restored in future versions.
 <p>In Firefox's top menu select <code>Addons (or Ctrl+Shift+A)->Extensions->Options</code></p>
 
 <h2>NoScript Addon Users Warning</h2>
-<p>To be able to use this Addon in combination with NoScript Addon you need to Allow in NoScript the domain this Addon uses</p>
-<p>To do this, 'Allow' the domain below or go to NoScript options, and insite the whitelist tab, add the domain below</p>
+<p>To be able to use this Addon in combination with NoScript Addon you need to Allow in NoScript the domain this Addon uses to read the price providers information</p>
+<p>To do this, 'Allow' the domain below or go to NoScript options and, inside the whitelist tab, add the domain below</p>
 <p>raw.githubusercontent.com</p>
 
 <h2>Upcoming features</h2>
 
 <p>Check the list of awesome features that may make it into the next version in the <a href="https://trello.com/b/nvhnKpcT/bitcoin-price-ticker" target="blank">Features board</a></p>
+<p>Or take a look at the highest priority list of tasks <a href="https://github.com/neoranga55/bitcoin-price-ticker/blob/master/ToDo.txt" target="blank">in the To-Do notes</a></p>
 
 
 <h2><a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h2>
