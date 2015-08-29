@@ -54,6 +54,7 @@ var tickerWidgetDocuments = {};
 var tickersFrame = null;
 var toolbar = null;
 var usingWidgets = false;
+var draggingWidget = false;
 
 exports.main = function() {
 
@@ -457,35 +458,71 @@ exports.main = function() {
 
         var listener = {
           onWidgetAdded: function(aWidgetId, aArea, aPosition) {
-            if (aWidgetId != this.id) {
-              return;
+            if (aWidgetId == this.id) {
+              if (DEBUG) {
+                console.log(TAG + " onWidgetAdded for " + tickerId);
+              }
+              setTimeout(function() { // Allow the ticker's iFrame to be created
+                updateTickerRefreshIntervalForTicker(tickerId, true);
+              }, 500); // Start updating data
             }
-            if (DEBUG) {
-              console.log(TAG + " onWidgetAdded for " + tickerId);
+          }.bind(this),
+          onCustomizeStart: function(aWindow) {
+            console.log(TAG + " onCustomizeStart for " + tickerId);
+            setTimeout(function() { // Allow the ticker's iFrame to be created
+              updateTickerRefreshIntervalForTicker(tickerId, true);
+            }, 700); // Start updating data
+          }.bind(this),
+          onWidgetMoved: function(aWidgetId, aArea, aOldPosition, aNewPosition) {
+            if (aWidgetId == this.id) {
+              console.log(TAG + " onWidgetMoved for " + tickerId);
+              setTimeout(function () { // Wait for Customize tab to load
+                  updateTickerRefreshInterval(true);
+                }, 500);
             }
+          }.bind(this),
+          onWidgetDrag: function(aWidgetId, aArea) {
+            if (aWidgetId == this.id) {
+              if (DEBUG) {
+                console.log(TAG + " onWidgetDrag for " + tickerId);
+              }
+              draggingWidget = true;
+            }
+          }.bind(this),
+          onWidgetAfterDOMChange: function(aNode, aNextNode, aContainer, aWasRemoval) {
+            if (aNode == node) {
+              console.log(TAG + " onWidgetAfterDOMChange for " + tickerId);
+              if (draggingWidget) {
+                draggingWidget = false;
+                setTimeout(function () { // Wait for Customize tab to load
+                  updateTickerRefreshInterval(true);
+                }, 1000);
+              }
+            }
+          }.bind(this),
+          onCustomizeEnd: function(aWindow) {
+            console.log(TAG + " onCustomizeEnd for " + tickerId);
             setTimeout(function() { // Allow the ticker's iFrame to be created
               updateTickerRefreshIntervalForTicker(tickerId, true);
             }, 500); // Start updating data
           }.bind(this),
           onWidgetDestroyed: function(aWidgetId) {
-            if (aWidgetId != this.id) {
-              return;
+            if (aWidgetId == this.id) {
+              if (DEBUG) {
+                console.log(TAG + " onWidgetDestroyed for " + tickerId);
+              }
+              CustomizableUI.removeListener(listener);
             }
-            if (DEBUG) {
-              console.log(TAG + " onWidgetDestroyed for " + tickerId);
-            }
-            CustomizableUI.removeListener(listener);
           }.bind(this),
           onWidgetRemoved: function(aWidgetId, aPrevArea) {
-            if (aWidgetId != this.id) {
-              return;
-            } // This happens when a widget is demoted to the palette ('removed')
-            if (DEBUG) {
-              console.log(TAG + " onWidgetRemoved for " + tickerId);
+            if (aWidgetId == this.id) {
+              if (DEBUG) {
+                console.log(TAG + " onWidgetRemoved for " + tickerId);
+              }
+              setTimeout(function() { // Allow the ticker's iFrame to be created
+                updateTickerRefreshIntervalForTicker(tickerId, true);
+              }, 500); // Start updating data
             }
-            setTimeout(function() { // Allow the ticker's iFrame to be created
-              updateTickerRefreshIntervalForTicker(tickerId, true);
-            }, 500); // Start updating data
           }.bind(this)
         };
         CustomizableUI.addListener(listener);
@@ -531,8 +568,7 @@ exports.main = function() {
   function initAfterLoad() {
     loadTickersInOrder();
     registerEvents();
-    if (! usingWidgets) {
-      // Widget tickers will do this on event onWidgetAdded
+    if (! usingWidgets) { // Widget tickers will do this on event onWidgetAdded
       updateTickerRefreshInterval(true);
     }
   }
@@ -655,25 +691,6 @@ exports.main = function() {
   ticker.port.emit("updateContent", latest_content);
   updateTickerStyle();
   */
-
-  function tabReloader(tab) {
-    if (tab.url == "about:customizing") {
-      setTimeout(function () { // Wait for Customize tab to load
-        updateTickerRefreshInterval(true);
-      }, 1000);
-    }
-  }
-
-  function handleCustomizeTab(tab) {
-    if (tab.url == "about:customizing") {
-      tab.on("deactivate", function() {tabReloader(tab);});
-      tab.on("close", function() {tabReloader(tab);});
-      tabReloader(tab);
-    }
-  }
-
-  tabs.on('open', handleCustomizeTab);
-  tabs.on('ready', handleCustomizeTab);
 
   function registerTickerEvents(tickerId) {
     Preferences.on("p" + tickerId, function() { // Create event to enable/disable of tickers
