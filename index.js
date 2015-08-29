@@ -448,9 +448,7 @@ exports.main = function() {
         }
 
         var iframe = aDocument.createElement("iframe");
-        var iFrameId = tickerId + IFRAME_SUFFIX;
-
-        iframe.setAttribute("id", iFrameId);
+        iframe.setAttribute("id", tickerId + IFRAME_SUFFIX);
         iframe.setAttribute("type", "content");
         iframe.setAttribute("src", IFRAME_URL);
 
@@ -471,7 +469,7 @@ exports.main = function() {
             console.log(TAG + " onCustomizeStart for " + tickerId);
             setTimeout(function() { // Allow the ticker's iFrame to be created
               updateTickerRefreshIntervalForTicker(tickerId, true);
-            }, 700); // Start updating data
+            }, 1000); // Start updating data
           }.bind(this),
           onWidgetMoved: function(aWidgetId, aArea, aOldPosition, aNewPosition) {
             if (aWidgetId == this.id) {
@@ -541,28 +539,32 @@ exports.main = function() {
   }
 
   function loadProvidersData() {
-    var url = DATA_PROVIDERS_URL;
-    if (DEBUG) {
-      console.log(TAG + " Requesting Providers JSON data from " + DATA_PROVIDERS_URL);
-    }
-    Request({
-      url: url,
-      onComplete: function (response) {
-        if ((response !== null) && (response.json !== null)) {
-          if (DEBUG) {
-            console.log(TAG + " Data received from data providers JSON configuration");
-          }
-          tickers = response.json;
-          if (Object.keys(tickers).length === 0) {
-            if (DEBUG) {
-              console.log(TAG + " Error: No ticker configuration found in JSON configuration received from server:"+url);
-            }
-            return;
-          }
-          initAfterLoad();
-        }
+    if (Object.keys(tickers).length !== 0) { // Data already loaded
+      initAfterLoad();
+    } else {
+      var url = DATA_PROVIDERS_URL;
+      if (DEBUG) {
+        console.log(TAG + " Requesting Providers JSON data from " + DATA_PROVIDERS_URL);
       }
-    }).get();
+      Request({
+        url: url,
+        onComplete: function (response) {
+          if ((response !== null) && (response.json !== null)) {
+            if (DEBUG) {
+              console.log(TAG + " Data received from data providers JSON configuration");
+            }
+            tickers = response.json;
+            if (Object.keys(tickers).length === 0) {
+              if (DEBUG) {
+                console.log(TAG + " Error: No ticker configuration found in JSON configuration received from server:"+url);
+              }
+              return;
+            }
+            initAfterLoad();
+          }
+        }
+      }).get();
+    }
   }
 
   function initAfterLoad() {
