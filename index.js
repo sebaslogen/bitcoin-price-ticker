@@ -422,7 +422,7 @@ exports.main = function() {
     if (DEBUG) {
       console.log(TAG + " Creating widget for ticker " + tickerId);
     }
-    var tickerTooltip = tickers[tickerId].exchangeName + " " + 
+    var tickerTitle = tickers[tickerId].exchangeName + " " + 
                         tickers[tickerId].currency + "/" + tickers[tickerId].baseCurrency
     CustomizableUI.createWidget({
       id: tickerId + WIDGET_SUFFIX,
@@ -437,10 +437,10 @@ exports.main = function() {
         var props = {
           title: "Bitcoin Price Ticker " + tickerId,
           align: "center",
-          label: true,
+          label: tickerTitle,
           width: "15px",
           height: 10,
-          tooltiptext: tickerTooltip,
+          tooltiptext: tickerTitle,
           class: "chromeclass-toolbar-additional panel-wide-item"
         };
         for (var p in props) {
