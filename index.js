@@ -246,6 +246,13 @@ exports.main = function() {
     }, 50); // Update size some time after HTML content is updated
   }
 
+  /**
+   * This method loads and updates the configuration of a ticker
+   * then sends this configuration to client (i)Frame that updates
+   * the configuration of the ticker or creates it if it didn't exist
+   *
+   * tickerId: Unique ID of the ticker to update
+   **/
   function updateTickerConfiguration(tickerId) {
     getTickerConfigurationData(tickerId);
     if (DEBUG) {
