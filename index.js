@@ -40,10 +40,11 @@ var prefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefServic
             getBranch("extensions.ADDON_ID.");
 var Request = require("sdk/request").Request;
 var tabs = require("sdk/tabs");
+var data = require("sdk/self").data;
 
 const DEBUG = false;
 const TAG = "bitcoin-price-ticker";
-const DATA_PROVIDERS_URL = "https://raw.githubusercontent.com/neoranga55/bitcoin-price-ticker/master/data/data-providers.json";
+const DATA_PROVIDERS_URL = data.url("data-providers.json");
 const ADDON_UPDATE_DOCUMENT_URL = "http://neoranga55.github.io/bitcoin-price-ticker/";
 const ADDON_ID = "jid0-ziK34XHkBWB9ezxd4l9Q1yC7RP0@jetpack";
 const TICKERS_ORDER_PREF_ID = "extensions.ADDON_ID.tickers_order";

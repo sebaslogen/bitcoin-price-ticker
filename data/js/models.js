@@ -24,7 +24,8 @@
 
 // Models to store and control data
 
-const DATA_PROVIDERS_URL = "https://raw.githubusercontent.com/neoranga55/bitcoin-price-ticker/master/data/data-providers.json";
+const DATA_PROVIDERS_URL = "data-providers.json";
+const DATA_PROVIDERS_URL_BACKUP = "https://raw.githubusercontent.com/neoranga55/bitcoin-price-ticker/master/data/data-providers.json";
 const DEFAULT_TICKER_CSS_CLASSES = "ticker";
 var tickers = { "models": {}, "views": {}, "controllers": {}};
 var tickersRepository = {};
@@ -32,15 +33,23 @@ var preLoadtickersRepository = {};
 
 // Load configuration of data providers from JSON
 
+function processProvidersDataJSON(json) {
+  tickersRepository = json;
+  for (var id in preLoadtickersRepository) {
+    if (preLoadtickersRepository.hasOwnProperty(id)) {
+      updateTickerConfiguration(id, preLoadtickersRepository[id]);
+    }
+  }
+}
+
 function loadJSON(url) {
-  $.getJSON(url, function(json) {
-      tickersRepository = json;
-      for (var id in preLoadtickersRepository) {
-        if (preLoadtickersRepository.hasOwnProperty(id)) {
-          updateTickerConfiguration(id, preLoadtickersRepository[id]);
-        }
-      }
-  })
+  $.getJSON(url, processProvidersDataJSON)
+    .fail(function() {
+      // This may happen when loading this document
+      // in a ui.Frame on Firefox Addon
+      $.getJSON(DATA_PROVIDERS_URL_BACKUP, processProvidersDataJSON);
+    }
+  );
 }
 
 loadJSON(DATA_PROVIDERS_URL);
