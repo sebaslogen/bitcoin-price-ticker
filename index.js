@@ -165,9 +165,6 @@ exports.main = function() {
         if (usingWidgets) {
           createNewTickersWidget(tickerId);
         }
-        if (tickers[tickerId].enabled) {
-          orderedTickers.push(tickerId);
-        }
       }
     } catch (e) { // There is no order of tickers in addon set yet
       loadDefaultTickers();
@@ -190,6 +187,7 @@ exports.main = function() {
         }
       }
       if (DEBUG) {
+        console.dir(orderedTickers);
         console.log(TAG + " Storing tickers in order:" + orderedActiveTickers);
       }
       prefs.setCharPref("extensions.ADDON_ID.tickers_order", orderedActiveTickers); // Update list of tickers active in order in preferences
