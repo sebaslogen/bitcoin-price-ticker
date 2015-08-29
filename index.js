@@ -422,6 +422,8 @@ exports.main = function() {
     if (DEBUG) {
       console.log(TAG + " Creating widget for ticker " + tickerId);
     }
+    var tickerTooltip = tickers[tickerId].exchangeName + " " + 
+                        tickers[tickerId].currency + "/" + tickers[tickerId].baseCurrency
     CustomizableUI.createWidget({
       id: tickerId + WIDGET_SUFFIX,
       type: "custom",
@@ -438,7 +440,7 @@ exports.main = function() {
           label: true,
           width: "15px",
           height: 10,
-          tooltiptext: tickerId,
+          tooltiptext: tickerTooltip,
           class: "chromeclass-toolbar-additional panel-wide-item"
         };
         for (var p in props) {
