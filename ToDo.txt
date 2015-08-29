@@ -1,5 +1,3 @@
-- Fix order of tickers memory
-
 - Add price trends feature
 
 - Add search function to search for cryptocurrency by name or symbol

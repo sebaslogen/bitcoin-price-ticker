@@ -41,7 +41,7 @@ var prefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefServic
 var Request = require("sdk/request").Request;
 var tabs = require("sdk/tabs");
 
-const DEBUG = true;
+const DEBUG = false;
 const TAG = "bitcoin-price-ticker";
 const DATA_PROVIDERS_URL = "https://raw.githubusercontent.com/neoranga55/bitcoin-price-ticker/master/data/data-providers.json";
 const ADDON_UPDATE_DOCUMENT_URL = "http://neoranga55.github.io/bitcoin-price-ticker/";
