@@ -54,7 +54,6 @@ var tickerWidgetDocuments = {};
 var tickersFrame = null;
 var toolbar = null;
 var usingWidgets = false;
-var forceRefresh = false;
 
 exports.main = function() {
 
@@ -131,7 +130,6 @@ exports.main = function() {
         if (DEBUG) {
           console.log(TAG + " Creating ticker for " + tickerId);
         }
-        getTickerConfigurationData(tickerId);
         updateTickerConfiguration(tickerId);
         if (usingWidgets) {
           createNewTickersWidget(tickerId);
@@ -226,7 +224,8 @@ exports.main = function() {
 
   function getWidgetWindow(tickerId) {
     if ((tickerWidgetDocuments[tickerId] !== undefined) &&
-          (tickerWidgetDocuments[tickerId] !== null)) { // Widgets
+          (tickerWidgetDocuments[tickerId] !== null) &&
+          (tickerWidgetDocuments[tickerId].getElementById(tickerId + IFRAME_SUFFIX))) { // Widgets
       if (DEBUG) {
         console.log(TAG + " getWidgetWindow() for ticker " + tickerId + " - has doc contentWindow:" +
           tickerWidgetDocuments[tickerId].getElementById(tickerId + IFRAME_SUFFIX).contentWindow);
@@ -364,7 +363,7 @@ exports.main = function() {
     }
   }
 
-  function updateTickerRefreshIntervalForTicker(tickerId) {
+  function updateTickerRefreshIntervalForTicker(tickerId, forceRefresh) {
     var refreshRate = getIntegerPreference("Timer");
     if (refreshRate < 1) {
       refreshRate = DEFAULT_REFRESH_RATE;
@@ -382,10 +381,10 @@ exports.main = function() {
   }
 
   // Create new refresh interval for each ticker when option is changed
-  function updateTickerRefreshInterval() {
+  function updateTickerRefreshInterval(forceRefresh) {
     for (var tickerId in tickers) { // Update all tickers that require it
       if (tickers.hasOwnProperty(tickerId)) {
-        updateTickerRefreshIntervalForTicker(tickerId);
+        updateTickerRefreshIntervalForTicker(tickerId, forceRefresh);
       }
     }
   }
@@ -458,7 +457,9 @@ exports.main = function() {
               return;
             }
             console.log(TAG + " onWidgetAdded for " + tickerId);
-            sendUpdatedTickerConfiguration(tickerId);
+            setTimeout(function() { // Allow the ticker's iFrame to be created
+              updateTickerRefreshIntervalForTicker(tickerId, true);
+            }, 500); // Start updating data
           }.bind(this),
           onWidgetRemoved: function(aWidgetId, aPrevArea) {
             if (aWidgetId != this.id) {
@@ -466,6 +467,9 @@ exports.main = function() {
             }
             // This happens when a widget is demoted to the palette ('removed')
             console.log(TAG + " onWidgetRemoved for " + tickerId);
+            setTimeout(function() { // Allow the ticker's iFrame to be created
+              updateTickerRefreshIntervalForTicker(tickerId, true);
+            }, 500); // Start updating data
           }.bind(this)
         };
         CustomizableUI.addListener(listener);
@@ -511,10 +515,9 @@ exports.main = function() {
   function initAfterLoad() {
     loadTickersInOrder();
     registerEvents();
-    if (usingWidgets) {
-      setTimeout(updateTickerRefreshInterval, 500); // Start updating data
-    } else {
-      updateTickerRefreshInterval();
+    if (! usingWidgets) {
+      // Widget tickers will do this on event onWidgetAdded
+      updateTickerRefreshInterval(true);
     }
   }
 
@@ -641,17 +644,19 @@ exports.main = function() {
     if (tab.url == "about:customizing") {
       console.log(tab.url + " CUSTOMIZE TAB OPENED !!!!!!!!!!!!!!! ");
       setTimeout(function () { // Wait for Customize tab to load
-        forceRefresh = true;
-        updateTickerRefreshInterval();
-        forceRefresh = false;
+        updateTickerRefreshInterval(true);
       }, 1000);
     }
   }
 
   function handleCustomizeTab(tab) {
     if (tab.url == "about:customizing") {
-      tab.on("deactivate", function() {tabReloader(tab);});
-      tab.on("close", function() {tabReloader(tab);});
+      tab.on("deactivate", function() {tabReloader(tab);
+        console.log(tab.url + " CUSTOMIZE TAB deactivate !!!!!!!!!!!!!!! ");
+      });
+      tab.on("close", function() {tabReloader(tab);
+        console.log(tab.url + " CUSTOMIZE TAB close !!!!!!!!!!!!!!! ");
+      });
       tabReloader(tab);
     }
   }
