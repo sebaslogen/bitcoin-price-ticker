@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  **/
 
-/* jshint moz: true */
+/* jshint moz: true, devel: true */
 "use strict";
 
 const ui = require("sdk/ui");
@@ -211,16 +211,18 @@ function loadTickersInOrder() {
   var orderedActiveTickers = "";
   try {
     orderedActiveTickers = prefs.getCharPref("extensions.ADDON_ID.tickers_order");
-    if (orderedActiveTickers.length < 1) { // There is no order of tickers in addon set yet
+    if (orderedActiveTickers.length < 1) {
+      // There is no order of tickers in addon set yet
       loadDefaultTickers();
       return;
     }
     var listOrderedTickers = orderedActiveTickers.split(",");
-    if (listOrderedTickers.length < 1) { // There is no order of tickers in addon set yet
+    if (listOrderedTickers.length < 1) {
+      // There is no order of tickers in addon set yet
       loadDefaultTickers();
       return;
     }
-    for (var i in listOrderedTickers) {
+    for (var i = 0; i < listOrderedTickers.length; i++) {
       var tickerId = listOrderedTickers[i];
       updateTickerConfiguration(tickerId);
       if (usingWidgets) {
@@ -280,7 +282,8 @@ function toggleTicker(tickerId) {
     }
     for (var i = 0; i < orderedTickers.length; i++) {
       if (orderedTickers[i] == tickerId) {
-        orderedTickers.splice(i, 1); // Remove the ticker completely from the array with reordering
+        // Remove the ticker completely from the array with reordering
+        orderedTickers.splice(i, 1);
         break;
       }
     }
@@ -399,7 +402,8 @@ function fetchURLData(tickerId, url, jsonPath) {
 
 
 /**
- * Create a Widget, attach listeners and trigger update on Widget Added to window
+ * Create a Widget, attach listeners and 
+ * trigger update on Widget Added to window
  **/
 function createNewTickersWidget(tickerId) {
   dlog("Creating widget for ticker " + tickerId);
@@ -645,7 +649,8 @@ function initAfterLoad() {
 function createNewTickersToolbar() {
   tickersFrame = ui.Frame({
     url: "./index.html"
-  }).on("ready", loadProvidersData); // When the presenter is ready load config data and tickers
+  }).on("ready", loadProvidersData);
+  // When the presenter is ready load config data and tickers
   toolbar = ui.Toolbar({
     title: "Bitcoin Price Ticker",
     items: [tickersFrame]
