@@ -449,6 +449,7 @@ exports.main = function() {
         iframe.setAttribute("id", tickerId + IFRAME_SUFFIX);
         iframe.setAttribute("type", "content");
         iframe.setAttribute("src", IFRAME_URL);
+        iframe.setAttribute("transparent", true);
 
         node.appendChild(iframe);
 
