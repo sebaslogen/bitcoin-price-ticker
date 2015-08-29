@@ -173,12 +173,13 @@ function getTickerConfigurationData(tickerId) {
   if (fontSize <= 0) {
     fontSize = DEFAULT_FONT_SIZE;
   }
-  if (tickers[tickerId]) {
-    tickers[tickerId].enabled = getBooleanPreference("p" + tickerId);
-    tickers[tickerId].currencyPosition = getStringPreference("show-currency-label");
-    tickers[tickerId].color = getStringPreference("p" + tickerId + "Color");
-    tickers[tickerId].fontSize = fontSize;
-    tickers[tickerId].background = getBackgroundColor(tickerId);
+  var ticker = tickers[tickerId];
+  if (ticker) {
+    ticker.enabled = getBooleanPreference("p" + tickerId);
+    ticker.currencyPosition = getStringPreference("show-currency-label");
+    ticker.color = getStringPreference("p" + tickerId + "Color");
+    ticker.fontSize = fontSize;
+    ticker.background = getBackgroundColor(tickerId);
   }
 }
 
@@ -402,8 +403,9 @@ function fetchURLData(tickerId, url, jsonPath) {
  **/
 function createNewTickersWidget(tickerId) {
   dlog("Creating widget for ticker " + tickerId);
-  var tickerTitle = tickers[tickerId].exchangeName + " " + 
-                      tickers[tickerId].currency + "/" + tickers[tickerId].baseCurrency
+  var ticker = tickers[tickerId];
+  var tickerTitle = ticker.exchangeName + " " + 
+                      ticker.currency + "/" + ticker.baseCurrency;
   CustomizableUI.createWidget({
     id:           tickerId + WIDGET_SUFFIX,
     type:         "custom",
@@ -414,7 +416,7 @@ function createNewTickersWidget(tickerId) {
      * Build widget iFrame content and attach listeners
      **/
     onBuild: function(aDocument) {
-      tickers[tickerId].doc = aDocument;
+      ticker.doc = aDocument;
       var node = aDocument.createElement("toolbaritem");
       var props = {
         id:           this.id,
@@ -518,13 +520,13 @@ function destroyTickersWidget(tickerId) {
 }
 
 function startAutoPriceUpdate(tickerId) {
-  if (tickers[tickerId].url && tickers[tickerId].jsonPath) {
+  var ticker = tickers[tickerId];
+  if (ticker.url && ticker.jsonPath) {
     var fetchURLDataWrapper = function() {
-      fetchURLData(tickerId, tickers[tickerId].url, tickers[tickerId].jsonPath);
+      fetchURLData(tickerId, ticker.url, ticker.jsonPath);
     };
     fetchURLDataWrapper();
-    tickers[tickerId].timer = setInterval(fetchURLDataWrapper, 
-                                          (tickers[tickerId].updateInterval * 1000));
+    ticker.timer = setInterval(fetchURLDataWrapper, (ticker.updateInterval * 1000));
   }
 }
 
@@ -540,10 +542,11 @@ function updateTickerRefreshIntervalForTicker(tickerId, forceRefresh) {
   if (refreshRate < 1) {
     refreshRate = DEFAULT_REFRESH_RATE;
   }
-  if (tickers[tickerId] && tickers[tickerId].enabled) {
+  var ticker = tickers[tickerId];
+  if (ticker && ticker.enabled) {
     dlog("updateTickerRefreshIntervalForTicker:" + tickerId);
-    if (forceRefresh || (tickers[tickerId].updateInterval != refreshRate)) { // Update the real interval
-      tickers[tickerId].updateInterval = refreshRate;
+    if (forceRefresh || (ticker.updateInterval != refreshRate)) { // Update the real interval
+      ticker.updateInterval = refreshRate;
       stopAutoPriceUpdate(tickerId);
       startAutoPriceUpdate(tickerId);
     }
