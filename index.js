@@ -1,3 +1,6 @@
+/* jshint moz: true, devel: true */
+/* global CustomizableUI, AddonManager */
+
 /**
  * Copyright (c) 2015 neoranga55@yahoo.es
  * 
@@ -22,7 +25,6 @@
  * THE SOFTWARE.
  **/
 
-/* jshint moz: true, devel: true */
 "use strict";
 
 const ui = require("sdk/ui");
