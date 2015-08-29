@@ -128,7 +128,7 @@ exports.main = function() {
     for (var tickerId in tickers) {
       if ( getBooleanPreference("p" + tickerId) ) { // Create Ticker
         if (DEBUG) {
-          console.log(TAG + " Creating ticker for " + tickerId);
+          console.log(TAG + " Loading ticker for " + tickerId);
         }
         updateTickerConfiguration(tickerId);
         if (usingWidgets) {
@@ -226,10 +226,6 @@ exports.main = function() {
     if ((tickerWidgetDocuments[tickerId] !== undefined) &&
           (tickerWidgetDocuments[tickerId] !== null) &&
           (tickerWidgetDocuments[tickerId].getElementById(tickerId + IFRAME_SUFFIX))) { // Widgets
-      if (DEBUG) {
-        console.log(TAG + " getWidgetWindow() for ticker " + tickerId + " - has doc contentWindow:" +
-          tickerWidgetDocuments[tickerId].getElementById(tickerId + IFRAME_SUFFIX).contentWindow);
-      }
       return tickerWidgetDocuments[tickerId].getElementById(tickerId + IFRAME_SUFFIX).contentWindow;
     } else {
       return null;
@@ -261,7 +257,7 @@ exports.main = function() {
 
   function sendUpdatedTickerConfiguration(tickerId) {
     if (DEBUG) {
-      console.log(TAG + " Sending JSON data to " + tickerId);
+      console.log(TAG + " Sending configuration updated JSON data to " + tickerId);
     }
     if (usingWidgets && (tickerWidgetDocuments[tickerId] !== undefined) &&
         (tickerWidgetDocuments[tickerId] !== null)) { // For Widgets
@@ -281,7 +277,7 @@ exports.main = function() {
         "data": tickers[tickerId]
       }, tickersFrame.url);
     } else if (DEBUG) {
-      console.log(TAG + " Frame and Widget document are both empty for " + tickerId);
+      console.log(TAG + " Frame and Widget document are both empty for Widget " + tickerId);
     }
   }
 
@@ -293,14 +289,14 @@ exports.main = function() {
       updateTickerConfiguration(tickerId);
     }
     if (DEBUG) {
-      console.log(TAG + " Requesting JSON data from " + url);
+      console.log(TAG + " Requesting JSON price data from " + url);
     }
     Request({
       url: url,
       onComplete: function (response) {
         if ((response !== null) && (response.json !== null)) {
           if (DEBUG) {
-            console.log(TAG + " Data received, searching in document for path:" + jsonPath);
+            console.log(TAG + " Price data received, searching in document for path:" + jsonPath);
           }
           var price = response.json;
           for (var i = 0; i < jsonPath.length; i++) { // Parse JSON path
@@ -314,7 +310,7 @@ exports.main = function() {
             price = price[jsonPath[i]];
           }
           if (DEBUG) {
-            console.log(TAG + " Price received and parsed: " + price);
+            console.log(TAG + " Price received and parsed for " + tickerId + ": " + price);
           }
           if (usingWidgets && (tickerWidgetDocuments[tickerId] !== undefined) && 
               (tickerWidgetDocuments[tickerId] !== null)) { // For Widgets
@@ -338,7 +334,7 @@ exports.main = function() {
               }
             }, tickersFrame.url);
           } else if (DEBUG) {
-            console.log(TAG + " Frame and Widget document are both empty for " + tickerId);
+            console.log(TAG + " Frame and Widget document are both empty for Widget " + tickerId);
           }
         }
       }
@@ -417,7 +413,7 @@ exports.main = function() {
 
   function createNewTickersWidget(tickerId) {
     if (DEBUG) {
-      console.log(TAG + " Creating widget for " + tickerId);
+      console.log(TAG + " Creating widget for ticker " + tickerId);
     }
     CustomizableUI.createWidget({
       id: tickerId + WIDGET_SUFFIX,
@@ -456,7 +452,9 @@ exports.main = function() {
             if (aWidgetId != this.id) {
               return;
             }
-            console.log(TAG + " onWidgetAdded for " + tickerId);
+            if (DEBUG) {
+              console.log(TAG + " onWidgetAdded for " + tickerId);
+            }
             setTimeout(function() { // Allow the ticker's iFrame to be created
               updateTickerRefreshIntervalForTicker(tickerId, true);
             }, 500); // Start updating data
@@ -464,9 +462,10 @@ exports.main = function() {
           onWidgetRemoved: function(aWidgetId, aPrevArea) {
             if (aWidgetId != this.id) {
               return;
+            } // This happens when a widget is demoted to the palette ('removed')
+            if (DEBUG) {
+              console.log(TAG + " onWidgetRemoved for " + tickerId);
             }
-            // This happens when a widget is demoted to the palette ('removed')
-            console.log(TAG + " onWidgetRemoved for " + tickerId);
             setTimeout(function() { // Allow the ticker's iFrame to be created
               updateTickerRefreshIntervalForTicker(tickerId, true);
             }, 500); // Start updating data
@@ -490,7 +489,7 @@ exports.main = function() {
   function loadProvidersData() {
     var url = DATA_PROVIDERS_URL;
     if (DEBUG) {
-      console.log(TAG + " Requesting JSON data from " + DATA_PROVIDERS_URL);
+      console.log(TAG + " Requesting Providers JSON data from " + DATA_PROVIDERS_URL);
     }
     Request({
       url: url,
@@ -642,7 +641,6 @@ exports.main = function() {
 
   function tabReloader(tab) {
     if (tab.url == "about:customizing") {
-      console.log(tab.url + " CUSTOMIZE TAB OPENED !!!!!!!!!!!!!!! ");
       setTimeout(function () { // Wait for Customize tab to load
         updateTickerRefreshInterval(true);
       }, 1000);
@@ -651,12 +649,8 @@ exports.main = function() {
 
   function handleCustomizeTab(tab) {
     if (tab.url == "about:customizing") {
-      tab.on("deactivate", function() {tabReloader(tab);
-        console.log(tab.url + " CUSTOMIZE TAB deactivate !!!!!!!!!!!!!!! ");
-      });
-      tab.on("close", function() {tabReloader(tab);
-        console.log(tab.url + " CUSTOMIZE TAB close !!!!!!!!!!!!!!! ");
-      });
+      tab.on("deactivate", function() {tabReloader(tab);});
+      tab.on("close", function() {tabReloader(tab);});
       tabReloader(tab);
     }
   }
