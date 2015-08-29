@@ -685,7 +685,7 @@ exports.main = function() {
   }
 
   // Register general settings events
-  Preferences.on("bar", toggleBarDisplay);
+  Preferences.on("toolbar", toggleBarDisplay);
   Preferences.on("Timer", updateTickerRefreshInterval);
   Preferences.on("defaultFontSize", updateActiveTickersSharedStyle);
   Preferences.on("gold-background", updateActiveTickersSharedStyle);
