@@ -755,5 +755,16 @@
     "title": "Kraken Bitcoin/Ether Ticker color",
     "type": "color",
     "value": "#FFF"
+  },
+  {
+    "name": "pPoloniexEther",
+    "title": "Show Poloniex Bitcoin/Ether (\u0243/Ether) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pPoloniexEtherColor",
+    "title": "Poloniex Bitcoin/Ether Ticker color",
+    "type": "color",
+    "value": "#FFF"
   }]
 }

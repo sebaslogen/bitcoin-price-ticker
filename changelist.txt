@@ -3,7 +3,7 @@
 - Toggle between tickers in navbar or a dedicated tool bar
 - Fixed Cryptsy URLs for new API
 - Fixed Kraken Litecoin API URL
-- Add Ether cryptocurrency for BTC from Kraken
+- Add Ether cryptocurrency for BTC from Kraken and Poloniex
 
 3.1
 - Big fix to avoid being blocked by NoScript Firefox Addon. Read:
