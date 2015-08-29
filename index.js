@@ -57,7 +57,6 @@ function dlog(message) {
 
 var orderedTickers = [];
 var tickers = {}; // Store all tickers here
-var tickerWidgetDocuments = {};
 var tickersFrame = null;
 var toolbar = null;
 var usingWidgets = false;
@@ -92,6 +91,16 @@ exports.main = function() {
 
   function getStringPreference(prefName) {
     return getPreference(prefName, "string");
+  }
+
+  function getWidgetWindow(tickerId) {
+    var doc = tickers[tickerId].doc;
+    if ((doc !== undefined) && (doc !== null) &&
+          (doc.getElementById(tickerId + IFRAME_SUFFIX))) { // Widgets
+      return doc.getElementById(tickerId + IFRAME_SUFFIX).contentWindow;
+    } else {
+      return null;
+    }
   }
 
   function getBackgroundColor(id) {
@@ -227,24 +236,15 @@ exports.main = function() {
     }
   }
 
-  function getWidgetWindow(tickerId) {
-    if ((tickerWidgetDocuments[tickerId] !== undefined) &&
-          (tickerWidgetDocuments[tickerId] !== null) &&
-          (tickerWidgetDocuments[tickerId].getElementById(tickerId + IFRAME_SUFFIX))) { // Widgets
-      return tickerWidgetDocuments[tickerId].getElementById(tickerId + IFRAME_SUFFIX).contentWindow;
-    } else {
-      return null;
-    }
-  }
-
   function adjustWidgetSize(tickerId) {
     setTimeout(function () {
       var win = getWidgetWindow(tickerId);
       if (win && win.document.body) {
+        var doc = tickers[tickerId].doc;
         var newWidth = win.document.body.scrollWidth;
-        tickerWidgetDocuments[tickerId].getElementById(tickerId + IFRAME_SUFFIX)
+        doc.getElementById(tickerId + IFRAME_SUFFIX)
           .width = (newWidth + EXTRA_FRAME_SPACING) + "px";
-        tickerWidgetDocuments[tickerId].getElementById(tickerId + WIDGET_SUFFIX)
+        doc.getElementById(tickerId + WIDGET_SUFFIX)
           .width = (newWidth + EXTRA_FRAME_SPACING) + "px";
         dlog("Resizing " + tickerId + " to " + newWidth);
       }
@@ -265,16 +265,23 @@ exports.main = function() {
     sendUpdatedTickerConfiguration(tickerId);
   }
 
+  function getFilteredTickerData(tickerId) {
+    var data = JSON.parse(JSON.stringify(tickers[tickerId]));
+    data.doc = null;
+    return data;
+  }
+
   function sendUpdatedTickerConfiguration(tickerId) {
     dlog("Sending configuration updated JSON data to " + tickerId);
-    if (usingWidgets && (tickerWidgetDocuments[tickerId] !== undefined) &&
-        (tickerWidgetDocuments[tickerId] !== null)) { // For Widgets
+    var doc = tickers[tickerId].doc;
+    if (usingWidgets && 
+        (doc !== undefined) && (doc !== null)) { // For Widgets
       var win = getWidgetWindow(tickerId);
       if ((tickers[tickerId].enabled) && (win)) {
         win.postMessage({
           "type": "updateTickerConfiguration",
           "id": tickerId,
-          "data": tickers[tickerId]
+          "data": getFilteredTickerData(tickerId)
         }, "*");
         adjustWidgetSize(tickerId);
       }
@@ -282,7 +289,7 @@ exports.main = function() {
       tickersFrame.postMessage({
         "type": "updateTickerConfiguration",
         "id": tickerId,
-        "data": tickers[tickerId]
+        "data": getFilteredTickerData(tickerId)
       }, tickersFrame.url);
     } else if (DEBUG) {
       dlog("Frame & Widget docs are both empty for Widget " + tickerId);
@@ -314,9 +321,9 @@ exports.main = function() {
             price = price[jsonPath[i]];
           }
           dlog("Price received and parsed for " + tickerId + ": " + price);
+          var doc = tickers[tickerId].doc;
           if (usingWidgets && 
-              (tickerWidgetDocuments[tickerId] !== undefined) && 
-              (tickerWidgetDocuments[tickerId] !== null)) { // For Widgets
+              (doc !== undefined) && (doc !== null)) { // For Widgets
             var win = getWidgetWindow(tickerId);
             if (win) {
               win.postMessage({
@@ -337,7 +344,7 @@ exports.main = function() {
               }
             }, tickersFrame.url);
           } else {
-            dlog(" Frame and Widget document are both empty for Widget " + tickerId);
+            dlog("Frame and Widget document are both empty for Widget " + tickerId);
           }
         }
       }
@@ -423,7 +430,9 @@ exports.main = function() {
       removable: true,
       defaultArea: CustomizableUI.AREA_NAVBAR,
       onBuild: function(aDocument) {
-        tickerWidgetDocuments[tickerId] = aDocument;
+        tickers[tickerId].doc = aDocument;
+        dlog("tickers[tickerId]:"+tickers[tickerId]);
+        dlog("doc:"+tickers[tickerId].doc);
         var node = aDocument.createElement("toolbaritem");
         node.setAttribute("id", this.id);
         var props = {
@@ -518,7 +527,7 @@ exports.main = function() {
   function destroyTickersWidget(tickerId) {
     dlog("Destroying widget for " + tickerId);
     CustomizableUI.destroyWidget(tickerId + WIDGET_SUFFIX);
-    tickerWidgetDocuments[tickerId] = null;
+    tickers[tickerId].doc = null;
   }
 
   function loadProvidersData() {
