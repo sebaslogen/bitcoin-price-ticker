@@ -22,7 +22,8 @@
  * THE SOFTWARE.
  **/
 
-/*jshint esnext: true */
+/* jshint moz: true */
+"use strict";
 
 const ui = require("sdk/ui");
 const {Cc, Ci, Cu} = require("chrome");
