@@ -176,3 +176,14 @@ div {
   background: linear-gradient(to bottom, #5593D7 0%,#34495E 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5593D7', endColorstr='#34495E',GradientType=0 ); /* IE6-9 */
 }
+
+.ether-bg {
+  background: #767676; /* Old browsers */
+  background: -moz-linear-gradient(top, #767676 0%, #34495E 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#767676), color-stop(100%,#34495E)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #767676 0%,#34495E 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #767676 0%,#34495E 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #767676 0%,#34495E 100%); /* IE10+ */
+  background: linear-gradient(to bottom, #767676 0%,#34495E 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#767676', endColorstr='#34495E',GradientType=0 ); /* IE6-9 */
+}

@@ -92,7 +92,7 @@ exports.main = function() {
   function getBackgroundColor(id) {
     var lowId = id.toLowerCase();
     var otherBgCryptos = [ "dogecoin", "worldcoin", "namecoin", "auroracoin", "blackcoin", "nxt",
-      "bitshares", "ripple", "maidsafe", "bitcoindark", "monero", "dash", "burst" ];
+      "bitshares", "ripple", "maidsafe", "bitcoindark", "monero", "dash", "burst", "ether" ];
     for (var i = 0; i < otherBgCryptos.length; i++) {
       if (lowId.indexOf(otherBgCryptos[i]) != -1) {  // Alt-coin
         if (getBooleanPreference("other-background")) {

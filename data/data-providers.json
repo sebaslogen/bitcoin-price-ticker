@@ -90,5 +90,5 @@
 
   "PoloniexBurst": { "exchangeName":"Poloniex", "currency":"\u0243",  "baseCurrency":"BURST", "url":"https://poloniex.com/public?command=returnTicker", "jsonPath":["BTC_BURST", "last"]},
 
-  "KrakenEther": { "exchangeName":"Kraken", "currency":"Ether",  "baseCurrency":"\u0243", "url":"https://api.kraken.com/0/public/Ticker?pair=XETHXXBT", "jsonPath":["result","XETHXXBT","c",0]}
+  "KrakenEther": { "exchangeName":"Kraken", "currency":"\u0243",  "baseCurrency":"Ether", "url":"https://api.kraken.com/0/public/Ticker?pair=XETHXXBT", "jsonPath":["result","XETHXXBT","c",0]}
 }
