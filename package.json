@@ -5,7 +5,7 @@
   "description": "Bitcoin Price Ticker with multiple sources and configurable",
   "author": "neoranga (neoranga55 AT yahoo DOT es)",
   "license": "MPL 2.0",
-  "version": "3.1",
+  "version": "4",
   "permissions": {"private-browsing": true},
   "preferences": [{
     "name": "infoButton",
@@ -14,11 +14,11 @@
     "type": "control"
   },
   {
-    "name": "bar",
-    "title": "Show tickers in a separate bar",
-    "description": "From Firefox v40 the tickers don't fit well in the navigation bar, if you disable this go to Firefox's Customize button to drag&drop the tickers into the navigation bar",
+    "name": "toolbar",
+    "title": "Show tickers in a separate tool bar",
+    "description": "Enable this to show all tickers in a separate tool bar (good when you have a lot of tickers active) and disable this to show all your tickers in the navigation bar",
     "type": "bool",
-    "value": true
+    "value": false
   },
   {
     "name": "Timer",
@@ -320,7 +320,7 @@
     "name": "pBTCChinaCNY",
     "title": "Show BTCChina CNY (\u5143/\u0243) ticker?",
     "type": "bool",
-    "value": true
+    "value": false
   },{
     "name": "pBTCChinaCNYColor",
     "title": "BTCChina CNY Ticker color",
@@ -331,7 +331,7 @@
     "name": "pBTCeRUR",
     "title": "Show BTCe RUR (RUR/\u0243) ticker?",
     "type": "bool",
-    "value": true
+    "value": false
   },{
     "name": "pBTCeRURColor",
     "title": "BTCe RUR Ticker color",
@@ -507,7 +507,7 @@
     "name": "pVircurexLitecoin",
     "title": "Show Vircurex Bitcoin/Litecoin (\u0243/\u0141) ticker?",
     "type": "bool",
-    "value": true
+    "value": false
   },{
     "name": "pVircurexLitecoinColor",
     "title": "Vircurex Bitcoin/Litecoin Ticker color",
@@ -529,7 +529,7 @@
     "name": "pBTCeLitecoinUSD",
     "title": "Show BTCe USD/Litecoin ($/\u0141) ticker?",
     "type": "bool",
-    "value": true
+    "value": false
   },{
     "name": "pBTCeLitecoinUSDColor",
     "title": "BTCe USD/Litecoin Ticker color",
@@ -562,7 +562,7 @@
     "name": "pCryptsyDogecoin",
     "title": "Show Cryptsy Bitcoin/Dogecoin (\u0243/DOGE) ticker?",
     "type": "bool",
-    "value": true
+    "value": false
   },{
     "name": "pCryptsyDogecoinColor",
     "title": "Cryptsy Bitcoin/Dogecoin Ticker color",
@@ -628,7 +628,7 @@
     "name": "pPoloniexNxt",
     "title": "Show Poloniex Bitcoin/Nxt (\u0243/NXT) ticker?",
     "type": "bool",
-    "value": false
+    "value": true
   },{
     "name": "pPoloniexNxtColor",
     "title": "Poloniex Bitcoin/Nxt Ticker color",
@@ -639,7 +639,7 @@
     "name": "pPoloniexBitshares",
     "title": "Show Poloniex Bitcoin/Bitshares (\u0243/BTS) ticker?",
     "type": "bool",
-    "value": false
+    "value": true
   },{
     "name": "pPoloniexBitsharesColor",
     "title": "Poloniex Bitcoin/Bitshares Ticker color",
@@ -742,6 +742,17 @@
   },{
     "name": "pPoloniexBurstColor",
     "title": "Poloniex Bitcoin/Burst Ticker color",
+    "type": "color",
+    "value": "#FFF"
+  },
+  {
+    "name": "pKrakenEther",
+    "title": "Show Kraken Bitcoin/Ether (\u0243/Ether) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pKrakenEtherColor",
+    "title": "Kraken Bitcoin/Ether Ticker color",
     "type": "color",
     "value": "#FFF"
   }]

@@ -52,8 +52,8 @@
   "Bit2CILS": { "exchangeName":"Bit2C", "currency":"\u20AA",  "baseCurrency":"\u0243", "url":"https://www.bit2c.co.il/Exchanges/BtcNis/Ticker.json", "jsonPath":["ll"]},
 
   "BTCeLitecoin": { "exchangeName":"BTCe", "currency":"\u0243",  "baseCurrency":"\u0141", "url":"https://btc-e.com/api/2/ltc_btc/ticker", "jsonPath":["ticker","last"]},
-  "KrakenLitecoin": { "exchangeName":"Vircurex", "currency":"\u0243",  "baseCurrency":"\u0141", "url":"https://api.vircurex.com/api/get_last_trade.json?base=LTC&alt=BTC", "jsonPath":["value"]},
-  "VircurexLitecoin": { "exchangeName":"Kraken", "currency":"\u0141",  "baseCurrency":"\u0243", "url":"https://api.kraken.com/0/public/Ticker?pair=XBTLTC", "jsonPath":["result","XXBTXLTC","c",0]},
+  "VircurexLitecoin": { "exchangeName":"Vircurex", "currency":"\u0243",  "baseCurrency":"\u0141", "url":"https://api.vircurex.com/api/get_last_trade.json?base=LTC&alt=BTC", "jsonPath":["value"]},
+  "KrakenLitecoin": { "exchangeName":"Kraken", "currency":"\u0141",  "baseCurrency":"\u0243", "url":"https://api.kraken.com/0/public/Ticker?pair=XBTLTC", "jsonPath":["result","XXBTXLTC","c",0]},
 
   "BTCeLitecoinUSD": { "exchangeName":"BTCe", "currency":"$",  "baseCurrency":"\u0141", "url":"https://btc-e.com/api/2/ltc_usd/ticker", "jsonPath":["ticker","last"]},
 
@@ -88,5 +88,7 @@
   "CryptsyDashUSD": { "exchangeName":"Cryptsy", "currency":"$",  "baseCurrency":"DASH", "url":"https://www.cryptsy.com/api/v2/currencies/DASH/markets", "jsonPath":["data","markets",3,"last_trade","price"]},
   "BitFinexDashUSD": { "exchangeName":"BitFinex", "currency":"$",  "baseCurrency":"DASH", "url":"https://api.bitfinex.com/v1/ticker/drkusd", "jsonPath":["last_price"]},
 
-  "PoloniexBurst": { "exchangeName":"Poloniex", "currency":"\u0243",  "baseCurrency":"BURST", "url":"https://poloniex.com/public?command=returnTicker", "jsonPath":["BTC_BURST", "last"]}
+  "PoloniexBurst": { "exchangeName":"Poloniex", "currency":"\u0243",  "baseCurrency":"BURST", "url":"https://poloniex.com/public?command=returnTicker", "jsonPath":["BTC_BURST", "last"]},
+
+  "KrakenEther": { "exchangeName":"Kraken", "currency":"\u0243",  "baseCurrency":"Ether", "url":"https://api.kraken.com/0/public/Ticker?pair=XETHXXBT", "jsonPath":["result","XETHXXBT","c",0]}
 }
