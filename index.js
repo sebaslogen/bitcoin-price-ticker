@@ -96,8 +96,10 @@ exports.main = function() {
 
   function getBackgroundColor(id) {
     var lowId = id.toLowerCase();
-    var otherBgCryptos = [ "dogecoin", "worldcoin", "namecoin", "auroracoin", "blackcoin", "nxt",
-      "bitshares", "ripple", "maidsafe", "bitcoindark", "monero", "dash", "burst", "ether" ];
+    var otherBgCryptos = [ "dogecoin", "worldcoin", "namecoin",
+                        "auroracoin", "blackcoin", "nxt", "bitshares",
+                        "ripple", "maidsafe", "bitcoindark", "monero",
+                        "dash", "burst", "ether" ];
     for (var i = 0; i < otherBgCryptos.length; i++) {
       if (lowId.indexOf(otherBgCryptos[i]) != -1) {  // Alt-coin
         if (getBooleanPreference("other-background")) {
@@ -283,7 +285,7 @@ exports.main = function() {
         "data": tickers[tickerId]
       }, tickersFrame.url);
     } else if (DEBUG) {
-      dlog(TAG + " Frame and Widget document are both empty for Widget " + tickerId);
+      dlog(TAG + " Frame & Widget docs are both empty for Widget " + tickerId);
     }
   }
 
@@ -292,7 +294,8 @@ exports.main = function() {
       return;
     }
     if (usingWidgets) {
-      // This update is required becuase the ticker iframe is sometimes destroyed by Firefox
+      // This update is required becuase the ticker's iframe 
+      // is sometimes destroyed by Firefox's UI updates
       updateTickerConfiguration(tickerId);
     }
     dlog(TAG + " Requesting JSON price data from " + url);
@@ -300,7 +303,7 @@ exports.main = function() {
       url: url,
       onComplete: function (response) {
         if ((response !== null) && (response.json !== null)) {
-          dlog(TAG + " Price data received, searching in document for path:" + jsonPath);
+          dlog(TAG + " Price data received. Searching in document for path:" + jsonPath);
           var price = response.json;
           for (var i = 0; i < jsonPath.length; i++) { // Parse JSON path
             if (typeof price[jsonPath[i]] === undefined) {
@@ -311,7 +314,8 @@ exports.main = function() {
             price = price[jsonPath[i]];
           }
           dlog(TAG + " Price received and parsed for " + tickerId + ": " + price);
-          if (usingWidgets && (tickerWidgetDocuments[tickerId] !== undefined) && 
+          if (usingWidgets && 
+              (tickerWidgetDocuments[tickerId] !== undefined) && 
               (tickerWidgetDocuments[tickerId] !== null)) { // For Widgets
             var win = getWidgetWindow(tickerId);
             if (win) {
