@@ -46,7 +46,7 @@ const DEFAULT_FONT_SIZE = 14;
 const WIDGET_SUFFIX = "-widget";
 const IFRAME_SUFFIX = "-iframe";
 const IFRAME_URL = "chrome://bitcoin-price-ticker/content/index.html";
-const EXTRA_FRAME_SPACING = 9;
+const EXTRA_FRAME_SPACING = 8;
 
 var orderedTickers = [];
 var tickers = {}; // Store all tickers here
