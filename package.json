@@ -744,5 +744,16 @@
     "title": "Poloniex Bitcoin/Burst Ticker color",
     "type": "color",
     "value": "#FFF"
+  },
+  {
+    "name": "pKrakenEther",
+    "title": "Show Kraken Ether/Bitcoin (Ether/\u0243) ticker? (inverted price)",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pKrakenEtherColor",
+    "title": "Kraken Ether/Bitcoin Ticker color",
+    "type": "color",
+    "value": "#131F37"
   }]
 }

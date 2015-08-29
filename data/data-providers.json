@@ -88,5 +88,7 @@
   "CryptsyDashUSD": { "exchangeName":"Cryptsy", "currency":"$",  "baseCurrency":"DASH", "url":"https://www.cryptsy.com/api/v2/currencies/DASH/markets", "jsonPath":["data","markets",3,"last_trade","price"]},
   "BitFinexDashUSD": { "exchangeName":"BitFinex", "currency":"$",  "baseCurrency":"DASH", "url":"https://api.bitfinex.com/v1/ticker/drkusd", "jsonPath":["last_price"]},
 
-  "PoloniexBurst": { "exchangeName":"Poloniex", "currency":"\u0243",  "baseCurrency":"BURST", "url":"https://poloniex.com/public?command=returnTicker", "jsonPath":["BTC_BURST", "last"]}
+  "PoloniexBurst": { "exchangeName":"Poloniex", "currency":"\u0243",  "baseCurrency":"BURST", "url":"https://poloniex.com/public?command=returnTicker", "jsonPath":["BTC_BURST", "last"]},
+
+  "KrakenEther": { "exchangeName":"Kraken", "currency":"Ether",  "baseCurrency":"\u0243", "url":"https://api.kraken.com/0/public/Ticker?pair=XETHXXBT", "jsonPath":["result","XETHXXBT","c",0]}
 }
