@@ -1,5 +1,6 @@
 4.1
-- Improves to data loading 
+- Improves to data loading
+
 4
 - Created custom UI to show tickers in Firefox's navigation bar
 - Toggle between tickers in navbar or a dedicated tool bar
