@@ -28,7 +28,7 @@
 const ui = require("sdk/ui");
 const {Cc, Ci, Cu} = require("chrome");
 Cu.import("resource://gre/modules/AddonManager.jsm"); // Addon Manager required to know addon version
-Cu.import('resource:///modules/CustomizableUI.jsm');
+Cu.import("resource:///modules/CustomizableUI.jsm");
 const setTimeout = require("sdk/timers").setTimeout;
 const setInterval = require("sdk/timers").setInterval;
 const clearInterval = require("sdk/timers").clearInterval;
@@ -199,7 +199,7 @@ function loadDefaultTickers() {
       }
     }
   }
-  if ((orderedTickers != null) && (orderedTickers.length > 0)) {
+  if ((orderedTickers !== null) && (orderedTickers.length > 0)) {
     storeTickersOrder();
   }
 }
@@ -236,11 +236,11 @@ function loadTickersInOrder() {
  * Store the order of the active tickers in Firefox's profile
  **/
 function storeTickersOrder() {
-  if ((orderedTickers == null) || (orderedTickers.length == 0)) {
+  if ((orderedTickers === null) || (orderedTickers.length === 0)) {
     loadDefaultTickers();
   } else {
     var orderedActiveTickers = "";
-    if ((orderedTickers != null) && (orderedTickers.length > 0)) {
+    if ((orderedTickers !== null) && (orderedTickers.length > 0)) {
       for (var i = 0; i < orderedTickers.length; i++) { // Traverse skipping empty
         if (orderedActiveTickers.length > 0) {
           orderedActiveTickers += "," + orderedTickers[i];
@@ -428,8 +428,8 @@ function createNewTickersWidget(tickerId) {
         tooltiptext:  tickerTitle,
         class:        "chromeclass-toolbar-additional panel-wide-item"
       };
-      for (var p in props) {
-        node.setAttribute(p, props[p])
+      for (var p1 in props) {
+        node.setAttribute(p1, props[p1]);
       }
 
       var iframe = aDocument.createElement("iframe");
@@ -439,8 +439,8 @@ function createNewTickersWidget(tickerId) {
         src:         IFRAME_URL,
         transparent: true
       };
-      for (var p in props) {
-        iframe.setAttribute(p, props[p])
+      for (var p2 in props) {
+        iframe.setAttribute(p2, props[p2]);
       }
 
       node.appendChild(iframe);
