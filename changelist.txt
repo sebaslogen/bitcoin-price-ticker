@@ -1,5 +1,5 @@
 4.4
-- Fix bug displaying bars on tickers using a Mac
+- Fixed bug displaying bars on tickers using a Mac
 
 4.3
 - Bug fixes for slow Firefox
