@@ -53,7 +53,7 @@ const DEFAULT_FONT_SIZE = 14;
 const WIDGET_SUFFIX = "-widget";
 const IFRAME_SUFFIX = "-iframe";
 const IFRAME_URL = "chrome://bitcoin-price-ticker/content/index.html";
-const EXTRA_FRAME_SPACING = 8;
+const EXTRA_FRAME_SPACING = 12;
 const LOG = console.log.bind(console);
 
 function dlog(message) {
@@ -474,7 +474,6 @@ function createNewTickersWidget(tickerId) {
         title:        "Bitcoin Price Ticker " + tickerId,
         align:        "center",
         label:        tickerTitle,
-        width:        "15px",
         height:       10,
         tooltiptext:  tickerTitle,
         class:        "chromeclass-toolbar-additional panel-wide-item"
