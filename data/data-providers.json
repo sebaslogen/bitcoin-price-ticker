@@ -12,6 +12,7 @@
   "BTCeEUR": { "exchangeName":"BTCe", "currency":"\u20ac",  "baseCurrency":"\u0243", "url":"https://btc-e.com/api/2/btc_eur/ticker", "jsonPath":["ticker","last"]},
   "KrakenEUR": { "exchangeName":"Kraken", "currency":"\u20ac",  "baseCurrency":"\u0243", "url":"https://api.kraken.com/0/public/Ticker?pair=XBTEUR", "jsonPath":["result","XXBTZEUR","c",0]},
   "CoinDeskEUR": { "exchangeName":"CoinDesk", "currency":"\u20ac",  "baseCurrency":"\u0243", "url":"http://api.coindesk.com/v1/bpi/currentprice.json", "jsonPath":["bpi","EUR","rate_float"]},
+  "CoinbaseEUR": { "exchangeName":"Coinbase", "currency":"\u20ac",  "baseCurrency":"\u0243", "url":"https://coinbase.com/api/v1/currencies/exchange_rates", "jsonPath":["btc_to_eur"]},
   "BitPayEUR": { "exchangeName":"BitPay", "currency":"\u20ac",  "baseCurrency":"\u0243", "url":"https://bitpay.com/api/rates", "jsonPath":[2,"rate"]},
   "BitonicEUR": { "exchangeName":"Bitonic", "currency":"\u20ac",  "baseCurrency":"\u0243", "url":"https://bitonic.nl/api/price", "jsonPath":["price"]},
   "TheRockTradingEUR": { "exchangeName":"TheRockTrading", "currency":"\u20ac",  "baseCurrency":"\u0243", "url":"https://www.therocktrading.com/api/ticker/BTCEUR", "jsonPath":["result",0,"last"]},

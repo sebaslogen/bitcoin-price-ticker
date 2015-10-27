@@ -218,6 +218,17 @@
     "value": "#000066"
   },
   {
+    "name": "pCoinbaseEUR",
+    "title": "Show Coinbase EUR (\u20ac/\u0243) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pCoinbaseEURColor",
+    "title": "Coinbase EUR Ticker color",
+    "type": "color",
+    "value": "#000066"
+  },
+  {
     "name": "pBitPayEUR",
     "title": "Show BitPay EUR (\u20ac/\u0243) ticker?",
     "type": "bool",
