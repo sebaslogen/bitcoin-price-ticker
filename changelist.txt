@@ -1,3 +1,9 @@
+4.6
+- Fixed bug displaying bars on ticker with Yuan character
+
+4.5
+- Add Coinbase Euro prices
+
 4.4
 - Fixed bug displaying bars on tickers using a Mac
 

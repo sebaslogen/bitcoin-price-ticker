@@ -26,7 +26,7 @@
 
   "CaVirTexCAD": { "exchangeName":"CaVirTex", "currency":"C$",  "baseCurrency":"\u0243", "url":"https://www.cavirtex.com/api/CAD/ticker.json", "jsonPath":["last"]},
 
-  "BTCChinaCNY": { "exchangeName":"BTCChina", "currency":"\u5143",  "baseCurrency":"\u0243", "url":"https://data.btcchina.com/data/ticker", "jsonPath":["ticker","last"]},
+  "BTCChinaCNY": { "exchangeName":"BTCChina", "currency":"\u00a5",  "baseCurrency":"\u0243", "url":"https://data.btcchina.com/data/ticker", "jsonPath":["ticker","last"]},
 
   "BTCeRUR": { "exchangeName":"BTCe", "currency":"RUR",  "baseCurrency":"\u0243", "url":"https://btc-e.com/api/2/btc_rur/ticker", "jsonPath":["ticker","last"]},
 
