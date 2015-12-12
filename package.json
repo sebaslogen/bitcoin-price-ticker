@@ -87,7 +87,7 @@
   },
   {
     "name": "pBitStampUSD",
-    "title": "Show BitStamp USD ($/\u0243) ticker?",
+    "title": "BitStamp USD ($/\u0243) ticker?",
     "type": "bool",
     "value": true
   },{
@@ -98,7 +98,7 @@
   },
   {
     "name": "pBTCeUSD",
-    "title": "Show BTCe USD ($/\u0243) ticker?",
+    "title": "BTCe USD ($/\u0243) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -109,7 +109,7 @@
   },
   {
     "name": "pKrakenUSD",
-    "title": "Show Kraken USD ($/\u0243) ticker?",
+    "title": "Kraken USD ($/\u0243) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -120,7 +120,7 @@
   },
   {
     "name": "pCoinDeskUSD",
-    "title": "Show CoinDesk USD ($/\u0243) ticker?",
+    "title": "CoinDesk USD ($/\u0243) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -131,7 +131,7 @@
   },
   {
     "name": "pCoinbaseUSD",
-    "title": "Show Coinbase USD ($/\u0243) ticker?",
+    "title": "Coinbase USD ($/\u0243) ticker?",
     "type": "bool",
     "value": true
   },{
@@ -142,7 +142,7 @@
   },
   {
     "name": "pCampBXUSD",
-    "title": "Show CampBX USD ($/\u0243) ticker?",
+    "title": "CampBX USD ($/\u0243) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -153,7 +153,7 @@
   },
   {
     "name": "pBitPayUSD",
-    "title": "Show BitPay USD ($/\u0243) ticker?",
+    "title": "BitPay USD ($/\u0243) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -164,7 +164,7 @@
   },
   {
     "name": "pTheRockTradingUSD",
-    "title": "Show TheRockTrading USD ($/\u0243) ticker?",
+    "title": "TheRockTrading USD ($/\u0243) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -175,7 +175,7 @@
   },
   {
     "name": "pBitFinexUSD",
-    "title": "Show BitFinex USD ($/\u0243) ticker?",
+    "title": "BitFinex USD ($/\u0243) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -186,7 +186,7 @@
   },
   {
     "name": "pBTCeEUR",
-    "title": "Show BTCe EUR (\u20ac/\u0243) ticker?",
+    "title": "BTCe EUR (\u20ac/\u0243) ticker?",
     "type": "bool",
     "value": true
   },{
@@ -197,7 +197,7 @@
   },
   {
     "name": "pKrakenEUR",
-    "title": "Show Kraken EUR (\u20ac/\u0243) ticker?",
+    "title": "Kraken EUR (\u20ac/\u0243) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -208,7 +208,7 @@
   },
   {
     "name": "pCoinDeskEUR",
-    "title": "Show CoinDesk EUR (\u20ac/\u0243) ticker?",
+    "title": "CoinDesk EUR (\u20ac/\u0243) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -219,7 +219,7 @@
   },
   {
     "name": "pCoinbaseEUR",
-    "title": "Show Coinbase EUR (\u20ac/\u0243) ticker?",
+    "title": "Coinbase EUR (\u20ac/\u0243) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -230,7 +230,7 @@
   },
   {
     "name": "pBitPayEUR",
-    "title": "Show BitPay EUR (\u20ac/\u0243) ticker?",
+    "title": "BitPay EUR (\u20ac/\u0243) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -241,7 +241,7 @@
   },
   {
     "name": "pBitonicEUR",
-    "title": "Show Bitonic EUR (\u20ac/\u0243) ticker?",
+    "title": "Bitonic EUR (\u20ac/\u0243) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -252,7 +252,7 @@
   },
   {
     "name": "pTheRockTradingEUR",
-    "title": "Show TheRockTrading EUR (\u20ac/\u0243) ticker?",
+    "title": "TheRockTrading EUR (\u20ac/\u0243) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -263,7 +263,7 @@
   },
   {
     "name": "pCoinDeskGBP",
-    "title": "Show CoinDesk GBP (\u00a3/\u0243) ticker?",
+    "title": "CoinDesk GBP (\u00a3/\u0243) ticker?",
     "type": "bool",
     "value": true
   },{
@@ -274,7 +274,7 @@
   },
   {
     "name": "pLocalbitcoinsGBP",
-    "title": "Show Localbitcoins GBP (\u00a3/\u0243) ticker?",
+    "title": "Localbitcoins GBP (\u00a3/\u0243) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -285,7 +285,7 @@
   },
   {
     "name": "pBittyliciousGBP",
-    "title": "Show Bittylicious GBP (\u00a3/\u0243) ticker?",
+    "title": "Bittylicious GBP (\u00a3/\u0243) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -296,7 +296,7 @@
   },
   {
     "name": "pBitPayGBP",
-    "title": "Show BitPay GBP (\u00a3/\u0243) ticker?",
+    "title": "BitPay GBP (\u00a3/\u0243) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -307,7 +307,7 @@
   },
   {
     "name": "pBitcurexPLN",
-    "title": "Show Bitcurex PLN (z\u0141/\u0243) ticker?",
+    "title": "Bitcurex PLN (z\u0141/\u0243) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -318,7 +318,7 @@
   },
   {
     "name": "pCaVirTexCAD",
-    "title": "Show CaVirTex CAD (C$/\u0243) ticker?",
+    "title": "CaVirTex CAD (C$/\u0243) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -329,7 +329,7 @@
   },
   {
     "name": "pBTCChinaCNY",
-    "title": "Show BTCChina CNY (\u5143/\u0243) ticker?",
+    "title": "BTCChina CNY (\u5143/\u0243) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -340,7 +340,7 @@
   },
   {
     "name": "pBTCeRUR",
-    "title": "Show BTCe RUR (RUR/\u0243) ticker?",
+    "title": "BTCe RUR (RUR/\u0243) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -351,7 +351,7 @@
   },
   {
     "name": "pMercadoBitcoinBRL",
-    "title": "Show MercadoBitcoin BRL (R$/\u0243) ticker?",
+    "title": "MercadoBitcoin BRL (R$/\u0243) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -362,7 +362,7 @@
   },
   {
     "name": "pBTCTurkTRY",
-    "title": "Show BTCTurk TRY (\u20ba/\u0243) ticker?",
+    "title": "BTCTurk TRY (\u20ba/\u0243) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -373,7 +373,7 @@
   },
   {
     "name": "pBitcoinVenezuelaVEF",
-    "title": "Show BitcoinVenezuela VEF (Bs/\u0243) ticker?",
+    "title": "BitcoinVenezuela VEF (Bs/\u0243) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -384,7 +384,7 @@
   },
   {
     "name": "pLocalbitcoinsVEF",
-    "title": "Show Localbitcoins VEF (Bs/\u0243) ticker?",
+    "title": "Localbitcoins VEF (Bs/\u0243) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -395,7 +395,7 @@
   },
   {
     "name": "pCoinbaseVEF",
-    "title": "Show Coinbase VEF (Bs/\u0243) ticker?",
+    "title": "Coinbase VEF (Bs/\u0243) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -406,7 +406,7 @@
   },
   {
     "name": "pBitcoinVenezuelaARS",
-    "title": "Show BitcoinVenezuela ARS ($/\u0243) ticker?",
+    "title": "BitcoinVenezuela ARS ($/\u0243) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -417,7 +417,7 @@
   },
   {
     "name": "pLocalbitcoinsARS",
-    "title": "Show Localbitcoins ARS ($/\u0243) ticker?",
+    "title": "Localbitcoins ARS ($/\u0243) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -428,7 +428,7 @@
   },
   {
     "name": "pCoinbaseARS",
-    "title": "Show Coinbase ARS ($/\u0243) ticker?",
+    "title": "Coinbase ARS ($/\u0243) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -439,7 +439,7 @@
   },
   {
     "name": "pBitexARS",
-    "title": "Show Bitex ARS ($/\u0243) ticker?",
+    "title": "Bitex ARS ($/\u0243) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -450,7 +450,7 @@
   },
   {
     "name": "pLocalbitcoinsCLP",
-    "title": "Show Localbitcoins CLP ($/\u0243) ticker?",
+    "title": "Localbitcoins CLP ($/\u0243) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -461,7 +461,7 @@
   },
   {
     "name": "pBitsoMXN",
-    "title": "Show Bitso MXN ($/\u0243) ticker?",
+    "title": "Bitso MXN ($/\u0243) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -472,7 +472,7 @@
   },
   {
     "name": "pBitXZAR",
-    "title": "Show BitX ZAR (R/\u0243) ticker?",
+    "title": "BitX ZAR (R/\u0243) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -483,7 +483,7 @@
   },
   {
     "name": "pCoinbaseZAR",
-    "title": "Show Coinbase ZAR (R/\u0243) ticker?",
+    "title": "Coinbase ZAR (R/\u0243) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -494,7 +494,7 @@
   },
   {
     "name": "pBit2CILS",
-    "title": "Show Bit2C ILS (\u20AA/\u0243) ticker?",
+    "title": "Bit2C ILS (\u20AA/\u0243) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -505,7 +505,7 @@
   },
   {
     "name": "pBTCeLitecoin",
-    "title": "Show BTCe Bitcoin/Litecoin (\u0243/\u0141) ticker?",
+    "title": "BTCe Bitcoin/Litecoin (\u0243/\u0141) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -516,7 +516,7 @@
   },
   {
     "name": "pVircurexLitecoin",
-    "title": "Show Vircurex Bitcoin/Litecoin (\u0243/\u0141) ticker?",
+    "title": "Vircurex Bitcoin/Litecoin (\u0243/\u0141) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -527,7 +527,7 @@
   },
   {
     "name": "pKrakenLitecoin",
-    "title": "Show Kraken Litecoin/Bitcoin (\u0141/\u0243) ticker? (inverted price)",
+    "title": "Kraken Litecoin/Bitcoin (\u0141/\u0243) ticker? (inverted price)",
     "type": "bool",
     "value": false
   },{
@@ -538,7 +538,7 @@
   },
   {
     "name": "pBTCeLitecoinUSD",
-    "title": "Show BTCe USD/Litecoin ($/\u0141) ticker?",
+    "title": "BTCe USD/Litecoin ($/\u0141) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -549,7 +549,7 @@
   },
   {
     "name": "pBTCeLitecoinEUR",
-    "title": "Show BTCe EUR/Litecoin (\u20ac/\u0141) ticker?",
+    "title": "BTCe EUR/Litecoin (\u20ac/\u0141) ticker?",
     "type": "bool",
     "value": true
   },{
@@ -560,7 +560,7 @@
   },
   {
     "name": "pVircurexWorldcoin",
-    "title": "Show Vircurex Bitcoin/Worldcoin (\u0243/WDC) ticker?",
+    "title": "Vircurex Bitcoin/Worldcoin (\u0243/WDC) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -571,7 +571,7 @@
   },
   {
     "name": "pCryptsyDogecoin",
-    "title": "Show Cryptsy Bitcoin/Dogecoin (\u0243/DOGE) ticker?",
+    "title": "Cryptsy Bitcoin/Dogecoin (\u0243/DOGE) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -582,7 +582,7 @@
   },
   {
     "name": "pKrakenDogecoin",
-    "title": "Show Kraken Dogecoin/Bitcoin (DOGE/\u0243) ticker? (inverted price)",
+    "title": "Kraken Dogecoin/Bitcoin (DOGE/\u0243) ticker? (inverted price)",
     "type": "bool",
     "value": false
   },{
@@ -593,7 +593,7 @@
   },
   {
     "name": "pBTCeNamecoinUSD",
-    "title": "Show BTCe USD/Namecoin ($/NMC) ticker?",
+    "title": "BTCe USD/Namecoin ($/NMC) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -604,7 +604,7 @@
   },
   {
     "name": "pCryptsyAuroracoin",
-    "title": "Show Cryptsy Bitcoin/Auroracoin (\u0243/AUR) ticker?",
+    "title": "Cryptsy Bitcoin/Auroracoin (\u0243/AUR) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -615,7 +615,7 @@
   },
   {
     "name": "pCryptsyBlackcoin",
-    "title": "Show Cryptsy Bitcoin/Blackcoin (\u0243/BC) ticker?",
+    "title": "Cryptsy Bitcoin/Blackcoin (\u0243/BC) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -626,7 +626,7 @@
   },
   {
     "name": "pCryptsyNxt",
-    "title": "Show Cryptsy Bitcoin/Nxt (\u0243/NXT) ticker?",
+    "title": "Cryptsy Bitcoin/Nxt (\u0243/NXT) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -637,7 +637,7 @@
   },
   {
     "name": "pPoloniexNxt",
-    "title": "Show Poloniex Bitcoin/Nxt (\u0243/NXT) ticker?",
+    "title": "Poloniex Bitcoin/Nxt (\u0243/NXT) ticker?",
     "type": "bool",
     "value": true
   },{
@@ -648,7 +648,7 @@
   },
   {
     "name": "pPoloniexBitshares",
-    "title": "Show Poloniex Bitcoin/Bitshares (\u0243/BTS) ticker?",
+    "title": "Poloniex Bitcoin/Bitshares (\u0243/BTS) ticker?",
     "type": "bool",
     "value": true
   },{
@@ -659,7 +659,7 @@
   },
   {
     "name": "pKrakenRipple",
-    "title": "Show Kraken Ripple/Bitcoin (XRP/\u0243) ticker? (inverted price)",
+    "title": "Kraken Ripple/Bitcoin (XRP/\u0243) ticker? (inverted price)",
     "type": "bool",
     "value": false
   },{
@@ -670,7 +670,7 @@
   },
   {
     "name": "pPoloniexMaidsafe",
-    "title": "Show Poloniex Bitcoin/Maidsafe (\u0243/MAID) ticker?",
+    "title": "Poloniex Bitcoin/Maidsafe (\u0243/MAID) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -681,7 +681,7 @@
   },
   {
     "name": "pPoloniexBitcoindark",
-    "title": "Show Poloniex Bitcoin/BitcoinDark (\u0243/BTCD) ticker?",
+    "title": "Poloniex Bitcoin/BitcoinDark (\u0243/BTCD) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -692,7 +692,7 @@
   },
   {
     "name": "pPoloniexMonero",
-    "title": "Show Poloniex Bitcoin/Monero (\u0243/XMR) ticker?",
+    "title": "Poloniex Bitcoin/Monero (\u0243/XMR) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -703,7 +703,7 @@
   },
   {
     "name": "pCryptsyDashBTC",
-    "title": "Show Cryptsy Bitcoin/Dash (\u0243/DASH) ticker?",
+    "title": "Cryptsy Bitcoin/Dash (\u0243/DASH) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -714,7 +714,7 @@
   },
   {
     "name": "pBitFinexDashBTC",
-    "title": "Show BitFinex Bitcoin/Dash (\u0243/DASH) ticker?",
+    "title": "BitFinex Bitcoin/Dash (\u0243/DASH) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -725,7 +725,7 @@
   },
   {
     "name": "pCryptsyDashUSD",
-    "title": "Show Cryptsy USD/Dash ($/DASH) ticker?",
+    "title": "Cryptsy USD/Dash ($/DASH) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -736,7 +736,7 @@
   },
   {
     "name": "pBitFinexDashUSD",
-    "title": "Show BitFinex USD/Dash ($/DASH) ticker?",
+    "title": "BitFinex USD/Dash ($/DASH) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -747,7 +747,7 @@
   },
   {
     "name": "pPoloniexBurst",
-    "title": "Show Poloniex Bitcoin/Burst (\u0243/BURST) ticker?",
+    "title": "Poloniex Bitcoin/Burst (\u0243/BURST) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -758,7 +758,7 @@
   },
   {
     "name": "pKrakenEther",
-    "title": "Show Kraken Bitcoin/Ether (\u0243/Ether) ticker?",
+    "title": "Kraken Bitcoin/Ether (\u0243/Ether) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -769,7 +769,7 @@
   },
   {
     "name": "pPoloniexEther",
-    "title": "Show Poloniex Bitcoin/Ether (\u0243/Ether) ticker?",
+    "title": "Poloniex Bitcoin/Ether (\u0243/Ether) ticker?",
     "type": "bool",
     "value": false
   },{
