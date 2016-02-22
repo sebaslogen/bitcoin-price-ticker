@@ -515,17 +515,6 @@
     "value": "#013ADF"
   },
   {
-    "name": "pVircurexLitecoin",
-    "title": "Vircurex Bitcoin/Litecoin (\u0243/\u0141) ticker?",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pVircurexLitecoinColor",
-    "title": "Vircurex Bitcoin/Litecoin Ticker color",
-    "type": "color",
-    "value": "#0B0B3B"
-  },
-  {
     "name": "pKrakenLitecoin",
     "title": "Kraken Litecoin/Bitcoin (\u0141/\u0243) ticker? (inverted price)",
     "type": "bool",
@@ -559,28 +548,6 @@
     "value": "#413ADF"
   },
   {
-    "name": "pVircurexWorldcoin",
-    "title": "Vircurex Bitcoin/Worldcoin (\u0243/WDC) ticker?",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pVircurexWorldcoinColor",
-    "title": "Vircurex Bitcoin/Worldcoin Ticker color",
-    "type": "color",
-    "value": "#0B0B3B"
-  },
-  {
-    "name": "pCryptsyDogecoin",
-    "title": "Cryptsy Bitcoin/Dogecoin (\u0243/DOGE) ticker?",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pCryptsyDogecoinColor",
-    "title": "Cryptsy Bitcoin/Dogecoin Ticker color",
-    "type": "color",
-    "value": "#413ADF"
-  },
-  {
     "name": "pKrakenDogecoin",
     "title": "Kraken Dogecoin/Bitcoin (DOGE/\u0243) ticker? (inverted price)",
     "type": "bool",
@@ -599,39 +566,6 @@
   },{
     "name": "pBTCeNamecoinUSDColor",
     "title": "BTCe USD/Namecoin Ticker color",
-    "type": "color",
-    "value": "#1E2654"
-  },
-  {
-    "name": "pCryptsyAuroracoin",
-    "title": "Cryptsy Bitcoin/Auroracoin (\u0243/AUR) ticker?",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pCryptsyAuroracoinColor",
-    "title": "Cryptsy Bitcoin/Auroracoin Ticker color",
-    "type": "color",
-    "value": "#413ADF"
-  },
-  {
-    "name": "pCryptsyBlackcoin",
-    "title": "Cryptsy Bitcoin/Blackcoin (\u0243/BC) ticker?",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pCryptsyBlackcoinColor",
-    "title": "Cryptsy Bitcoin/Blackcoin Ticker color",
-    "type": "color",
-    "value": "#FFD76E"
-  },
-  {
-    "name": "pCryptsyNxt",
-    "title": "Cryptsy Bitcoin/Nxt (\u0243/NXT) ticker?",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pCryptsyNxtColor",
-    "title": "Cryptsy Bitcoin/Nxt Ticker color",
     "type": "color",
     "value": "#1E2654"
   },
@@ -702,17 +636,6 @@
     "value": "#413ADF"
   },
   {
-    "name": "pCryptsyDashBTC",
-    "title": "Cryptsy Bitcoin/Dash (\u0243/DASH) ticker?",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pCryptsyDashBTCColor",
-    "title": "Cryptsy Bitcoin/Dash Ticker color",
-    "type": "color",
-    "value": "#1c75bc"
-  },
-  {
     "name": "pBitFinexDashBTC",
     "title": "BitFinex Bitcoin/Dash (\u0243/DASH) ticker?",
     "type": "bool",
@@ -720,17 +643,6 @@
   },{
     "name": "pBitFinexDashBTCColor",
     "title": "BitFinex Bitcoin/Dash Ticker color",
-    "type": "color",
-    "value": "#1c75bc"
-  },
-  {
-    "name": "pCryptsyDashUSD",
-    "title": "Cryptsy USD/Dash ($/DASH) ticker?",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pCryptsyDashUSDColor",
-    "title": "Cryptsy USD/Dash Ticker color",
     "type": "color",
     "value": "#1c75bc"
   },

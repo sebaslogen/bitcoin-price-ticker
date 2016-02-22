@@ -53,25 +53,14 @@
   "Bit2CILS": { "exchangeName":"Bit2C", "currency":"\u20AA",  "baseCurrency":"\u0243", "url":"https://www.bit2c.co.il/Exchanges/BtcNis/Ticker.json", "jsonPath":["ll"]},
 
   "BTCeLitecoin": { "exchangeName":"BTCe", "currency":"\u0243",  "baseCurrency":"\u0141", "url":"https://btc-e.com/api/2/ltc_btc/ticker", "jsonPath":["ticker","last"]},
-  "VircurexLitecoin": { "exchangeName":"Vircurex", "currency":"\u0243",  "baseCurrency":"\u0141", "url":"https://api.vircurex.com/api/get_last_trade.json?base=LTC&alt=BTC", "jsonPath":["value"]},
   "KrakenLitecoin": { "exchangeName":"Kraken", "currency":"\u0141",  "baseCurrency":"\u0243", "url":"https://api.kraken.com/0/public/Ticker?pair=XBTLTC", "jsonPath":["result","XXBTXLTC","c",0]},
 
   "BTCeLitecoinUSD": { "exchangeName":"BTCe", "currency":"$",  "baseCurrency":"\u0141", "url":"https://btc-e.com/api/2/ltc_usd/ticker", "jsonPath":["ticker","last"]},
 
   "BTCeLitecoinEUR": { "exchangeName":"BTCe", "currency":"\u20ac",  "baseCurrency":"\u0141", "url":"https://btc-e.com/api/2/ltc_eur/ticker", "jsonPath":["ticker","last"]},
-
-  "VircurexWorldcoin": { "exchangeName":"Vircurex", "currency":"\u0243",  "baseCurrency":"WDC", "url":"https://api.vircurex.com/api/get_last_trade.json?base=WDC&alt=BTC", "jsonPath":["value"]},
-
-  "CryptsyDogecoin": { "exchangeName":"Cryptsy", "currency":"\u0243",  "baseCurrency":"DOGE", "url":"https://www.cryptsy.com/api/v2/currencies/DOGE/markets", "jsonPath":["data","markets",0,"last_trade","price"]},
   "KrakenDogecoin": { "exchangeName":"Kraken", "currency":"DOGE",  "baseCurrency":"\u0243", "url":"https://api.kraken.com/0/public/Ticker?pair=XBTXDG", "jsonPath":["result","XXBTXXDG","c",0]},
 
   "BTCeNamecoinUSD": { "exchangeName":"BTCe", "currency":"$",  "baseCurrency":"NMC", "url":"https://btc-e.com/api/2/nmc_usd/ticker", "jsonPath":["ticker","last"]},
-
-  "CryptsyAuroracoin": { "exchangeName":"Cryptsy", "currency":"\u0243",  "baseCurrency":"AUR", "url":"https://www.cryptsy.com/api/v2/currencies/AUR/markets", "jsonPath":["data","markets",0,"last_trade","price"]},
-
-  "CryptsyBlackcoin": { "exchangeName":"Cryptsy", "currency":"\u0243",  "baseCurrency":"BC", "url":"https://www.cryptsy.com/api/v2/currencies/BLK/markets", "jsonPath":["data","markets",0,"last_trade","price"]},
-
-  "CryptsyNxt": { "exchangeName":"Cryptsy", "currency":"\u0243",  "baseCurrency":"NXT", "url":"https://www.cryptsy.com/api/v2/currencies/NXT/markets", "jsonPath":["data","markets",0,"last_trade","price"]},
   "PoloniexNxt": { "exchangeName":"Poloniex", "currency":"\u0243",  "baseCurrency":"NXT", "url":"https://poloniex.com/public?command=returnTicker", "jsonPath":["BTC_NXT", "last"]},
 
   "PoloniexBitshares": { "exchangeName":"Poloniex", "currency":"\u0243",  "baseCurrency":"BTS", "url":"https://poloniex.com/public?command=returnTicker", "jsonPath":["BTC_BTS", "last"]},
@@ -83,10 +72,7 @@
   "PoloniexBitcoindark": { "exchangeName":"Poloniex", "currency":"\u0243",  "baseCurrency":"BTCD", "url":"https://poloniex.com/public?command=returnTicker", "jsonPath":["BTC_BTCD", "last"]},
 
   "PoloniexMonero": { "exchangeName":"Poloniex", "currency":"\u0243",  "baseCurrency":"XMR", "url":"https://poloniex.com/public?command=returnTicker", "jsonPath":["BTC_XMR", "last"]},
-
-  "CryptsyDashBTC": { "exchangeName":"Cryptsy", "currency":"\u0243",  "baseCurrency":"DASH", "url":"https://www.cryptsy.com/api/v2/currencies/DASH/markets", "jsonPath":["data","markets",0,"last_trade","price"]},
   "BitFinexDashBTC": { "exchangeName":"BitFinex", "currency":"\u0243",  "baseCurrency":"DASH", "url":"https://api.bitfinex.com/v1/ticker/drkbtc", "jsonPath":["last_price"]},
-  "CryptsyDashUSD": { "exchangeName":"Cryptsy", "currency":"$",  "baseCurrency":"DASH", "url":"https://www.cryptsy.com/api/v2/currencies/DASH/markets", "jsonPath":["data","markets",3,"last_trade","price"]},
   "BitFinexDashUSD": { "exchangeName":"BitFinex", "currency":"$",  "baseCurrency":"DASH", "url":"https://api.bitfinex.com/v1/ticker/drkusd", "jsonPath":["last_price"]},
 
   "PoloniexBurst": { "exchangeName":"Poloniex", "currency":"\u0243",  "baseCurrency":"BURST", "url":"https://poloniex.com/public?command=returnTicker", "jsonPath":["BTC_BURST", "last"]},
