@@ -18,7 +18,6 @@ The following price sources are available:
 - BTCChina
 - Mercado Bitcoin
 - BTC Turk
-- Vircurex
 - CampBX
 - BitX.co.za
 - BitcoinVenezuela
@@ -53,11 +52,8 @@ List of fiat and crypto-currencies supported:
 - ILS (NIS shekel ₪)
 - Mexican Peso (MXN $)
 - Litecoin (Ł)
-- Worldcoin
 - Dogecoin
 - Namecoin
-- Auroracoin
-- BlackCoin
 - Nxt
 - BitShares
 - Maidsafe

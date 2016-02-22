@@ -1,3 +1,6 @@
+4.7
+- Remove dead exchanges Vircurex and Cryptsy
+
 4.6
 - Fixed bug displaying bars on ticker with Yuan character
 
