@@ -47,7 +47,6 @@ const TAG = "bitcoin-price-ticker";
 const DATA_PROVIDERS_URL = data.url("data-providers.json");
 const ADDON_UPDATE_DOCUMENT_URL = "http://neoranga55.github.io/bitcoin-price-ticker/";
 const ADDON_ID = "jid0-ziK34XHkBWB9ezxd4l9Q1yC7RP0@jetpack";
-const TICKERS_ORDER_PREF_ID = "extensions.ADDON_ID.tickers_order";
 const DEFAULT_REFRESH_RATE = 60;
 const DEFAULT_FONT_SIZE = 14;
 const WIDGET_SUFFIX = "-widget";
@@ -62,7 +61,6 @@ function dlog(message) {
   }
 }
 
-var orderedTickers = [];
 var tickers = {}; // Store all tickers configuration here
 var tickersFrame = null;
 var toolbar = null;
@@ -188,9 +186,9 @@ function getTickerConfigurationData(tickerId) {
 }
 
 /**
- * Load tickers in the order that they are enabled in preferences
+ * Load tickers enabled in preferences
  **/
-function loadDefaultTickers() {
+function loadTickers() {
   for (var tickerId in tickers) {
     if ( getBooleanPreference("p" + tickerId) ) { // Create Ticker
       dlog("Loading ticker for " + tickerId);
@@ -198,69 +196,7 @@ function loadDefaultTickers() {
       if (usingWidgets) {
         createNewTickersWidget(tickerId);
       }
-      if (tickers[tickerId].enabled) {
-        orderedTickers.push(tickerId);
-      }
     }
-  }
-  if ((orderedTickers !== null) && (orderedTickers.length > 0)) {
-    storeTickersOrder();
-  }
-}
-
-/**
- * Load the order of the tickers from Firefox's profile and create them
- **/
-function loadTickersInOrder() {
-  var orderedActiveTickers = "";
-  try {
-    orderedActiveTickers = prefs.getCharPref("extensions.ADDON_ID.tickers_order");
-    if (orderedActiveTickers.length < 1) {
-      // There is no order of tickers in addon set yet
-      loadDefaultTickers();
-      return;
-    }
-    var listOrderedTickers = orderedActiveTickers.split(",");
-    if (listOrderedTickers.length < 1) {
-      // There is no order of tickers in addon set yet
-      loadDefaultTickers();
-      return;
-    }
-    for (var i = 0; i < listOrderedTickers.length; i++) {
-      var tickerId = listOrderedTickers[i];
-      updateTickerConfiguration(tickerId);
-      if (usingWidgets) {
-        createNewTickersWidget(tickerId);
-      }
-    }
-  } catch (e) { // There is no order of tickers in addon set yet
-    loadDefaultTickers();
-  }
-}
-
-/**
- * Store the order of the active tickers in Firefox's profile
- **/
-function storeTickersOrder() {
-  if ((orderedTickers === null) || (orderedTickers.length === 0)) {
-    loadDefaultTickers();
-  } else {
-    var orderedActiveTickers = "";
-    if ((orderedTickers !== null) && (orderedTickers.length > 0)) {
-      for (var i = 0; i < orderedTickers.length; i++) { // Traverse skipping empty
-        if (orderedActiveTickers.length > 0) {
-          orderedActiveTickers += "," + orderedTickers[i];
-        } else {
-          orderedActiveTickers = orderedTickers[i];
-        }
-      }
-    }
-    if (DEBUG) {
-      console.dir(orderedTickers);
-      dlog("Storing tickers in order:" + orderedActiveTickers);
-    }
-    // Update ordered list of active tickers in Firefox's profile
-    prefs.setCharPref(TICKERS_ORDER_PREF_ID, orderedActiveTickers);
   }
 }
 
@@ -275,8 +211,6 @@ function toggleTicker(tickerId) {
     } else {
       updateTickerRefreshIntervalForTicker(tickerId);
     }
-    orderedTickers.push(tickerId);
-    storeTickersOrder();
   } else if (tickers[tickerId].enabled) { // Disable Ticker if it exists
     tickers[tickerId].enabled = false;
     stopAutoPriceUpdate(tickerId);
@@ -284,14 +218,6 @@ function toggleTicker(tickerId) {
     if (usingWidgets) {
       destroyTickersWidget(tickerId);
     }
-    for (var i = 0; i < orderedTickers.length; i++) {
-      if (orderedTickers[i] == tickerId) {
-        // Remove the ticker completely from the array with reordering
-        orderedTickers.splice(i, 1);
-        break;
-      }
-    }
-    storeTickersOrder();
   }
 }
 
@@ -687,8 +613,8 @@ function loadProvidersData() {
 function initAfterLoad() {
   if (! usingWidgets) { // Widget tickers will do this on load
     sendUpdatedProvidersData();
-  }  
-  loadTickersInOrder();
+  }
+  loadTickers();
   registerEvents();
   if (! usingWidgets) { // Widget tickers will do this on event onWidgetAdded
     updateTickerRefreshInterval(true);
@@ -738,7 +664,14 @@ function toggleBarDisplay() {
   }
 }
 
-toggleBarDisplay();
+function startApplication() {
+  toggleBarDisplay();
+}
+
+setTimeout(function () { // Wait for Firefox to load
+  startApplication();
+}, 3000);
+
 
 /*
 Feature disabled until refactored
