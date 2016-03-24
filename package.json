@@ -636,24 +636,13 @@
     "value": "#413ADF"
   },
   {
-    "name": "pBitFinexDashBTC",
-    "title": "BitFinex Bitcoin/Dash (\u0243/DASH) ticker?",
+    "name": "pPoloniexDash",
+    "title": "Poloniex Bitcoin/Dash (\u0243/DASH) ticker?",
     "type": "bool",
     "value": false
   },{
-    "name": "pBitFinexDashBTCColor",
-    "title": "BitFinex Bitcoin/Dash Ticker color",
-    "type": "color",
-    "value": "#1c75bc"
-  },
-  {
-    "name": "pBitFinexDashUSD",
-    "title": "BitFinex USD/Dash ($/DASH) ticker?",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pBitFinexDashUSDColor",
-    "title": "BitFinex USD/Dash Ticker color",
+    "name": "pPoloniexDashColor",
+    "title": "Poloniex Bitcoin/Dash Ticker color",
     "type": "color",
     "value": "#1c75bc"
   },
