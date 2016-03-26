@@ -1,3 +1,6 @@
+4.9
+- Replace BitFinex with Poloniex for Dash - thanks to UdjinM6's contribution
+
 4.8
 - Fix bug where price tickers will not automatically load on Firefox's start
 
