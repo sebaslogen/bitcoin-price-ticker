@@ -77,6 +77,8 @@
 
   "PoloniexBurst": { "exchangeName":"Poloniex", "currency":"\u0243",  "baseCurrency":"BURST", "url":"https://poloniex.com/public?command=returnTicker", "jsonPath":["BTC_BURST", "last"]},
 
-  "KrakenEther": { "exchangeName":"Kraken", "currency":"\u0243",  "baseCurrency":"Ether", "url":"https://api.kraken.com/0/public/Ticker?pair=XETHXXBT", "jsonPath":["result","XETHXXBT","c",0]},
-  "PoloniexEther": { "exchangeName":"Poloniex", "currency":"\u0243",  "baseCurrency":"Ether", "url":"https://poloniex.com/public?command=returnTicker", "jsonPath":["BTC_ETH", "last"]}
+  "KrakenEther": { "exchangeName":"Kraken", "currency":"\u0243",  "baseCurrency":"ETH", "url":"https://api.kraken.com/0/public/Ticker?pair=XETHXXBT", "jsonPath":["result","XETHXXBT","c",0]},
+  "PoloniexEther": { "exchangeName":"Poloniex", "currency":"\u0243",  "baseCurrency":"ETH", "url":"https://poloniex.com/public?command=returnTicker", "jsonPath":["BTC_ETH", "last"]},
+  "KrakenEtherEUR": { "exchangeName":"Kraken", "currency":"\u20ac",  "baseCurrency":"ETH", "url":"https://api.kraken.com/0/public/Ticker?pair=XETHZEUR", "jsonPath":["result","XETHZEUR","c",0]},
+  "KrakenEtherUSD": { "exchangeName":"Kraken", "currency":"$",  "baseCurrency":"ETH", "url":"https://api.kraken.com/0/public/Ticker?pair=XETHZUSD", "jsonPath":["result","XETHZUSD","c",0]}
 }

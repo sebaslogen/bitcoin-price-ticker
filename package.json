@@ -5,7 +5,7 @@
   "description": "Bitcoin Price Ticker with multiple sources and configurable",
   "author": "neoranga (neoranga55 AT yahoo DOT es)",
   "license": "MPL 2.0",
-  "version": "4.9",
+  "version": "5",
   "permissions": {"private-browsing": true},
   "preferences": [{
     "name": "infoButton",
@@ -676,6 +676,28 @@
   },{
     "name": "pPoloniexEtherColor",
     "title": "Poloniex Bitcoin/Ether Ticker color",
+    "type": "color",
+    "value": "#FFF"
+  },
+  {
+    "name": "pKrakenEtherEUR",
+    "title": "Kraken EUR (\u20ac/ETH) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pKrakenEtherEURColor",
+    "title": "Kraken EUR Ticker color",
+    "type": "color",
+    "value": "#FFF"
+  },
+  {
+    "name": "pKrakenEtherUSD",
+    "title": "Kraken USD ($/ETH) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pKrakenEtherUSDColor",
+    "title": "Kraken USD Ticker color",
     "type": "color",
     "value": "#FFF"
   }]
