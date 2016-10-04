@@ -1,3 +1,6 @@
+7
+- Add Monero and Dash to USD pairs
+
 6
 - Add Ethereum Classic ticker
 
