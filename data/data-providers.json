@@ -72,8 +72,10 @@
   "PoloniexBitcoindark": { "exchangeName":"Poloniex", "currency":"\u0243",  "baseCurrency":"BTCD", "url":"https://poloniex.com/public?command=returnTicker", "jsonPath":["BTC_BTCD", "last"]},
 
   "PoloniexMonero": { "exchangeName":"Poloniex", "currency":"\u0243",  "baseCurrency":"XMR", "url":"https://poloniex.com/public?command=returnTicker", "jsonPath":["BTC_XMR", "last"]},
+  "PoloniexMoneroUSD": { "exchangeName":"Poloniex", "currency":"$",  "baseCurrency":"XMR", "url":"https://poloniex.com/public?command=returnTicker", "jsonPath":["USDT_XMR", "last"]},
 
   "PoloniexDash": { "exchangeName":"Poloniex", "currency":"\u0243",  "baseCurrency":"DASH", "url":"https://poloniex.com/public?command=returnTicker", "jsonPath":["BTC_DASH", "last"]},
+  "PoloniexDashUSD": { "exchangeName":"Poloniex", "currency":"$",  "baseCurrency":"DASH", "url":"https://poloniex.com/public?command=returnTicker", "jsonPath":["USDT_DASH", "last"]},
 
   "PoloniexBurst": { "exchangeName":"Poloniex", "currency":"\u0243",  "baseCurrency":"BURST", "url":"https://poloniex.com/public?command=returnTicker", "jsonPath":["BTC_BURST", "last"]},
 
