@@ -80,6 +80,19 @@
       }]
   },
   {
+  	"name": "show-currency-name",
+  	"title": "Display currency initials in front of ticker?"
+  	"type": "bool",
+  	"value": false
+  },
+  {
+  	"name": "do-not-round",
+  	"title": "Do not make rounding for currency value"
+  	"type": "bool",
+  	"value": false
+  },
+  
+  {
     "name": "show-updates",
     "title": "Show new features page when there is an update",
     "type": "bool",

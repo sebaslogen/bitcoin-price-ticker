@@ -67,6 +67,8 @@ function createTickerModel(id) {
     fontSize: null,
     background: null,
     price: 0,
+    currencyName: false,
+    noRounding: false,
     observers: [],
     // Retrieve tickers provider and configuration data from repository
     initialize: function(observer) {

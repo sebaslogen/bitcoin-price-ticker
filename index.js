@@ -145,7 +145,8 @@ Preferences.on("other-background", updateActiveTickersSharedStyle);
 // Preferences.on("show-long-trend", updateAllTickers);
 // Preferences.on("show-short-trend", updateAllTickers);
 Preferences.on("show-currency-label", updateActiveTickersSharedStyle);
-
+Preferences.on("show-currency-name", updateActiveTickersSharedStyle);
+Preferences.on("do-not-round", updateActiveTickersSharedStyle);
 Preferences.on("infoButton", showAddonUpdateDocument);
 // Check updated version
 AddonManager.getAddonByID(ADDON_ID, function(addon) {
@@ -182,6 +183,8 @@ function getTickerConfigurationData(tickerId) {
     ticker.color = getStringPreference("p" + tickerId + "Color");
     ticker.fontSize = fontSize;
     ticker.background = getBackgroundColor(tickerId);
+    ticker.currencyName = getBooleanPreference("show-currency-name");
+    ticker.noRounding = getBooleanPreference("do-not-round");
   }
 }
 
