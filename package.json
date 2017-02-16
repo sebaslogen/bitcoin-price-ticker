@@ -80,18 +80,17 @@
       }]
   },
   {
-  	"name": "show-currency-name",
-  	"title": "Display currency initials in front of ticker?"
-  	"type": "bool",
-  	"value": false
+    "name": "show-currency-name",
+    "title": "Display currency initials in front of ticker?",
+    "type": "bool",
+    "value": false
   },
   {
-  	"name": "do-not-round",
-  	"title": "Do not make rounding for currency value"
-  	"type": "bool",
-  	"value": false
+    "name": "do-not-round",
+    "title": "Do not make rounding for currency value",
+    "type": "bool",
+    "value": false
   },
-  
   {
     "name": "show-updates",
     "title": "Show new features page when there is an update",
@@ -583,28 +582,6 @@
     "value": "#1E2654"
   },
   {
-    "name": "pPoloniexNxt",
-    "title": "Poloniex Bitcoin/Nxt (\u0243/NXT) ticker?",
-    "type": "bool",
-    "value": true
-  },{
-    "name": "pPoloniexNxtColor",
-    "title": "Poloniex Bitcoin/Nxt Ticker color",
-    "type": "color",
-    "value": "#413ADF"
-  },
-  {
-    "name": "pPoloniexBitshares",
-    "title": "Poloniex Bitcoin/Bitshares (\u0243/BTS) ticker?",
-    "type": "bool",
-    "value": true
-  },{
-    "name": "pPoloniexBitsharesColor",
-    "title": "Poloniex Bitcoin/Bitshares Ticker color",
-    "type": "color",
-    "value": "#131F37"
-  },
-  {
     "name": "pKrakenRipple",
     "title": "Kraken Ripple/Bitcoin (XRP/\u0243) ticker? (inverted price)",
     "type": "bool",
@@ -616,83 +593,6 @@
     "value": "#131F37"
   },
   {
-    "name": "pPoloniexMaidsafe",
-    "title": "Poloniex Bitcoin/Maidsafe (\u0243/MAID) ticker?",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pPoloniexMaidsafeColor",
-    "title": "Poloniex Bitcoin/Maidsafe Ticker color",
-    "type": "color",
-    "value": "#000000"
-  },
-  {
-    "name": "pPoloniexBitcoindark",
-    "title": "Poloniex Bitcoin/BitcoinDark (\u0243/BTCD) ticker?",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pPoloniexBitcoindarkColor",
-    "title": "Poloniex Bitcoin/BitcoinDark Ticker color",
-    "type": "color",
-    "value": "#000000"
-  },
-  {
-    "name": "pPoloniexMonero",
-    "title": "Poloniex Bitcoin/Monero (\u0243/XMR) ticker?",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pPoloniexMoneroColor",
-    "title": "Poloniex Bitcoin/Monero Ticker color",
-    "type": "color",
-    "value": "#413ADF"
-  },
-  {
-    "name": "pPoloniexMoneroUSD",
-    "title": "Poloniex USD/Monero ($/XMR) ticker?",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pPoloniexMoneroUSDColor",
-    "title": "Poloniex USD/Monero Ticker color",
-    "type": "color",
-    "value": "#413ADF"
-  },
-  {
-    "name": "pPoloniexDash",
-    "title": "Poloniex Bitcoin/Dash (\u0243/DASH) ticker?",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pPoloniexDashColor",
-    "title": "Poloniex Bitcoin/Dash Ticker color",
-    "type": "color",
-    "value": "#1c75bc"
-  },
-  {
-    "name": "pPoloniexDashUSD",
-    "title": "Poloniex $/Dash ($/DASH) ticker?",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pPoloniexDashUSDColor",
-    "title": "Poloniex $/Dash Ticker color",
-    "type": "color",
-    "value": "#1c75bc"
-  },
-  {
-    "name": "pPoloniexBurst",
-    "title": "Poloniex Bitcoin/Burst (\u0243/BURST) ticker?",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pPoloniexBurstColor",
-    "title": "Poloniex Bitcoin/Burst Ticker color",
-    "type": "color",
-    "value": "#FFF"
-  },
-  {
     "name": "pKrakenEther",
     "title": "Kraken Bitcoin/Ether (\u0243/Ether) ticker?",
     "type": "bool",
@@ -700,28 +600,6 @@
   },{
     "name": "pKrakenEtherColor",
     "title": "Kraken Bitcoin/Ether Ticker color",
-    "type": "color",
-    "value": "#FFF"
-  },
-  {
-    "name": "pPoloniexEther",
-    "title": "Poloniex Bitcoin/Ether (\u0243/Ether) ticker?",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pPoloniexEtherColor",
-    "title": "Poloniex Bitcoin/Ether Ticker color",
-    "type": "color",
-    "value": "#FFF"
-  },
-  {
-    "name": "pPoloniexEtherClassic",
-    "title": "Poloniex Bitcoin/Ethereum Classic (\u0243/ETC) ticker?",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pPoloniexEtherClassicColor",
-    "title": "Poloniex Bitcoin/Ethereum Classic Ticker color",
     "type": "color",
     "value": "#FFF"
   },
@@ -746,5 +624,158 @@
     "title": "Kraken USD/Ether Ticker color",
     "type": "color",
     "value": "#FFF"
-  }]
+  },
+  {
+    "name": "pPoloniexBelaCoin",
+    "title": "Poloniex Bitcoin/Belacoin (\u0243/BELA) ticker?",
+    "description": "Currencies from Poloniex Exchange",
+    "type": "bool",
+    "value": false
+  },
+  {
+    "name": "pPoloniexBitshares",
+    "title": "Poloniex Bitcoin/ (\u0243/BTS) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pPoloniexBitsharesColor",
+    "title": "Poloniex Bitcoin/Bitshares Ticker color",
+    "type": "color",
+    "value": "#131F37"
+  },
+  {
+    "name": "pPoloniexBitcoindark",
+    "title": "Poloniex Bitcoin/Bitcoindark (\u0243/BTCD) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pPoloniexBitcoindarkColor",
+    "title": "Poloniex Bitcoin/BitcoinDark Ticker color",
+    "type": "color",
+    "value": "#000000"
+  },
+  {
+    "name": "pPoloniexBurst",
+    "title": "Poloniex Bitcoin/Burst (\u0243/BURST) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pPoloniexBurstColor",
+    "title": "Poloniex Bitcoin/Burst Ticker color",
+    "type": "color",
+    "value": "#FFF"
+  },
+  {
+    "name": "pPoloniexDash",
+    "title": "Poloniex Bitcoin/Dash (\u0243/DASH) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pPoloniexDashColor",
+    "title": "Poloniex Bitcoin/Dash Ticker color",
+    "type": "color",
+    "value": "#1c75bc"
+  },
+  {
+    "name": "pPoloniexEther",
+    "title": "Poloniex Bitcoin/Ether (\u0243/ETH) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pPoloniexEtherColor",
+    "title": "Poloniex Bitcoin/Ether Ticker color",
+    "type": "color",
+    "value": "#FFF"
+  },
+  {
+    "name": "pPoloniexEtherClassic",
+    "title": "Poloniex Bitcoin/ETC (\u0243/ETC) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pPoloniexEtherClassicColor",
+    "title": "Poloniex Bitcoin/Ethereum Classic Ticker color",
+    "type": "color",
+    "value": "#FFF"
+  },
+  {
+    "name": "pPoloniexLiteCoin",
+    "title": "Poloniex Bitcoin/Litecoin (\u0243/LTC) ticker?",
+    "type": "bool",
+    "value": false
+  },
+  {
+    "name": "pPoloniexMaidsafe",
+    "title": "Poloniex Bitcoin/Maidsafe (\u0243/MAID) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pPoloniexMaidsafeColor",
+    "title": "Poloniex Bitcoin/Maidsafe Ticker color",
+    "type": "color",
+    "value": "#000000"
+  },
+  {
+    "name": "pPoloniexMonero",
+    "title": "Poloniex Bitcoin/Monero (\u0243/XMR) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pPoloniexMoneroColor",
+    "title": "Poloniex Bitcoin/Monero Ticker color",
+    "type": "color",
+    "value": "#413ADF"
+  },
+  {
+    "name": "pPoloniexNxt",
+    "title": "Poloniex Bitcoin/NXT (\u0243/NXT) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pPoloniexNxtColor",
+    "title": "Poloniex Bitcoin/Nxt Ticker color",
+    "type": "color",
+    "value": "#413ADF"
+  },
+  {
+    "name": "pPoloniexPascal",
+    "title": "Poloniex Bitcoin/Pascal (\u0243/PASC) ticker?",
+    "type": "bool",
+    "value": false
+  },
+  {
+    "name": "pPoloniexNem",
+    "title": "Poloniex Bitcoin/NEM coin (\u0243/XEM) ticker?",
+    "type": "bool",
+    "value": false
+  },
+  {
+    "name": "pPoloniexRipple",
+    "title": "Poloniex Bitcoin/Ripple (\u0243/XRP) ticker?",
+    "type": "bool",
+    "value": false
+  },
+  {
+    "name": "pPoloniexMoneroUSD",
+    "title": "Poloniex USD/Monero ($/XMR) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pPoloniexMoneroUSDColor",
+    "title": "Poloniex USD/Monero Ticker color",
+    "type": "color",
+    "value": "#413ADF"
+  },
+  {
+    "name": "pPoloniexDashUSD",
+    "title": "Poloniex USD/Dashcoin ($/DASH) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pPoloniexDashUSDColor",
+    "title": "Poloniex $/Dash Ticker color",
+    "type": "color",
+    "value": "#1c75bc"
+  }
+  ]
 }

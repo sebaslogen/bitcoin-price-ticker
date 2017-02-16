@@ -83,10 +83,10 @@ function formatTickerText(price, currency, currencyPosition, currencyName, noRou
     
     switch (currencyPosition) {
       case 'B':
-        tickerText = currency + roundedPrice;
+        tickerText = currency + tickerText;
         break;
       case 'A':
-        tickerText =  roundedPrice + currency;
+        tickerText =  tickerText + currency;
         break;
     }
     if (currencyName) { tickerText = baseCurrency + " " + tickerText; }

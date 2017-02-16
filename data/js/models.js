@@ -104,7 +104,18 @@ function updateTickerModelConfiguration(tickerModel, data) {
       tickerModel.enabled = data.enabled ? true : false;
     }
   }
-
+  if (data.currencyName) {
+  	if (data.currencyName != tickerModel.currencyName) {
+  		notifyObservers = true;
+  	}
+  	tickerModel.currencyName = data.currencyName;
+  }
+  if (data.noRounding) {
+  	if (data.noRounding != tickerModel.noRounding) {
+  		notifyObservers = true;
+  	}
+  	tickerModel.noRounding = data.noRounding;
+  }
   if (data.currencyPosition) {
     if (data.currencyPosition != tickerModel.currencyPosition) {
       notifyObservers = true;
