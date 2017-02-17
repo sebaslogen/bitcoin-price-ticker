@@ -61,7 +61,7 @@ function updateStyle(tickerId, color, fontSize, background) {
   }
 }
 
-function updateView(tickerId, price, exchangeName, currency, baseCurrency, currencyPosition, color, fontSize, background, currencyName, noRounding) {
+function updateView(tickerId, price, exchangeName, currency, baseCurrency, currencyPosition, color, fontSize, background, showCurrencyName, noRounding) {
   if (price == 0) {
     return; // Avoid empty updates of view
   }
