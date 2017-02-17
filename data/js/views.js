@@ -61,7 +61,7 @@ function updateStyle(tickerId, color, fontSize, background) {
   }
 }
 
-function updateView(tickerId, price, exchangeName, currency, baseCurrency, currencyPosition, color, fontSize, background) {
+function updateView(tickerId, price, exchangeName, currency, baseCurrency, currencyPosition, color, fontSize, background, currencyName, noRounding) {
   if (price == 0) {
     return; // Avoid empty updates of view
   }
@@ -70,24 +70,25 @@ function updateView(tickerId, price, exchangeName, currency, baseCurrency, curre
     return; // Ticker was removed
   }
   updateStyle(tickerId, color, fontSize, background);
-  tickerView.text(formatTickerText(price, currency, currencyPosition));
+  tickerView.text(formatTickerText(price, currency, currencyPosition, currencyName, noRounding, baseCurrency));
   var label = exchangeName + " " + currency + "/" + baseCurrency;
   tickerView.attr("tooltiptext", label);
   tickerView.attr("title", label);
 }
 
-function formatTickerText(price, currency, currencyPosition) { // Allow more decimals for low price values
+function formatTickerText(price, currency, currencyPosition, showCurrencyName, noRounding, baseCurrency) { // Allow more decimals for low price values
   if (price == parseFloat(price)) {
-    var roundedPrice = calculateRoundedPrice(price);
-    var tickerText = roundedPrice;
+  	var tickerText = noRounding ? price : calculateRoundedPrice(price);
+    
     switch (currencyPosition) {
       case 'B':
-        tickerText = currency + roundedPrice;
+        tickerText = currency + tickerText;
         break;
       case 'A':
-        tickerText =  roundedPrice + currency;
+        tickerText =  tickerText + currency;
         break;
     }
+    if (showCurrencyName) { tickerText = baseCurrency + " " + tickerText; }
     return tickerText;
   } else {
     return price; // Text can not be formatted into a number

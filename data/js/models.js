@@ -67,6 +67,8 @@ function createTickerModel(id) {
     fontSize: null,
     background: null,
     price: 0,
+    showCurrencyName: false,
+    noRounding: false,
     observers: [],
     // Retrieve tickers provider and configuration data from repository
     initialize: function(observer) {
@@ -102,7 +104,18 @@ function updateTickerModelConfiguration(tickerModel, data) {
       tickerModel.enabled = data.enabled ? true : false;
     }
   }
-
+  if (data.showCurrencyName) {
+  	if (data.showCurrencyName != tickerModel.showCurrencyName) {
+  		notifyObservers = true;
+  	}
+  	tickerModel.showCurrencyName = data.showCurrencyName;
+  }
+  if (data.noRounding) {
+  	if (data.noRounding != tickerModel.noRounding) {
+  		notifyObservers = true;
+  	}
+  	tickerModel.noRounding = data.noRounding;
+  }
   if (data.currencyPosition) {
     if (data.currencyPosition != tickerModel.currencyPosition) {
       notifyObservers = true;
