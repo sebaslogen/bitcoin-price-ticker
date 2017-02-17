@@ -70,7 +70,7 @@ function updateView(tickerId, price, exchangeName, currency, baseCurrency, curre
     return; // Ticker was removed
   }
   updateStyle(tickerId, color, fontSize, background);
-  tickerView.text(formatTickerText(price, currency, currencyPosition, currencyName, noRounding, baseCurrency));
+  tickerView.text(formatTickerText(price, currency, currencyPosition, showCurrencyName, noRounding, baseCurrency));
   var label = exchangeName + " " + currency + "/" + baseCurrency;
   tickerView.attr("tooltiptext", label);
   tickerView.attr("title", label);
