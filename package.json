@@ -631,10 +631,15 @@
     "description": "Currencies from Poloniex Exchange",
     "type": "bool",
     "value": false
+  },{
+    "name": "pPoloniexBelaCoinColor",
+    "title": "Poloniex Bitcoin/Belacoin Ticker color",
+    "type": "color",
+    "value": "#000"
   },
   {
     "name": "pPoloniexBitshares",
-    "title": "Poloniex Bitcoin/ (\u0243/BTS) ticker?",
+    "title": "Poloniex Bitcoin/Bitshares (\u0243/BTS) ticker?",
     "type": "bool",
     "value": false
   },{
@@ -663,7 +668,7 @@
     "name": "pPoloniexBurstColor",
     "title": "Poloniex Bitcoin/Burst Ticker color",
     "type": "color",
-    "value": "#FFF"
+    "value": "#000"
   },
   {
     "name": "pPoloniexDash",
@@ -685,7 +690,7 @@
     "name": "pPoloniexEtherColor",
     "title": "Poloniex Bitcoin/Ether Ticker color",
     "type": "color",
-    "value": "#FFF"
+    "value": "#000"
   },
   {
     "name": "pPoloniexEtherClassic",
@@ -696,13 +701,18 @@
     "name": "pPoloniexEtherClassicColor",
     "title": "Poloniex Bitcoin/Ethereum Classic Ticker color",
     "type": "color",
-    "value": "#FFF"
+    "value": "#000"
   },
   {
     "name": "pPoloniexLiteCoin",
     "title": "Poloniex Bitcoin/Litecoin (\u0243/LTC) ticker?",
     "type": "bool",
     "value": false
+  },{
+    "name": "pPoloniexLiteCoinColor",
+    "title": "Poloniex Bitcoin/Litecoin Ticker color",
+    "type": "color",
+    "value": "#000"
   },
   {
     "name": "pPoloniexMaidsafe",
@@ -742,18 +752,33 @@
     "title": "Poloniex Bitcoin/Pascal (\u0243/PASC) ticker?",
     "type": "bool",
     "value": false
+  },{
+    "name": "pPoloniexPascalColor",
+    "title": "Poloniex Bitcoin/Pascal Ticker color",
+    "type": "color",
+    "value": "#000"
   },
   {
     "name": "pPoloniexNem",
     "title": "Poloniex Bitcoin/NEM coin (\u0243/XEM) ticker?",
     "type": "bool",
     "value": false
+  },{
+    "name": "pPoloniexNemColor",
+    "title": "Poloniex Bitcoin/NEM coin Ticker color",
+    "type": "color",
+    "value": "#000"
   },
   {
     "name": "pPoloniexRipple",
     "title": "Poloniex Bitcoin/Ripple (\u0243/XRP) ticker?",
     "type": "bool",
     "value": false
+  },{
+    "name": "pPoloniexRippleColor",
+    "title": "Poloniex Bitcoin/Ripple Ticker color",
+    "type": "color",
+    "value": "#000"
   },
   {
     "name": "pPoloniexMoneroUSD",

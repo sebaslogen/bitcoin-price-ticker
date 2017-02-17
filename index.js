@@ -183,7 +183,7 @@ function getTickerConfigurationData(tickerId) {
     ticker.color = getStringPreference("p" + tickerId + "Color");
     ticker.fontSize = fontSize;
     ticker.background = getBackgroundColor(tickerId);
-    ticker.currencyName = getBooleanPreference("show-currency-name");
+    ticker.showCurrencyName = getBooleanPreference("show-currency-name");
     ticker.noRounding = getBooleanPreference("do-not-round");
   }
 }

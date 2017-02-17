@@ -68,7 +68,7 @@ function updateTicker(tickerModel) {
     if (tickerView) {
       updateView(tickerId, tickerModel.price, tickerModel.exchangeName, tickerModel.currency, 
                   tickerModel.baseCurrency, tickerModel.currencyPosition, tickerModel.color,
-                  tickerModel.fontSize, tickerModel.background, tickerModel.currencyName, tickerModel.noRounding);
+                  tickerModel.fontSize, tickerModel.background, tickerModel.showCurrencyName, tickerModel.noRounding);
     }
   } else {
     if (tickerView) {

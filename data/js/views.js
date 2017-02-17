@@ -76,10 +76,9 @@ function updateView(tickerId, price, exchangeName, currency, baseCurrency, curre
   tickerView.attr("title", label);
 }
 
-function formatTickerText(price, currency, currencyPosition, currencyName, noRounding, baseCurrency) { // Allow more decimals for low price values
+function formatTickerText(price, currency, currencyPosition, showCurrencyName, noRounding, baseCurrency) { // Allow more decimals for low price values
   if (price == parseFloat(price)) {
-  	if (!noRounding) { var tickerText = calculateRoundedPrice(price); }
-  	else { var tickerText = price; }
+  	var tickerText = noRounding ? price : calculateRoundedPrice(price);
     
     switch (currencyPosition) {
       case 'B':
@@ -89,7 +88,7 @@ function formatTickerText(price, currency, currencyPosition, currencyName, noRou
         tickerText =  tickerText + currency;
         break;
     }
-    if (currencyName) { tickerText = baseCurrency + " " + tickerText; }
+    if (showCurrencyName) { tickerText = baseCurrency + " " + tickerText; }
     return tickerText;
   } else {
     return price; // Text can not be formatted into a number
