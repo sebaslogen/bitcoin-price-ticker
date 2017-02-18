@@ -104,31 +104,31 @@ function updateTickerModelConfiguration(tickerModel, data) {
       tickerModel.enabled = data.enabled ? true : false;
     }
   }
-  if (data.showCurrencyName) {
-  	if (data.showCurrencyName != tickerModel.showCurrencyName) {
-  		notifyObservers = true;
-  	}
-  	tickerModel.showCurrencyName = data.showCurrencyName;
+  if (typeof(data.showCurrencyName) != "undefined") {
+    if (data.showCurrencyName != tickerModel.showCurrencyName) {
+      notifyObservers = true;
+    }
+    tickerModel.showCurrencyName = data.showCurrencyName;
   }
-  if (data.noRounding) {
-  	if (data.noRounding != tickerModel.noRounding) {
-  		notifyObservers = true;
-  	}
-  	tickerModel.noRounding = data.noRounding;
+  if (typeof(data.noRounding) != "undefined") {
+    if (data.noRounding != tickerModel.noRounding) {
+      notifyObservers = true;
+    }
+    tickerModel.noRounding = data.noRounding;
   }
-  if (data.currencyPosition) {
+  if (typeof(data.currencyPosition) != "undefined") {
     if (data.currencyPosition != tickerModel.currencyPosition) {
       notifyObservers = true;
     }
     tickerModel.currencyPosition = data.currencyPosition;
   }
-  if (data.color) {
+  if (typeof(data.color) != "undefined") {
     if (data.color != tickerModel.color) {
       notifyObservers = true;
     }
     tickerModel.color = data.color;
   }
-  if (data.fontSize) {
+  if (typeof(data.fontSize) != "undefined") {
     if (data.fontSize != tickerModel.fontSize) {
       notifyObservers = true;
     }
