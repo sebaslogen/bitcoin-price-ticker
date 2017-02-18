@@ -793,12 +793,12 @@
   },
   {
     "name": "pPoloniexDashUSD",
-    "title": "Poloniex USD/Dashcoin ($/DASH) ticker?",
+    "title": "Poloniex USD/Dash ($/DASH) ticker?",
     "type": "bool",
     "value": false
   },{
     "name": "pPoloniexDashUSDColor",
-    "title": "Poloniex $/Dash Ticker color",
+    "title": "Poloniex USD/Dash Ticker color",
     "type": "color",
     "value": "#1c75bc"
   }
