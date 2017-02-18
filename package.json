@@ -329,17 +329,6 @@
     "value": "#545322"
   },
   {
-    "name": "pCaVirTexCAD",
-    "title": "CaVirTex CAD (C$/\u0243) ticker?",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pCaVirTexCADColor",
-    "title": "CaVirTex CAD Ticker color",
-    "type": "color",
-    "value": "#B43104"
-  },
-  {
     "name": "pBTCChinaCNY",
     "title": "BTCChina CNY (\u5143/\u0243) ticker?",
     "type": "bool",
