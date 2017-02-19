@@ -52,7 +52,7 @@ const DEFAULT_FONT_SIZE = 14;
 const WIDGET_SUFFIX = "-widget";
 const IFRAME_SUFFIX = "-iframe";
 const IFRAME_URL = "chrome://bitcoin-price-ticker/content/index.html";
-const EXTRA_FRAME_SPACING = 12;
+const EXTRA_FRAME_SPACING = 10;
 const LOG = console.log.bind(console);
 
 function dlog(message) {
@@ -145,7 +145,8 @@ Preferences.on("other-background", updateActiveTickersSharedStyle);
 // Preferences.on("show-long-trend", updateAllTickers);
 // Preferences.on("show-short-trend", updateAllTickers);
 Preferences.on("show-currency-label", updateActiveTickersSharedStyle);
-
+Preferences.on("show-currency-name", updateActiveTickersSharedStyle);
+Preferences.on("do-not-round", updateActiveTickersSharedStyle);
 Preferences.on("infoButton", showAddonUpdateDocument);
 // Check updated version
 AddonManager.getAddonByID(ADDON_ID, function(addon) {
@@ -182,6 +183,8 @@ function getTickerConfigurationData(tickerId) {
     ticker.color = getStringPreference("p" + tickerId + "Color");
     ticker.fontSize = fontSize;
     ticker.background = getBackgroundColor(tickerId);
+    ticker.showCurrencyName = getBooleanPreference("show-currency-name");
+    ticker.noRounding = getBooleanPreference("do-not-round");
   }
 }
 
@@ -551,17 +554,65 @@ function updateActiveTickersSharedStyle() {
 
 function adjustWidgetSize(tickerId) {
   setTimeout(function () {
+    // Shrink ticker widget until adjusted or scroll appears
+    // When scroll appears start enlarging ticker widget again until scroll disappears
+    shrinkWidgetSizeRecursively(tickerId);
+  }, 50); // Update size some time after HTML content is updated
+}
+
+function shrinkWidgetSizeRecursively(tickerId) {
+  setTimeout(function () {
+    dlog("<<Shrinking Widget size for " + tickerId);
     var win = getWidgetWindow(tickerId);
     if (win && win.document.body) {
       var doc = tickers[tickerId].doc;
-      var newWidth = win.document.body.scrollWidth;
-      doc.getElementById(tickerId + IFRAME_SUFFIX)
-        .width = (newWidth + EXTRA_FRAME_SPACING) + "px";
-      doc.getElementById(tickerId + WIDGET_SUFFIX)
-        .width = (newWidth + EXTRA_FRAME_SPACING) + "px";
-      dlog("Resizing " + tickerId + " to " + newWidth);
+      var oldIframeWidth = doc.getElementById(tickerId + IFRAME_SUFFIX).width;
+      var oldWidgetWidth = doc.getElementById(tickerId + WIDGET_SUFFIX).width;
+      var isScrollPresent = scrollPresent(win);
+      dlog("Scroll for " + tickerId + " is " + isScrollPresent);
+      if (isScrollPresent) {
+        enlargeWidgetSizeRecursively(tickerId);
+      } else {
+        var newWidth = (win.document.body.scrollWidth + EXTRA_FRAME_SPACING) + "px";
+        doc.getElementById(tickerId + IFRAME_SUFFIX).width = newWidth;
+        doc.getElementById(tickerId + WIDGET_SUFFIX).width = newWidth;
+        dlog("Resizing " + tickerId + " from oldIframeWidth:" + oldIframeWidth + "/oldWidgetWidth:" + oldWidgetWidth + " to " + newWidth);
+        if ((oldIframeWidth != newWidth) || ( oldWidgetWidth != newWidth)) {
+          shrinkWidgetSizeRecursively(tickerId); // Keep shinking until new width doesn't change or scroll appears
+        }
+
+
+      }
     }
-  }, 50); // Update size some time after HTML content is updated
+  }, 10); // Update size some time after HTML content is updated
+}
+
+function enlargeWidgetSizeRecursively(tickerId) {
+  setTimeout(function () {
+    dlog(">>Enlarging Widget size for " + tickerId);
+    var win = getWidgetWindow(tickerId);
+    if (win && win.document.body) {
+      var doc = tickers[tickerId].doc;
+      var oldIframeWidth = doc.getElementById(tickerId + IFRAME_SUFFIX).width;
+      var oldWidgetWidth = doc.getElementById(tickerId + WIDGET_SUFFIX).width;
+      var isScrollPresent = scrollPresent(win);
+      dlog("Scroll for " + tickerId + " is " + isScrollPresent);
+      if (isScrollPresent) {
+        var oldWidth = parseInt(oldIframeWidth);
+        var newWidth = (oldWidth + 1) + "px";
+        doc.getElementById(tickerId + IFRAME_SUFFIX).width = newWidth;
+        doc.getElementById(tickerId + WIDGET_SUFFIX).width = newWidth;
+        dlog("Resizing " + tickerId + " from oldIframeWidth:" + oldIframeWidth + "/oldWidgetWidth:" + oldWidgetWidth + " to " + newWidth);
+        if ((oldIframeWidth != newWidth) || ( oldWidgetWidth != newWidth)) {
+          enlargeWidgetSizeRecursively(tickerId);
+        }
+      }
+    }
+  }, 10); // Update size some time after HTML content is updated
+}
+
+function scrollPresent(window) {
+  return window.document.body.scrollHeight !== window.document.body.clientHeight || window.document.body.scrollWidth !== window.document.body.clientWidth;
 }
 
 function showAddonUpdateDocument() {
