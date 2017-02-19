@@ -759,6 +759,17 @@
     "value": "#000"
   },
   {
+    "name": "pPoloniexNav",
+    "title": "Poloniex Bitcoin/NAV coin (\u0243/NAV) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pPoloniexNavColor",
+    "title": "Poloniex Bitcoin/NAV coin Ticker color",
+    "type": "color",
+    "value": "#000"
+  },
+  {
     "name": "pPoloniexRipple",
     "title": "Poloniex Bitcoin/Ripple (\u0243/XRP) ticker?",
     "type": "bool",

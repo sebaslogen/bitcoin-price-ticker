@@ -73,6 +73,7 @@
   "PoloniexNxt": { "exchangeName":"Poloniex", "currency":"\u0243",  "baseCurrency":"NXT", "url":"https://poloniex.com/public?command=returnTicker", "jsonPath":["BTC_NXT", "last"]},
   "PoloniexPascal": { "exchangeName":"Poloniex", "currency":"\u0243",  "baseCurrency":"PASC", "url":"https://poloniex.com/public?command=returnTicker", "jsonPath":["BTC_PASC", "last"]},
   "PoloniexNem": { "exchangeName":"Poloniex", "currency":"\u0243",  "baseCurrency":"XEM", "url":"https://poloniex.com/public?command=returnTicker", "jsonPath":["BTC_XEM", "last"]},
+  "PoloniexNav": { "exchangeName":"Poloniex", "currency":"\u0243",  "baseCurrency":"NAV", "url":"https://poloniex.com/public?command=returnTicker", "jsonPath":["BTC_NAV", "last"]},
   "PoloniexRipple": { "exchangeName":"Poloniex", "currency":"\u0243",  "baseCurrency":"XRP", "url":"https://poloniex.com/public?command=returnTicker", "jsonPath":["BTC_XRP", "last"]},
     
   "PoloniexMoneroUSD": { "exchangeName":"Poloniex", "currency":"$",  "baseCurrency":"XMR", "url":"https://poloniex.com/public?command=returnTicker", "jsonPath":["USDT_XMR", "last"]},
