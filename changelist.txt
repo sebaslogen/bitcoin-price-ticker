@@ -1,3 +1,10 @@
+8
+- Add option to show currency name (e.g. BTC, ETH, etc.) in ticker
+- Add option to disable rounding of decimals
+- Add about 10 new currency pairs from Poloniex exchange
+- Removed deprecated CaVirTex
+- Fixes and improvements to visualization of tickers
+
 7
 - Add Monero and Dash to USD pairs
 
