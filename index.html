@@ -49,6 +49,13 @@
 <p>Latest changes included in the add-on:</p>
 
 <pre><code>
+8
+- Add option to show currency name (e.g. BTC, ETH, etc.) in ticker
+- Add option to disable rounding of decimals
+- Add about 10 new currency pairs from Poloniex exchange
+- Removed deprecated CaVirTex
+- Fixes and improvements to visualization of tickers
+
 7
 - Add Monero and Dash to USD pairs
 
@@ -103,75 +110,6 @@ anymore to live in the Firefox navigation bar and
 they have to be in a separated bar.
 Also, the trends feature has not yet been ported to this new version,
 nevertheless, it will be restored in future versions.
-
-2.5
-- Added Burst cryptocurrency for BTC from Poloniex
-- Refactored background color code to be simpler and shorter
-- Migrated packaging system from CFX to JPM
-
-2.4.8.2
-- Added Dash cryptocurrency for BTC and USD from Cryptsy and BitFinex
-- Clean up code and added documentation
-- Added reopened exchange CaVirTex
-
-2.4.8
-- Added Monero XMR/BTC from Poloniex
-- Added background colors to Maidsafe, Bitcoindark and Monero coins
-
-2.4.7.2
-- Fixed all BitPay tickers (change in BitPay API information)
-- Change Bitshares feed from BTER (defunct) to Poloniex
-- Remove all BTER tickers
-
-2.4.7.1
-- Remove closed exchange CaVirTex
-- Remove closed currency pair from Kraken DOGE/EUR
-- Update BTCTurk API request
-
-2.4.7
-- Added BitFinex exchange with BTC/USD information feed
-
-2.4.6
-- Added Poloniex exchange with NXT, Maidsafe and BitcoinDark
-
-2.4.5
-- Added Ripple (XRP) to Bitcoin price from Kraken
-
-2.4.4
-- Updated API calls to renamed BTSX->BTS
-- Updated API calls to BTCTurk
-- Removed MintPal exchange and with it the last Cloakcoin exchange
-- Removed Prelude exchange
-- Removed Dogecoin/Euro pair no longer available from Kraken
-- Removed Litecoin/Pound pair no longer available from Bittylicious
-
-2.4.3
-- Updated Bitcurex(PLN) API
-
-2.4.2
-- Added CloakCoin from MintPal
-- Added BitSharesX from Bter
-
-2.3
-- Added NXT cryptocurrency for BTC and USD
-- Added Bter exchange with NXT
-
-2.2
-- Added Bitex.la with BTC prices for Argentinian peso (ARS)
-
-2.1.2
-- Fix for auto-sizing of tickers on new Firefox bar without hiding some tickers behind a scroll bar
-
-2.1
-- Added option to disable update page with new features information (some users may experience problems with new Firefox v29 showing this page on every start even if there are no updates)
-
-2.0
-- Added BlackCoin with BTC prices in two exchanges
-- Added MintPal exchange
-
-1.9.9.2
-- Multiple bug fixes
-- Updated version of Firefox SDK to 1.16
 
 
 <br>
@@ -238,6 +176,7 @@ nevertheless, it will be restored in future versions.
     <li>Burst (BURST)</li>
     <li>Ether</li>
     <li>Ether Classic</li>
+    <li>More...</li>
   </ul>
 <p>Configuration options:</p>
   <ul>
@@ -245,7 +184,7 @@ nevertheless, it will be restored in future versions.
     <li>Select exchange price update interval</li>
     <li>Select exchanges and currencies</li>
     <li>Select ticker colors and backgrounds</li>
-    <li>Show short and long trend indicators</li>
+    <li>Show currency name (BTC, ETH, LTC, etc.) and disable rounding of decimals</li>
     <li>Customize font size</li>
     <li>Select order of tickers displayed (in navigation bar use Firefox->Open Menu->Customize and drag&drop. In separate toolbar disable all tickers and enable in order from Addon options)</li>
   </ul>
