@@ -142,8 +142,6 @@ Preferences.on("defaultFontSize", updateActiveTickersSharedStyle);
 Preferences.on("gold-background", updateActiveTickersSharedStyle);
 Preferences.on("silver-background", updateActiveTickersSharedStyle);
 Preferences.on("other-background", updateActiveTickersSharedStyle);
-// Preferences.on("show-long-trend", updateAllTickers);
-// Preferences.on("show-short-trend", updateAllTickers);
 Preferences.on("show-currency-label", updateActiveTickersSharedStyle);
 Preferences.on("show-currency-name", updateActiveTickersSharedStyle);
 Preferences.on("do-not-round", updateActiveTickersSharedStyle);
@@ -722,79 +720,3 @@ function startApplication() {
 setTimeout(function () { // Wait for Firefox to load
   startApplication();
 }, 3000);
-
-
-/*
-Feature disabled until refactored
-
-var calculateSlopeAndTrend = function(last_price, price, trend) {
-  var slope = (last_price>0) ? price/last_price - 1 : 0;
-  var label_slope = "\u2194";
-  var st = price;
-  var bt = 0;
-  if (slope>=0.001) {
-    label_slope = (slope>=0.01) ? "\u219f" : "\u2191";
-  }
-  else if (slope<=-0.001) {
-    label_slope = (slope<=-0.01) ? "\u21a1" : "\u2193";
-  }
-  // Double Exponential Smoothing
-  // http://en.wikipedia.org/wiki/Exponential_smoothing
-  // magic numbers, from experiments in spreadsheet:
-  //   alpha = 0.05 and beta=0.1
-  if (last_price != 0) {
-    if (trend[0] == 0) {
-      st = price;
-      bt = price - last_price;
-    }
-    else {
-      st = .05* price + .95 * (trend[0] + trend[1]);
-      bt = .1 * (st - trend[0]) + .9 * trend[1];
-    }
-  }
-  var label_trend = "\u21d4"; // ⇔
-  var change = 10000*bt/st;
-  if (change>=2.5) {
-    label_trend = "\u21d1"; // ⇑
-  }
-  else if (change>=1.0) {
-    label_trend = "\u21d7"; // ⇗
-  }
-  else if (change<=-2.5) { // ⇓
-    label_trend = "\u21d3";
-  }
-  else if (change<=-1.0) { // ⇘
-    label_trend = "\u21d8";
-  }
-  return {
-      trend: [st, bt],
-      label_trend: label_trend,
-      label_slope: label_slope
-  };
-}
-
-  price = price[ticker.json_path[i]];
-  var trends = calculateSlopeAndTrend(ticker.last, price, ticker.trend);
-  ticker.trend = trends.trend;
-  label_trend = trends.label_trend;
-  label_slope = trends.label_slope;
-  var round = calculateRoundFactor(price);
-  var change = Math.round(1000000*ticker.trend[1]/ticker.trend[0])/100;
-  var last_ticker_price = Math.round(ticker.last * round.factor) / round.factor;
-  last_ticker_price = (round.size > 1) && (last_ticker_price > 0) ? last_ticker_price.toFixed(round.size) : last_ticker_price;
-  ticker.tooltip = ticker.label + " -- previous: "
-      + labelWithCurrency(last_ticker_price, currency)
-      + " -- trend: " + ((change>0) ? "+" : "") + change;
-  ticker.last = price;
-  price = Math.round(price * round.factor) / round.factor;
-  price = (round.size > 1) && (price > 0) ? price.toFixed(round.size) : price;
-  latest_content = labelWithCurrency(price, currency);
-  if (getBooleanPreference("show-short-trend")) {
-    latest_content = label_slope + latest_content;
-  }
-  if (getBooleanPreference("show-long-trend")) {
-    latest_content = label_trend + latest_content;
-  }
-ticker.port.emit("updateContent", latest_content);
-updateTickerStyle();
-*/

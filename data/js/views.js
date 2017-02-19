@@ -125,29 +125,3 @@ function calculateRoundFactor(price) { // Allow more decimals for low price valu
   }
   return {factor: roundFactor, size: sizeRoundFactor};
 }
-
-/*
-var trends = calculateSlopeAndTrend(ticker.last, price, ticker.trend);
-ticker.trend = trends.trend;
-label_trend = trends.label_trend;
-label_slope = trends.label_slope;
-            
-            var round = calculateRoundFactor(price);
-var change = Math.round(1000000*ticker.trend[1]/ticker.trend[0])/100;
-var last_ticker_price = Math.round(ticker.last * round.factor) / round.factor;
-last_ticker_price = (round.size > 1) && (last_ticker_price > 0) ? last_ticker_price.toFixed(round.size) : last_ticker_price;
-ticker.tooltip = ticker.label + " -- previous: "
-    + labelWithCurrency(last_ticker_price, currency)
-    + " -- trend: " + ((change>0) ? "+" : "") + change;
-ticker.last = price;
-            price = Math.round(price * round.factor) / round.factor;
-            price = (round.size > 1) && (price > 0) ? price.toFixed(round.size) : price;
-
-latest_content = labelWithCurrency(price, currency);
-if (getBooleanPreference("show-short-trend")) {
-  latest_content = label_slope + latest_content;
-}
-if (getBooleanPreference("show-long-trend")) {
-  latest_content = label_trend + latest_content;
-}
-*/
