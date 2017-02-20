@@ -52,7 +52,7 @@ const DEFAULT_FONT_SIZE = 14;
 const WIDGET_SUFFIX = "-widget";
 const IFRAME_SUFFIX = "-iframe";
 const IFRAME_URL = "chrome://bitcoin-price-ticker/content/index.html";
-const EXTRA_FRAME_SPACING = 10;
+const EXTRA_FRAME_SPACING = 12;
 const LOG = console.log.bind(console);
 
 function dlog(message) {
@@ -555,7 +555,7 @@ function adjustWidgetSize(tickerId) {
     // Shrink ticker widget until adjusted or scroll appears
     // When scroll appears start enlarging ticker widget again until scroll disappears
     shrinkWidgetSizeRecursively(tickerId);
-  }, 50); // Update size some time after HTML content is updated
+  }, 300); // Update size some time after HTML content is updated
 }
 
 function shrinkWidgetSizeRecursively(tickerId) {
@@ -582,7 +582,7 @@ function shrinkWidgetSizeRecursively(tickerId) {
 
       }
     }
-  }, 10); // Update size some time after HTML content is updated
+  }, 20); // Update size some time after HTML content is updated
 }
 
 function enlargeWidgetSizeRecursively(tickerId) {
@@ -719,4 +719,7 @@ function startApplication() {
 
 setTimeout(function () { // Wait for Firefox to load
   startApplication();
+  setTimeout(function () { // Some Firefox sessions are too slow on boot that need an extra refresh after 1/2 min.
+    updateTickerRefreshInterval(true);
+  }, 30000);
 }, 3000);
