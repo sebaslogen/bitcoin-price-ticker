@@ -1,3 +1,7 @@
+9
+- Add Canadian dollar (C$) from Kraken
+- Add Japanese Yen (¥) from Kraken
+
 8.1
 - Replace Bitcurex closed exchange by BitBay
 
