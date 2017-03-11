@@ -24,6 +24,7 @@
 
   "BitBayPLN": { "exchangeName":"BitBay", "currency":"z\u0141",  "baseCurrency":"\u0243", "url":"https://bitbay.net/API/Public/BTCPLN/ticker.json", "jsonPath":["last"]},
   "BTCChinaCNY": { "exchangeName":"BTCChina", "currency":"\u00a5",  "baseCurrency":"\u0243", "url":"https://data.btcchina.com/data/ticker", "jsonPath":["ticker","last"]},
+  "KrakenJPY": { "exchangeName":"Kraken", "currency":"¥",  "baseCurrency":"\u0243", "url":"https://api.kraken.com/0/public/Ticker?pair=XBTJPY", "jsonPath":["result","XXBTZJPY","c",0]},
   "BTCeRUR": { "exchangeName":"BTCe", "currency":"RUR",  "baseCurrency":"\u0243", "url":"https://btc-e.com/api/2/btc_rur/ticker", "jsonPath":["ticker","last"]},
   "MercadoBitcoinBRL": { "exchangeName":"MercadoBitcoin", "currency":"R$",  "baseCurrency":"\u0243", "url":"https://www.mercadobitcoin.com.br/api/ticker/", "jsonPath":["ticker","last"]},
   "BTCTurkTRY": { "exchangeName":"BTCTurk", "currency":"\u20ba",  "baseCurrency":"\u0243", "url":"https://www.btcturk.com/api/ticker", "jsonPath":["last"]},

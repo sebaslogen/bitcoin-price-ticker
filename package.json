@@ -328,6 +328,17 @@
     "value": "#DF01D7"
   },
   {
+    "name": "pKrakenJPY",
+    "title": "Kraken JPY (¥/\u0243) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pKrakenJPYColor",
+    "title": "Kraken JPY Ticker color",
+    "type": "color",
+    "value": "#3366FF"
+  },
+  {
     "name": "pBTCeRUR",
     "title": "BTCe RUR (RUR/\u0243) ticker?",
     "type": "bool",
