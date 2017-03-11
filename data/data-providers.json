@@ -36,6 +36,8 @@
   "CoinbaseARS": { "exchangeName":"Coinbase", "currency":"ARS$",  "baseCurrency":"\u0243", "url":"https://coinbase.com/api/v1/currencies/exchange_rates", "jsonPath":["btc_to_ars"]},
   "BitexARS": { "exchangeName":"Bitex", "currency":"ARS$",  "baseCurrency":"\u0243", "url":"https://bitex.la/api-v1/rest/btc/market/ticker", "jsonPath":["last"]},
 
+  "KrakenCAD": { "exchangeName":"Kraken", "currency":"C$",  "baseCurrency":"\u0243", "url":"https://api.kraken.com/0/public/Ticker?pair=XBTCAD", "jsonPath":["result","XXBTZCAD","c",0]},
+
   "LocalbitcoinsCLP": { "exchangeName":"Localbitcoins", "currency":"$",  "baseCurrency":"\u0243", "url":"https://localbitcoins.com/bitcoinaverage/ticker-all-currencies/", "jsonPath":["CLP","rates","last"]},
 
   "BitsoMXN": { "exchangeName":"Bitso", "currency":"$",  "baseCurrency":"\u0243", "url":"https://api.bitso.com/public/info", "jsonPath":["btc_mxn","rate"]},
