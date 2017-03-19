@@ -163,7 +163,11 @@ function getWidgetWindow(tickerId) {
   var doc = tickers[tickerId].doc;
   if ((doc !== undefined) && (doc !== null) &&
         (doc.getElementById(tickerId + IFRAME_SUFFIX))) { // Widgets
-    return doc.getElementById(tickerId + IFRAME_SUFFIX).contentWindow;
+    var win = doc.getElementById(tickerId + IFRAME_SUFFIX).contentWindow;
+    if (!(win)) {
+      dlog("getWidgetWindow ticker for " + tickerId + " has no content Window: " + win);
+    }
+    return win;
   } else {
     return null;
   }
@@ -353,6 +357,14 @@ function fetchURLData(tickerId, url, jsonPath) {
               }
             }, "*");
             adjustWidgetSize(tickerId);
+          } else {
+            dlog("Win for " + tickerId + " not found, re-creating ticker");
+            stopAutoPriceUpdate(tickerId);
+            updateTickerConfiguration(tickerId);
+            if (usingWidgets) {
+              destroyTickersWidget(tickerId);
+              createNewTickersWidget(tickerId);
+            }
           }
         } else if (tickersFrame !== null) { // For Toolbar
           tickersFrame.postMessage({
@@ -578,8 +590,6 @@ function shrinkWidgetSizeRecursively(tickerId) {
         if ((oldIframeWidth != newWidth) || ( oldWidgetWidth != newWidth)) {
           shrinkWidgetSizeRecursively(tickerId); // Keep shinking until new width doesn't change or scroll appears
         }
-
-
       }
     }
   }, 20); // Update size some time after HTML content is updated
