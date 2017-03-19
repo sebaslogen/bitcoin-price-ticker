@@ -583,7 +583,8 @@ function shrinkWidgetSizeRecursively(tickerId) {
       if (isScrollPresent) {
         enlargeWidgetSizeRecursively(tickerId);
       } else {
-        var newWidth = (win.document.body.scrollWidth + EXTRA_FRAME_SPACING) + "px";
+        var scrollWidth = parseInt(win.document.body.scrollWidth) || 0;
+        var newWidth = (scrollWidth + EXTRA_FRAME_SPACING) + "px";
         doc.getElementById(tickerId + IFRAME_SUFFIX).width = newWidth;
         doc.getElementById(tickerId + WIDGET_SUFFIX).width = newWidth;
         dlog("Resizing " + tickerId + " from oldIframeWidth:" + oldIframeWidth + "/oldWidgetWidth:" + oldWidgetWidth + " to " + newWidth);
@@ -606,7 +607,7 @@ function enlargeWidgetSizeRecursively(tickerId) {
       var isScrollPresent = scrollPresent(win);
       dlog("Scroll for " + tickerId + " is " + isScrollPresent);
       if (isScrollPresent) {
-        var oldWidth = parseInt(oldIframeWidth);
+        var oldWidth = parseInt(oldIframeWidth) || 0;
         var newWidth = (oldWidth + 1) + "px";
         doc.getElementById(tickerId + IFRAME_SUFFIX).width = newWidth;
         doc.getElementById(tickerId + WIDGET_SUFFIX).width = newWidth;
