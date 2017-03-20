@@ -1,6 +1,6 @@
 {
   "BitStampUSD": { "exchangeName":"BitStamp", "currency":"$",  "baseCurrency":"\u0243", "url":"https://www.bitstamp.net/api/ticker/", "jsonPath":["last"]},
-  "BTCeUSD": { "exchangeName":"BTCe", "currency":"$",  "baseCurrency":"\u0243", "url":"https://btc-e.com/api/2/btc_usd/ticker", "jsonPath":["ticker","last"]},
+  "BTCeUSD": { "exchangeName":"BTCe", "currency":"$",  "baseCurrency":"\u0243", "url":"https://btc-e.com/api/3/ticker/btc_usd", "jsonPath":["btc_usd","last"]},
   "KrakenUSD": { "exchangeName":"Kraken", "currency":"$",  "baseCurrency":"\u0243", "url":"https://api.kraken.com/0/public/Ticker?pair=XBTUSD", "jsonPath":["result","XXBTZUSD","c",0]},
   "CoinDeskUSD": { "exchangeName":"CoinDesk", "currency":"$",  "baseCurrency":"\u0243", "url":"http://api.coindesk.com/v1/bpi/currentprice.json", "jsonPath":["bpi","USD","rate_float"]},
   "CoinbaseUSD": { "exchangeName":"Coinbase", "currency":"$",  "baseCurrency":"\u0243", "url":"https://coinbase.com/api/v1/currencies/exchange_rates", "jsonPath":["btc_to_usd"]},
@@ -9,7 +9,7 @@
   "TheRockTradingUSD": { "exchangeName":"TheRockTrading", "currency":"$",  "baseCurrency":"\u0243", "url":"https://www.therocktrading.com/api/ticker/BTCUSD", "jsonPath":["result",0,"last"]},
   "BitFinexUSD": { "exchangeName":"BitFinex", "currency":"$",  "baseCurrency":"\u0243", "url":"https://api.bitfinex.com/v1/ticker/btcusd", "jsonPath":["last_price"]},
 
-  "BTCeEUR": { "exchangeName":"BTCe", "currency":"\u20ac",  "baseCurrency":"\u0243", "url":"https://btc-e.com/api/2/btc_eur/ticker", "jsonPath":["ticker","last"]},
+  "BTCeEUR": { "exchangeName":"BTCe", "currency":"\u20ac",  "baseCurrency":"\u0243", "url":"https://btc-e.com/api/3/ticker/btc_eur", "jsonPath":["btc_eur","last"]},
   "KrakenEUR": { "exchangeName":"Kraken", "currency":"\u20ac",  "baseCurrency":"\u0243", "url":"https://api.kraken.com/0/public/Ticker?pair=XBTEUR", "jsonPath":["result","XXBTZEUR","c",0]},
   "CoinDeskEUR": { "exchangeName":"CoinDesk", "currency":"\u20ac",  "baseCurrency":"\u0243", "url":"http://api.coindesk.com/v1/bpi/currentprice.json", "jsonPath":["bpi","EUR","rate_float"]},
   "CoinbaseEUR": { "exchangeName":"Coinbase", "currency":"\u20ac",  "baseCurrency":"\u0243", "url":"https://coinbase.com/api/v1/currencies/exchange_rates", "jsonPath":["btc_to_eur"]},
@@ -25,7 +25,7 @@
   "BitBayPLN": { "exchangeName":"BitBay", "currency":"z\u0141",  "baseCurrency":"\u0243", "url":"https://bitbay.net/API/Public/BTCPLN/ticker.json", "jsonPath":["last"]},
   "BTCChinaCNY": { "exchangeName":"BTCChina", "currency":"\u00a5",  "baseCurrency":"\u0243", "url":"https://data.btcchina.com/data/ticker", "jsonPath":["ticker","last"]},
   "KrakenJPY": { "exchangeName":"Kraken", "currency":"¥",  "baseCurrency":"\u0243", "url":"https://api.kraken.com/0/public/Ticker?pair=XBTJPY", "jsonPath":["result","XXBTZJPY","c",0]},
-  "BTCeRUR": { "exchangeName":"BTCe", "currency":"RUR",  "baseCurrency":"\u0243", "url":"https://btc-e.com/api/2/btc_rur/ticker", "jsonPath":["ticker","last"]},
+  "BTCeRUR": { "exchangeName":"BTCe", "currency":"RUR",  "baseCurrency":"\u0243", "url":"https://btc-e.com/api/3/ticker/btc_rur", "jsonPath":["btc_rur","last"]},
   "MercadoBitcoinBRL": { "exchangeName":"MercadoBitcoin", "currency":"R$",  "baseCurrency":"\u0243", "url":"https://www.mercadobitcoin.com.br/api/ticker/", "jsonPath":["ticker","last"]},
   "BTCTurkTRY": { "exchangeName":"BTCTurk", "currency":"\u20ba",  "baseCurrency":"\u0243", "url":"https://www.btcturk.com/api/ticker", "jsonPath":["last"]},
   "BitcoinVenezuelaVEF": { "exchangeName":"BitcoinVenezuela", "currency":"Bs",  "baseCurrency":"\u0243", "url":"http://bitcoinvenezuela.com/api/btcven.json", "jsonPath":["BTC","VEF"]},
@@ -48,15 +48,15 @@
 
   "Bit2CILS": { "exchangeName":"Bit2C", "currency":"\u20AA",  "baseCurrency":"\u0243", "url":"https://www.bit2c.co.il/Exchanges/BtcNis/Ticker.json", "jsonPath":["ll"]},
 
-  "BTCeLitecoin": { "exchangeName":"BTCe", "currency":"\u0243",  "baseCurrency":"\u0141", "url":"https://btc-e.com/api/2/ltc_btc/ticker", "jsonPath":["ticker","last"]},
+  "BTCeLitecoin": { "exchangeName":"BTCe", "currency":"\u0243",  "baseCurrency":"\u0141", "url":"https://btc-e.com/api/3/ticker/ltc_btc", "jsonPath":["ltc_btc","last"]},
   "KrakenLitecoin": { "exchangeName":"Kraken", "currency":"\u0141",  "baseCurrency":"\u0243", "url":"https://api.kraken.com/0/public/Ticker?pair=XBTLTC", "jsonPath":["result","XXBTXLTC","c",0]},
 
-  "BTCeLitecoinUSD": { "exchangeName":"BTCe", "currency":"$",  "baseCurrency":"\u0141", "url":"https://btc-e.com/api/2/ltc_usd/ticker", "jsonPath":["ticker","last"]},
+  "BTCeLitecoinUSD": { "exchangeName":"BTCe", "currency":"$",  "baseCurrency":"\u0141", "url":"https://btc-e.com/api/3/ticker/ltc_usd", "jsonPath":["ltc_usd","last"]},
 
-  "BTCeLitecoinEUR": { "exchangeName":"BTCe", "currency":"\u20ac",  "baseCurrency":"\u0141", "url":"https://btc-e.com/api/2/ltc_eur/ticker", "jsonPath":["ticker","last"]},
+  "BTCeLitecoinEUR": { "exchangeName":"BTCe", "currency":"\u20ac",  "baseCurrency":"\u0141", "url":"https://btc-e.com/api/3/ticker/ltc_eur", "jsonPath":["ltc_eur","last"]},
   "KrakenDogecoin": { "exchangeName":"Kraken", "currency":"DOGE",  "baseCurrency":"\u0243", "url":"https://api.kraken.com/0/public/Ticker?pair=XBTXDG", "jsonPath":["result","XXBTXXDG","c",0]},
 
-  "BTCeNamecoinUSD": { "exchangeName":"BTCe", "currency":"$",  "baseCurrency":"NMC", "url":"https://btc-e.com/api/2/nmc_usd/ticker", "jsonPath":["ticker","last"]},
+  "BTCeNamecoinUSD": { "exchangeName":"BTCe", "currency":"$",  "baseCurrency":"NMC", "url":"https://btc-e.com/api/3/ticker/nmc_usd", "jsonPath":["nmc_usd","last"]},
 
   "KrakenRipple": { "exchangeName":"Kraken", "currency":"\u0243",  "baseCurrency":"XRP", "url":"https://api.kraken.com/0/public/Ticker?pair=XBTXRP", "jsonPath":["result","XXBTXXRP","c",0]},
   "KrakenEther": { "exchangeName":"Kraken", "currency":"\u0243",  "baseCurrency":"ETH", "url":"https://api.kraken.com/0/public/Ticker?pair=XETHXXBT", "jsonPath":["result","XETHXXBT","c",0]},
