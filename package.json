@@ -559,17 +559,6 @@
     "value": "#413ADF"
   },
   {
-    "name": "pKrakenDogecoin",
-    "title": "Kraken Dogecoin/Bitcoin (DOGE/\u0243) ticker? (inverted price)",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "pKrakenDogecoinColor",
-    "title": "Kraken Dogecoin/Bitcoin Ticker color",
-    "type": "color",
-    "value": "#000066"
-  },
-  {
     "name": "pBTCeNamecoinUSD",
     "title": "BTCe USD/Namecoin ($/NMC) ticker?",
     "type": "bool",
