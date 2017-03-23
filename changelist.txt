@@ -1,3 +1,8 @@
+11
+- Update BTC-e API to version 3
+- Remove deprecated ticker Kraken-Dogecoin
+- Fix bug re-creating tickers when a pop-up without bars is open
+
 10.1
 - Fix parsing problem when watching videos
 

@@ -42,7 +42,7 @@ var Request = require("sdk/request").Request;
 var tabs = require("sdk/tabs");
 var data = require("sdk/self").data;
 
-const DEBUG = false;
+const DEBUG = true;
 const TAG = "bitcoin-price-ticker";
 const DATA_PROVIDERS_URL = data.url("data-providers.json");
 const ADDON_UPDATE_DOCUMENT_URL = "http://sebaslogen.github.io/bitcoin-price-ticker/";
@@ -210,22 +210,30 @@ function loadTickers() {
  **/
 function toggleTicker(tickerId) {
   if ( getBooleanPreference("p" + tickerId) ) { // Enable Ticker
-    updateTickerConfiguration(tickerId);
-    if (usingWidgets) {
-      createNewTickersWidget(tickerId);
-    } else {
-      updateTickerRefreshIntervalForTicker(tickerId);
-    }
+    enableTicker(tickerId);
   } else if (tickers[tickerId].enabled) { // Disable Ticker if it exists
-    tickers[tickerId].enabled = false;
-    stopAutoPriceUpdate(tickerId);
-    updateTickerConfiguration(tickerId);
-    if (usingWidgets) {
-      destroyTickersWidget(tickerId);
-    }
+    disableTicker(tickerId);
   }
 }
 
+function enableTicker(tickerId) {
+  updateTickerConfiguration(tickerId);
+  if (usingWidgets) {
+    createNewTickersWidget(tickerId);
+  } else {
+    updateTickerRefreshIntervalForTicker(tickerId);
+  }
+}
+
+function disableTicker(tickerId) {
+  tickers[tickerId].enabled = false;
+  stopAutoPriceUpdate(tickerId);
+  updateTickerConfiguration(tickerId);
+  if (usingWidgets) {
+    dlog("Destroying ticker:" + tickerId);
+    destroyTickersWidget(tickerId);
+  }
+}
 
 
 // Methods to comunicate between Addon and Visualization interface
@@ -358,13 +366,13 @@ function fetchURLData(tickerId, url, jsonPath) {
             }, "*");
             adjustWidgetSize(tickerId);
           } else {
-            dlog("Win for " + tickerId + " not found, re-creating ticker");
-            stopAutoPriceUpdate(tickerId);
-            updateTickerConfiguration(tickerId);
-            if (usingWidgets) {
-              destroyTickersWidget(tickerId);
-              createNewTickersWidget(tickerId);
-            }
+            dlog("Win for " + tickerId + " not found, re-creating ticker in 30.000 ms");
+            dlog("Disabling ticker:" + tickerId);
+            disableTicker(tickerId);
+            setTimeout(function () { // Retry with exponential backoff
+              dlog("Enabling ticker:" + tickerId);
+              enableTicker(tickerId);
+            }, 30000);
           }
         } else if (tickersFrame !== null) { // For Toolbar
           tickersFrame.postMessage({
@@ -462,7 +470,7 @@ function createNewTickersWidget(tickerId) {
         }.bind(this),
         onWidgetAfterDOMChange: function(aNode, aNextNode, aContainer, aWasRemoval) {
           if (aNode == node) {
-            dlog("onWidgetAfterDOMChange for " + tickerId);
+            dlog("onWidgetAfterDOMChange for " + tickerId + "-aContainer:" + aContainer + "-aWasRemoval:" + aWasRemoval);
             if (draggingWidget) {
               draggingWidget = false;
               setTimeout(function () { // Wait for Customize tab to load
