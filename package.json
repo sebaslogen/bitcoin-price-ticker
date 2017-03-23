@@ -5,7 +5,7 @@
   "description": "Bitcoin Price Ticker with multiple sources and configurable",
   "author": "neoranga (neoranga55 AT yahoo DOT es)",
   "license": "MPL 2.0",
-  "version": "10.1",
+  "version": "11",
   "permissions": {"private-browsing": true},
   "preferences": [{
     "name": "infoButton",
@@ -260,6 +260,17 @@
     "title": "TheRockTrading EUR Ticker color",
     "type": "color",
     "value": "#3366FF"
+  },
+  {
+    "name": "pBitStampEUR",
+    "title": "BitStamp EUR (\u20ac/\u0243) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pBitStampEURColor",
+    "title": "BitStamp EUR Ticker color",
+    "type": "color",
+    "value": "#FF0000"
   },
   {
     "name": "pCoinDeskGBP",
