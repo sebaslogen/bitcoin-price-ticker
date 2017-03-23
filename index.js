@@ -42,7 +42,7 @@ var Request = require("sdk/request").Request;
 var tabs = require("sdk/tabs");
 var data = require("sdk/self").data;
 
-const DEBUG = true;
+const DEBUG = false;
 const TAG = "bitcoin-price-ticker";
 const DATA_PROVIDERS_URL = data.url("data-providers.json");
 const ADDON_UPDATE_DOCUMENT_URL = "http://sebaslogen.github.io/bitcoin-price-ticker/";
