@@ -29,6 +29,7 @@
 
 const ui = require("sdk/ui");
 const {Cc, Ci, Cu} = require("chrome");
+const webExtension = require("sdk/webextension");
 Cu.import("resource://gre/modules/AddonManager.jsm"); // Addon Manager required to know addon version
 Cu.import("resource:///modules/CustomizableUI.jsm");
 const setTimeout = require("sdk/timers").setTimeout;
@@ -742,3 +743,44 @@ setTimeout(function () { // Wait for Firefox to load
     updateTickerRefreshInterval(true);
   }, 30000);
 }, 3000);
+
+
+
+
+// TODO: Migrate 12 Preferences.on to postMessage webEx
+function setSyncLegacyDataPort(port) {
+  // Send the initial data dump.
+  port.postMessage({
+    prefs: {
+      timeUpdateInterval: Preferences.prefs["Timer"],
+    },
+  });
+
+  // Keep the preferences in sync with the data stored in the webextension.
+  Preferences.on("Timer", () => {
+    port.postMessage({
+      prefs: {
+        timeUpdateInterval: Preferences.prefs["Timer"],
+      }
+    });
+  });
+};
+
+// webExtension.startup().then(api => {
+//   const {browser} = api;
+//   browser.runtime.onMessage.addListener((msg, sender, sendReply) => {
+//       if (msg == "message-from-webextension") {
+//         sendReply({
+//           content: "reply from legacy add-on"
+//         });
+//       }
+//     });
+// });
+
+webext.startup().then(({browser}) => {
+  browser.runtime.onConnect.addListener(port => {
+    if (port.name === "sync-legacy-addon-data") {
+      setSyncLegacyDataPort(port);
+    }
+  });
+});

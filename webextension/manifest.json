@@ -1,0 +1,23 @@
+{
+  "name": "bitcoin-price-ticker",
+  "version": "12",
+  "manifest_version": 2,
+  "background": {
+    "scripts": ["background.js"]
+  },
+
+
+  
+  "content_scripts": [
+    {
+      "matches": ["*://*.mozilla.org/*"],
+      "js": ["content-script.js"]
+    }
+  ],
+  "browser_action": {
+    "browser_style": true,
+    "default_icon": "icons/icon-32.png",
+    "default_title": "button label",
+    "default_popup": "popup.html"
+  }
+}
