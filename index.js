@@ -29,7 +29,7 @@
 
 const ui = require("sdk/ui");
 const {Cc, Ci, Cu} = require("chrome");
-const webExtension = require("sdk/webextension");
+const webext = require("sdk/webextension");
 Cu.import("resource://gre/modules/AddonManager.jsm"); // Addon Manager required to know addon version
 Cu.import("resource:///modules/CustomizableUI.jsm");
 const setTimeout = require("sdk/timers").setTimeout;

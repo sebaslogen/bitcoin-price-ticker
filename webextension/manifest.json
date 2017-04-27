@@ -1,22 +1,22 @@
 {
   "name": "bitcoin-price-ticker",
+  "description": "Adds price tickers for Bitcoin and many other cryptocurrencies",
   "version": "12",
   "manifest_version": 2,
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["main.js"]
   },
-
-
   
   "content_scripts": [
     {
       "matches": ["*://*.mozilla.org/*"],
-      "js": ["content-script.js"]
+      "js": ["main.js"]
     }
   ],
+
   "browser_action": {
     "browser_style": true,
-    "default_icon": "icons/icon-32.png",
+    "default_icon": "icon.png",
     "default_title": "button label",
     "default_popup": "popup.html"
   }
