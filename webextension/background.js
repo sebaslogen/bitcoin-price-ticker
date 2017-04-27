@@ -29,6 +29,24 @@
 
 document.body.style.border = "5px solid green";
 
+function toggleTitle(title) {
+  if (title == "this") {
+    browser.browserAction.setTitle({title: "that"});
+    browser.browserAction.setBadgeText({text: "that"});
+  } else {
+    browser.browserAction.setTitle({title: "this"});
+    browser.browserAction.setBadgeText({text: "this"});
+  }
+}
+
+browser.browserAction.setBadgeText({text: "1234"});
+//browser.browserAction.setBadgeBackgroundColor({color: "red"});
+
+browser.browserAction.onClicked.addListener(() => {
+  var gettingTitle = browser.browserAction.getTitle({});
+  gettingTitle.then(toggleTitle);
+});
+
 // Ask to the legacy part to dump the needed data and send it back
 // to the background page...
 // var port = browser.runtime.connect({name: "sync-legacy-addon-data"});
