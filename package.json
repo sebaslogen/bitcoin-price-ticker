@@ -5,7 +5,7 @@
   "description": "Bitcoin Price Ticker with multiple sources and configurable",
   "author": "neoranga (neoranga55 AT yahoo DOT es)",
   "license": "MPL 2.0",
-  "version": "11",
+  "version": "12",
   "permissions": {"private-browsing": true},
   "preferences": [{
     "name": "infoButton",
@@ -568,6 +568,17 @@
     "title": "BTCe EUR/Litecoin Ticker color",
     "type": "color",
     "value": "#413ADF"
+  },
+  {
+    "name": "pMercadoLitecoinBRL",
+    "title": "MercadoLitecoin BRL (R$/\u0141) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pMercadoLitecoinBRLColor",
+    "title": "MercadoLitecoin BRL Ticker color",
+    "type": "color",
+    "value": "#2F4F15"
   },
   {
     "name": "pBTCeNamecoinUSD",
