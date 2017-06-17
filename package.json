@@ -317,6 +317,17 @@
     "value": "#FF0000"
   },
   {
+    "name": "pCoinfloorGBP",
+    "title": "Coinfloor GBP (\u00a3/\u0243) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pCoinfloorGBPColor",
+    "title": "Coinfloor GBP Ticker color",
+    "type": "color",
+    "value": "#FF0000"
+  },
+  {
     "name": "pBitBayPLN",
     "title": "BitBay PLN (z\u0141/\u0243) ticker?",
     "type": "bool",
