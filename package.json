@@ -537,6 +537,17 @@
     "value": "#783489"
   },
   {
+    "name": "pBxInThEtherTHB",
+    "title": "BxInTh THB/Ether (\u0E3F/ETH) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pBxInThEtherTHBColor",
+    "title": "BxInTh THB/Ether Ticker color",
+    "type": "color",
+    "value": "#FFF"
+  },
+  {
     "name": "pBTCeLitecoin",
     "title": "BTCe Bitcoin/Litecoin (\u0243/\u0141) ticker?",
     "type": "bool",
