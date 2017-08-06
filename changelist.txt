@@ -1,3 +1,7 @@
+14
+- Add Coinbase Litecoin/USD ($) ticker
+- Fix Litecoin Kraken price ticker (inverted back to normal)
+
 13
 - Add Thai to BTC and ETH tickers from bx.in.th
 - Add Coinfloor for BTC/pounds pair

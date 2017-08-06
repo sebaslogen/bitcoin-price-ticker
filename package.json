@@ -5,7 +5,7 @@
   "description": "Bitcoin Price Ticker with multiple sources and configurable",
   "author": "neoranga (neoranga55 AT yahoo DOT es)",
   "license": "MPL 2.0",
-  "version": "13",
+  "version": "14",
   "permissions": {"private-browsing": true},
   "preferences": [{
     "name": "infoButton",
@@ -188,7 +188,7 @@
     "name": "pBTCeEUR",
     "title": "BTCe EUR (\u20ac/\u0243) ticker?",
     "type": "bool",
-    "value": true
+    "value": false
   },{
     "name": "pBTCeEURColor",
     "title": "BTCe EUR Ticker color",
@@ -571,12 +571,12 @@
   },
   {
     "name": "pKrakenLitecoin",
-    "title": "Kraken Litecoin/Bitcoin (\u0141/\u0243) ticker? (inverted price)",
+    "title": "Kraken Bitcoin/Litecoin (\u0243/\u0141) ticker?",
     "type": "bool",
     "value": false
   },{
     "name": "pKrakenLitecoinColor",
-    "title": "Kraken Litecoin/Bitcoin Ticker color",
+    "title": "Kraken Bitcoin/Litecoin Ticker color",
     "type": "color",
     "value": "#000066"
   },
@@ -592,10 +592,21 @@
     "value": "#413ADF"
   },
   {
+    "name": "pCoinbaseLitecoinUSD",
+    "title": "Coinbase USD/Litecoin ($/\u0141) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pCoinbaseLitecoinUSDColor",
+    "title": "Coinbase USD/Litecoin Ticker color",
+    "type": "color",
+    "value": "#413ADF"
+  },
+  {
     "name": "pBTCeLitecoinEUR",
     "title": "BTCe EUR/Litecoin (\u20ac/\u0141) ticker?",
     "type": "bool",
-    "value": true
+    "value": false
   },{
     "name": "pBTCeLitecoinEURColor",
     "title": "BTCe EUR/Litecoin Ticker color",
