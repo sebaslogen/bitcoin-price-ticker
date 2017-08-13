@@ -614,6 +614,17 @@
     "value": "#413ADF"
   },
   {
+    "name": "pKrakenLitecoinEUR",
+    "title": "Kraken EUR/Litecoin (\u20ac/\u0141) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pKrakenLitecoinEURColor",
+    "title": "Kraken EUR/Litecoin Ticker color",
+    "type": "color",
+    "value": "#413ADF"
+  },
+  {
     "name": "pMercadoLitecoinBRL",
     "title": "MercadoLitecoin BRL (R$/\u0141) ticker?",
     "type": "bool",
