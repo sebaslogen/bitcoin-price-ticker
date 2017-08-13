@@ -647,6 +647,17 @@
     "value": "#131F37"
   },
   {
+    "name": "pKrakenBitcoinCash",
+    "title": "Kraken Bitcoin/BitcoinCash (\u0243/BCH) ticker?",
+    "type": "bool",
+    "value": false
+  },{
+    "name": "pKrakenBitcoinCashColor",
+    "title": "Kraken Bitcoin/BitcoinCash Ticker color",
+    "type": "color",
+    "value": "#535A37"
+  },
+  {
     "name": "pKrakenEther",
     "title": "Kraken Bitcoin/Ether (\u0243/Ether) ticker?",
     "type": "bool",
